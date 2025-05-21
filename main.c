@@ -6,11 +6,25 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:59:47 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/21 18:16:45 by yalp             ###   ########.fr       */
+/*   Updated: 2025/05/21 18:39:58 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
+
+void end(t_cube *cube)
+{
+    int i = 0;
+    while (cube->all_of_file[i])
+    {
+        if (cube->all_of_file[i] != NULL)
+            free(cube->all_of_file[i]);
+        i++;
+    }
+    if (cube->all_of_file != NULL)
+        free(cube->all_of_file);
+    exit(EXIT_FAILURE);
+}
 
 void arg_check(int argc, char **argv)
 {
@@ -31,7 +45,7 @@ void arg_check(int argc, char **argv)
     }
     if (open(argv[1], O_RDONLY) < 0)
     {
-        fprintf(stderr, "Error: File not found\n");
+        fprintf(stderr, "Error: File can not be read\n");
         exit(EXIT_FAILURE);
     }
 }
@@ -92,6 +106,10 @@ void init_mlx(t_cube *cube)
         exit(EXIT_FAILURE);
     }
 }
+void check_file(t_cube *cube)
+{
+    
+}
 
 int main(int argc, char **argv)
 {
@@ -101,12 +119,14 @@ int main(int argc, char **argv)
     arg_check(argc, argv);
     //init_cube(&cube);
     read_file(&cube, argv[1]);
+    check_file(&cube);
     while(cube.all_of_file[i])
     {
         printf("%s", cube.all_of_file[i]);
         i++;
     }
+    end(&cube);
     //init_mlx(&cube);
 
     return (0);
-}
+}	
