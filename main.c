@@ -11,122 +11,92 @@
 /* ************************************************************************** */
 
 #include "cube.h"
+#include <math.h>
 
-void end(t_cube *cube)
+void put_pixel(int x, int y, int color, t_cube *game)
 {
-    int i = 0;
-    while (cube->all_of_file[i])
-    {
-        if (cube->all_of_file[i] != NULL)
-            free(cube->all_of_file[i]);
-        i++;
-    }
-    if (cube->all_of_file != NULL)
-        free(cube->all_of_file);
-    exit(EXIT_FAILURE);
+    if(x >= game->width || y >= game->height || x < 0 || y < 0)
+        return;
+    
+    int index = y * game->size_line + x * game->bpp / 8;
+    game->data[index] = color & 0xFF;//mavi
+    game->data[index + 1] = (color >> 8) & 0xFF;//8 bit sonrası yeşil
+    game->data[index + 2] = (color >> 16) & 0xFF;//8 bit sağı kırmızı
 }
 
-void arg_check(int argc, char **argv)
-{
-    if (argc != 2)
-    {
-        fprintf(stderr, "Error: Wrong number of arguments\n");
-        exit(EXIT_FAILURE);
-    }
-    if (argv[1][strlen(argv[1]) - 4] != '.')
-    {
-        fprintf(stderr, "Error: Invalid file extension\n");
-        exit(EXIT_FAILURE);
-    }
-    if (strcmp(&argv[1][strlen(argv[1]) - 4], ".cub") != 0)
-    {
-        fprintf(stderr, "Error: Invalid file extension\n");
-        exit(EXIT_FAILURE);
-    }
-    if (open(argv[1], O_RDONLY) < 0)
-    {
-        fprintf(stderr, "Error: File can not be read\n");
-        exit(EXIT_FAILURE);
-    }
-}
-
-void init_cube(t_cube *cube)
-{
-    cube->width = 0;
-    cube->height = 0;
-    cube->map = NULL;
-    cube->texture_n = NULL;
-    cube->texture_s = NULL;
-    cube->texture_e = NULL;
-    cube->texture_w = NULL;
-    cube->color_f = NULL;
-    cube->color_c = NULL;
-    cube->all_of_file = NULL;
-    cube->player_pov = 0;
-}
-void read_file(t_cube *cube, char *file)
-{
-    int		y;
-	int		fd;
-	int		i;
-	char	*lines;
-
-	i = 0;
-	y = 0;
-	fd = open(file, O_RDONLY);
-	lines = get_next_line(fd);
-	while (lines != NULL)
-	{
-		free(lines);
-		lines = get_next_line(fd);
-		y++;
-	}	
-	close(fd);
-	cube->all_of_file = malloc(sizeof(char *) * (y + 1));
-	fd = open(file, O_RDONLY);
-	while (y > 0)
-	{
-		cube->all_of_file[i++] = get_next_line(fd);
-		y--;
-	}
-    close(fd);
-}
 void init_mlx(t_cube *cube)
 {
     cube->mlx = mlx_init();
-    if (!cube->mlx)
+    cube->win = mlx_new_window(cube->mlx, cube->width, cube->height, "Cub3D");
+    cube->img = mlx_new_image(cube->mlx, cube->width, cube->height);
+    mlx_put_image_to_window(cube->mlx, cube->win, cube->img, 0, 0);
+    cube->data = mlx_get_data_addr(cube->img, &cube->bpp, &cube->size_line, &cube->endian);
+}
+
+
+void draw_square(int x, int y, int size, int color, t_cube *game)
+{
+    for(int i = 0; i < size; i++)
+        put_pixel(x + i, y, color, game);
+    for(int i = 0; i < size; i++)
+        put_pixel(x, y + i, color, game);
+    for(int i = 0; i < size; i++)
+        put_pixel(x + size, y + i, color, game);
+    for(int i = 0; i < size; i++)
+        put_pixel(x + i, y + size, color, game);
+}
+
+int key_press_hook(int keycode, void *param)
+{
+    t_cube *cube = (t_cube *)param;
+    key_press(keycode, &cube->player);
+    return 0;
+}
+
+int key_release_hook(int keycode, void *param)
+{
+    t_cube *cube = (t_cube *)param;
+    key_release(keycode, &cube->player);
+    return 0;
+}
+
+void clear_image(t_cube *cube)
+{
+    int x, y;
+    for (y = 0; y < cube->height; y++)
     {
-        fprintf(stderr, "Error: Failed to initialize mlx\n");
-        exit(EXIT_FAILURE);
-    }
-    cube->win = mlx_new_window(cube->mlx, cube->width * 32, cube->height * 32, "Cub3D");
-    if (!cube->win)
-    {
-        fprintf(stderr, "Error: Failed to create window\n");
-        exit(EXIT_FAILURE);
+        for (x = 0; x < cube->width; x++)
+        {
+            put_pixel(x, y, 0x000000, cube);
+        }
     }
 }
-void check_file(t_cube *cube)
+
+int loop_hook(void *param)
 {
-    
+    t_cube *cube = (t_cube *)param;
+    move_player(&cube->player);
+    clear_image(cube);
+    draw_square((int)cube->player.x, (int)cube->player.y, 15, 0xFF0000, cube);
+    mlx_put_image_to_window(cube->mlx, cube->win, cube->img, 0, 0);
+    return 0;
 }
 
 int main(int argc, char **argv)
 {
     t_cube cube;
 
-    int i = 0;
-    arg_check(argc, argv);
-    //init_cube(&cube);
-    read_file(&cube, argv[1]);
-    check_file(&cube);
-    while(cube.all_of_file[i])
-    {
-        printf("%s", cube.all_of_file[i]);
-        i++;
-    }
-    end(&cube);
-    //init_mlx(&cube);
-
+    cube.width = 800;
+    cube.height = 600;
+    init_player(&cube);
+    init_mlx(&cube);
+    cube.player.x = cube.width / 2; 
+    cube.player.y = cube.height / 2;
+    
+    mlx_hook(cube.win, 2, 1, key_press_hook, &cube);//1L<<0 eventler ve maskler??
+    mlx_hook(cube.win, 3, 2, key_release_hook, &cube);//1L<<1
+    mlx_loop_hook(cube.mlx, loop_hook, &cube);
+    
+    mlx_loop(cube.mlx);
     return (0);
-}	
+}

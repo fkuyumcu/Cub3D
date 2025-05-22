@@ -5,8 +5,8 @@ CFLAGS = # -Wall -Wextra -Werror
 LIBRARY = -Lminilibx-linux -lmlx -lX11 -lXext -lm
 MINILIBX = minilibx-linux/
 SRC = main.c \
-		get_next_line.c \
-		get_next_line_utils.c \
+      cube_utils.c \
+      player.c
 
 OBJ = $(SRC:.c=.o)
 
