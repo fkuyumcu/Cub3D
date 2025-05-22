@@ -4,3 +4,17 @@
 4. config dosyasındaki verileri structa at
 5. structtaki image dosyalarını kontrol et
 6. structtaki mapı kontrol et
+
+EA path_to_file
+WE path_to_file
+SO path_to_file
+NO path_to_file
+F  path_to_file
+C  path_to_file
+
+
+111 111
+10010001
+100000001
+100000001
+111111111
