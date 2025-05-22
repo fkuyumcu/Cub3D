@@ -67,10 +67,30 @@ void clear_image(t_cube *cube)
     {
         for (x = 0; x < cube->width; x++)
         {
-            put_pixel(x, y, 0x000000, cube);
+            put_pixel(x, y, 0, cube);
         }
     }
 }
+
+
+char **get_map(void)
+{
+    char **map = malloc(sizeof(char *) * 11);
+    map[0] = "111111111111111";
+    map[1] = "100000000000001";
+    map[2] = "100000000000001";
+    map[3] = "100000100000001";
+    map[4] = "100000000000001";
+    map[5] = "100000010000001";
+    map[6] = "100001000000001";
+    map[7] = "100000000000001";
+    map[8] = "100000000000001";
+    map[9] = "111111111111111";
+    map[10] = NULL;
+    return (map);
+}
+
+
 
 int loop_hook(void *param)
 {
@@ -86,6 +106,7 @@ int main(int argc, char **argv)
 {
     t_cube cube;
 
+    cube.map = get_map();
     cube.width = 800;
     cube.height = 600;
     init_player(&cube);
