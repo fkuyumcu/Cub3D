@@ -19,7 +19,7 @@
 # include <string.h>
 # include "minilibx-linux/mlx.h"
 # include <stdbool.h>
-
+# include <math.h>
 
 //defines
 
@@ -32,8 +32,8 @@
 # define D 115
 # define S 97
 # define A 119
-# define LEFT 65361
-# define RIGHT 65363
+# define LEFT 0
+# define RIGHT 0
 
 # define PI 3.14159
 
@@ -48,8 +48,9 @@ typedef struct s_player
 	bool key_left;
 	bool key_right;
 
-	bool left_rotate;
-	bool right_rotate;
+	bool left;
+	bool right;
+	struct s_cube *cube;
 }	t_player;
 
 
@@ -81,6 +82,11 @@ typedef struct s_cube
     int bpp;
     int size_line;
     int endian;
+	
+	int speed;
+    float a_speed;
+    float cos_val;
+    float sin_val;
     t_player player;
 }	t_cube;
 

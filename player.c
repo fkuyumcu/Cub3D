@@ -1,4 +1,8 @@
 #include "cube.h"
+#include <math.h>
+
+#define LEFT 65361 // Sol ok tuşu için doğru bir değer
+#define RIGHT 65363 // Sağ ok tuşu için doğru bir değer
 
 void init_player(t_cube *cube)
 {
@@ -9,8 +13,9 @@ void init_player(t_cube *cube)
     cube->player.key_down = false;
     cube->player.key_left = false;
     cube->player.key_right = false;
-    cube->player.left_rotate = false;
-    cube->player.right_rotate = false;
+    cube->player.left = false;
+    cube->player.right = false;
+    cube->player.cube = cube;
 }
 
 int key_press(int keycode, t_player *player)
@@ -24,9 +29,9 @@ int key_press(int keycode, t_player *player)
     if(keycode == D)
         player->key_right = true;
     if(keycode == LEFT)
-        player->left_rotate = true;
+        player->left = true;
     if(keycode == RIGHT)
-        player->right_rotate = true; 
+        player->right = true; 
     return 0;
 }
 
@@ -41,46 +46,57 @@ int key_release(int keycode, t_player *player)
     if(keycode == D)
         player->key_right = false;
     if(keycode == LEFT)
-        player->left_rotate = false;
+        player->left = false;
     if(keycode == RIGHT)
-        player->right_rotate = false;
+        player->right = false;
     return 0;
 }
 
 void move_player(t_player *player)
 {
-    int speed = 3;
-    float angle_speed = 0.03;
-    float cos_angle = cos(player->angle);
-    float sin_angle = sin(player->angle);
 
-    if (player->left_rotate)
-        player->angle -= angle_speed;
-    if (player->right_rotate)
-        player->angle += angle_speed;
-    if (player->angle > 2 * PI)
-        player->angle = 0;
-    if (player->angle < 0)
-        player->angle = 2 * PI;
+
+    player->cube->sin_val = sin(player->angle);
+    player->cube->cos_val = cos(player->angle);
+    player->cube->speed = 3;
+    player->cube->a_speed = 0.05;
+
+    if(player->left)
+    {
+        player->angle -= player->cube->a_speed;
+        if (player->angle < 0)
+            player->angle += 2 * PI;
+        if (player->angle > 2 * PI)
+            player->angle -= 2 * PI;
+    }
+
+    if(player->right)
+    {
+        player->angle += player->cube->a_speed;
+        if (player->angle < 0)
+            player->angle += 2 * PI;
+        if (player->angle > 2 * PI)
+            player->angle -= 2 * PI;
+    }
 
     if (player->key_up)
     {
-        player->x += cos_angle * speed;
-        player->y += sin_angle * speed;
+        player->x += player->cube->cos_val * player->cube->speed;
+        player->y += player->cube->sin_val * player->cube->speed;
     }
     if (player->key_down)
     {
-        player->x -= cos_angle * speed;
-        player->y -= sin_angle * speed;
+        player->x -= player->cube->cos_val * player->cube->speed;
+        player->y -= player->cube->sin_val * player->cube->speed;
     }
     if (player->key_left)
     {
-        player->x += sin_angle * speed;
-        player->y -= cos_angle * speed;
+        player->x += player->cube->sin_val * player->cube->speed;
+        player->y -= player->cube->cos_val * player->cube->speed;
     }
     if (player->key_right)
     {
-        player->x -= sin_angle * speed;
-        player->y += cos_angle * speed;
+        player->x -= player->cube->sin_val * player->cube->speed;
+        player->y += player->cube->cos_val * player->cube->speed;
     }
 }

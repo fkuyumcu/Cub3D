@@ -90,6 +90,15 @@ char **get_map(void)
     return (map);
 }
 
+void draw_map(t_cube *cub)
+{
+    int color = 0x0000FF;//mavi
+    for(int y = 0; cub->map[y]; y++)
+        for(int x = 0; cub->map[y][x]; x++)
+            if(cub->map[y][x] == '1')
+                draw_square(x * BLOCK, y * BLOCK, BLOCK, color, cub);
+}
+
 
 
 int loop_hook(void *param)
@@ -98,6 +107,7 @@ int loop_hook(void *param)
     move_player(&cube->player);
     clear_image(cube);
     draw_square((int)cube->player.x, (int)cube->player.y, 15, 0xFF0000, cube);
+    draw_map(cube);
     mlx_put_image_to_window(cube->mlx, cube->win, cube->img, 0, 0);
     return 0;
 }
