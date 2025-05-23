@@ -25,7 +25,8 @@
 
 # define WIDTH 1280
 # define HEIGHT 720
-# define BLOCK 64
+# define BLOCK_SIZE 64
+//block, bir karenin piksel cinsinden uzunluğunu belirler
 # define DEBUG 0
 
 # define W 100
@@ -42,6 +43,8 @@ typedef struct s_player
 	float x;
 	float y;
 	float angle;
+	float sin_ang;
+	float cos_ang;
 
 	bool key_up;
 	bool key_down;

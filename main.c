@@ -90,13 +90,32 @@ char **get_map(void)
     return (map);
 }
 
+void radar(t_cube *cub)
+{
+
+    
+}
+
+
 void draw_map(t_cube *cub)
 {
     int color = 0x0000FF;//mavi
     for(int y = 0; cub->map[y]; y++)
         for(int x = 0; cub->map[y][x]; x++)
             if(cub->map[y][x] == '1')
-                draw_square(x * BLOCK, y * BLOCK, BLOCK, color, cub);
+                draw_square(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, color, cub);
+}
+
+bool is_colliding(float player_x, float player_y, t_cube *cub)//ışının çarpışıp çarşpışmadığının kontrolü
+{
+    //aşağıdaki kodda playerin piksel cinsinden koordinatlarını oyunun bir bloğu cinsinden koordinata çevirdim.
+    //örneğin bir bloğumuz 64 piksel olsun, player piksel cinsinden (128,128) koordinatına sahip olsun.
+    //bu durumda playerin block cinsinden x ve y koordinatları 2,2 olur.
+    int x = player_x / BLOCK_SIZE;
+    int y = player_y / BLOCK_SIZE;
+    if(cub->map[y][x] == '1')
+        return (true);
+    return (false);
 }
 
 
@@ -104,21 +123,39 @@ void draw_map(t_cube *cub)
 int loop_hook(void *param)
 {
     t_cube *cube = (t_cube *)param;
+    float ray_x;
+    float ray_y;
     move_player(&cube->player);
     clear_image(cube);
-    draw_square((int)cube->player.x, (int)cube->player.y, 15, 0xFF0000, cube);
     draw_map(cube);
+    draw_square((int)cube->player.x, (int)cube->player.y, 15, 0xFF0000, cube);
+    
+    ray_x = cube->player.x;
+    ray_y = cube->player.y;
+    cube->player.sin_ang = sin(cube->player.angle);
+    //oyuncunun açısının sin ve cos değerleri, oyuncunun baktığı açıya göre 
+    //ışının bir sonraki pikselde nereye gideceğini belirler.
+    cube->player.cos_ang = cos(cube->player.angle);
+    
+    while (!is_colliding(ray_x, ray_y, cube))//ray_x ve ray_y çarpışmadığı sürece
+    {
+        put_pixel(ray_x, ray_y, 0xFF0000, cube);
+        ray_x += cube->player.cos_ang;
+        ray_y += cube->player.sin_ang;
+    } 
+
     mlx_put_image_to_window(cube->mlx, cube->win, cube->img, 0, 0);
-    return 0;
+    return (0);
 }
+
 
 int main(int argc, char **argv)
 {
     t_cube cube;
 
     cube.map = get_map();
-    cube.width = 800;
-    cube.height = 600;
+    cube.width = WIDTH;
+    cube.height = HEIGHT;
     init_player(&cube);
     init_mlx(&cube);
     cube.player.x = cube.width / 2; 

@@ -9,6 +9,8 @@ void init_player(t_cube *cube)
     cube->player.x = 0;
     cube->player.y = 0;
     cube->player.angle = 0;
+    cube->player.sin_ang = 0;
+    cube->player.cos_ang = 0;
     cube->player.key_up = false;
     cube->player.key_down = false;
     cube->player.key_left = false;
