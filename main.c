@@ -6,12 +6,11 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:59:47 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/24 08:58:02 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/24 10:59:20 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
-#include <math.h>
 
 void put_pixel(int x, int y, int color, t_cube *game)
 {
@@ -90,11 +89,6 @@ char **get_map(void)
     return (map);
 }
 
-void radar(t_cube *cub)
-{
-
-    
-}
 
 
 void draw_map(t_cube *cub)
@@ -119,32 +113,89 @@ bool is_colliding(float player_x, float player_y, t_cube *cub)//ışının çarp
 }
 
 
+float distance(float x1, float y1, float x2, float y2)
+{
+    return (sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));
+}
+
+
+void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang)
+{
+    float ray_x;
+    float ray_y;
+    float dist;
+    float height;
+    float start;
+    float end;
+    
+    ray_x = cub->player.x;
+    ray_y = cub->player.y;
+    while (!is_colliding(ray_x, ray_y, cub))
+    {
+        ray_x += cos_ang;
+        ray_y += sin_ang;
+    }
+    dist = distance(cub->player.x, cub->player.y, ray_x, ray_y);
+    height = (BLOCK_SIZE / dist) * (WIDTH / 2);
+    start = (HEIGHT - height) / 3;
+    end = start + height;
+    
+    while(start < end)
+    {
+        put_pixel(i, start, 0x0000FF, cub);
+        start++;
+    }
+    
+}
+
+
+void radar(t_cube *cub, int column, float angle)
+{
+    float ray_x;
+    float ray_y;
+    float sin_ang;
+    float cos_ang;
+    
+    ray_x = cub->player.x;
+    ray_y = cub->player.y;
+    sin_ang = sin(angle);
+    cos_ang = cos(angle);
+    if (!DEBUG)    
+        ray_cast(cub, column, sin_ang, cos_ang);
+    else
+    {
+        while (!is_colliding(ray_x, ray_y, cub))
+        {
+            ray_x += cos_ang;
+            ray_y += sin_ang;
+            put_pixel(ray_x, ray_y, 0xFF0000, cub);
+        }
+    }
+}
 
 int loop_hook(void *param)
 {
-    t_cube *cube = (t_cube *)param;
-    float ray_x;
-    float ray_y;
+    float min_angle;
+    t_cube *cube;
+    int column;
+    
+    column = 0;
+    cube = (t_cube *)param;
     move_player(&cube->player);
     clear_image(cube);
-    draw_map(cube);
-    draw_square((int)cube->player.x, (int)cube->player.y, 15, 0xFF0000, cube);
-    
-    ray_x = cube->player.x;
-    ray_y = cube->player.y;
-    cube->player.sin_ang = sin(cube->player.angle);
-    cube->player.cos_ang = cos(cube->player.angle);
-    //oyuncunun açısının sin ve cos değerleri, oyuncunun baktığı açıya göre 
-    //ışının bir sonraki pikselde nereye gideceğini belirler.
-    
-    while (!is_colliding(ray_x, ray_y, cube))//ray_x ve ray_y çarpışmadığı sürece
+    if (DEBUG)
     {
-        put_pixel(ray_x, ray_y, 0xFF0000, cube);
-        ray_x += cube->player.cos_ang;
-        ray_y += cube->player.sin_ang;
-    } 
-	printf("Player Angle: %f\n",cube->player.angle * 180 / PI);
-	
+        draw_map(cube);
+        draw_square((int)cube->player.x, (int)cube->player.y, 15, 0xFF00FF, cube);
+    }
+    
+    while (column < WIDTH)//her bir ışını tek tek radar fonksiyonuna gönderiyorum
+    //debug flagine göre 2d ya da 3d çizim yapıyor
+    {
+        min_angle = cube->player.angle - PI / 6 + (column * (PI/3) / WIDTH);
+        radar(cube, column, min_angle);
+        column ++;
+    }
     mlx_put_image_to_window(cube->mlx, cube->win, cube->img, 0, 0);
     return (0);
 }

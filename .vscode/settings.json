@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "cube.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "math.h": "c"
     }
 }

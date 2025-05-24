@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   player.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/24 10:51:35 by fkuyumcu          #+#    #+#             */
+/*   Updated: 2025/05/24 10:51:36 by fkuyumcu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cube.h"
-#include <math.h>
 
 
 
@@ -8,8 +19,8 @@ void init_player(t_cube *cube)
     cube->player.x = 0;
     cube->player.y = 0;
     cube->player.angle =  0;
-    cube->player.sin_ang = 0;
-    cube->player.cos_ang = 0;
+    cube->min_angle = 0;
+    cube->angle_step = PI / 6 / WIDTH;
     cube->player.key_up = false;
     cube->player.key_down = false;
     cube->player.key_left = false;
