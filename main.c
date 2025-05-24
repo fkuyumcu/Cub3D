@@ -80,8 +80,8 @@ char **get_map(void)
     char **map = malloc(sizeof(char *) * 11);
     map[0] = "111111111111111";
     map[1] = "100000000000001";
-    map[2] = "100000000000001";
-    map[3] = "100000100000001";
+    map[2] = "100001100000001";
+    map[3] = "100000100001001";
     map[4] = "100000111100001";
     map[5] = "100000010000001";
     map[6] = "100001101000001";
@@ -142,13 +142,11 @@ void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang)
     float start;
     float end;
     int color;
-    int r;
-    int g;
-    int b;
+
     
-    r = 0;
-    g = 0;
-    b = 255;
+    cub->r = 0;
+    cub->g = 0;
+    cub->b = 255;
 
     ray_x = cub->player.x;
     ray_y = cub->player.y;
@@ -164,17 +162,21 @@ void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang)
         shade_factor = 1.0 - (dist / 1000.0);
     
     //mavi - 0x0000FF
-    r = (int)(r * shade_factor);
-    g = (int)(g * shade_factor);
-    b = (int)(b * shade_factor);
+    cub->r = (int)(cub->r * shade_factor);
+    cub->g = (int)(cub->g * shade_factor);
+    cub->b = (int)(cub->b * shade_factor);
     
 
-    color = (r << 16) | (g << 8) | b;
+    color = (cub->r << 16) | (cub->g << 8) | cub->b;
     
     height = (BLOCK_SIZE / dist) * (WIDTH);
     start = (HEIGHT - height) / 2;
     end = start + height;
     
+    int ceiling_color = 0x87CEEB;
+    for (float y = -5; y < start; y++)
+        put_pixel(i, y, ceiling_color, cub);// i sabit, y 
+
     while(start < end)
     {
         put_pixel(i, start, color, cub);
