@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/24 10:59:28 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/24 11:13:24 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define HEIGHT 720
 # define BLOCK_SIZE 64
 //block, bir karenin piksel cinsinden uzunluğunu belirler
-# define DEBUG 1
+# define DEBUG 0
 
 # define W 119
 # define D 100

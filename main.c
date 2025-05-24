@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:59:47 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/24 10:59:20 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/24 11:25:10 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,20 @@ bool is_colliding(float player_x, float player_y, t_cube *cub)//ışının çarp
 }
 
 
-float distance(float x1, float y1, float x2, float y2)
+float distance(float x1, float y1, float x2, float y2, t_player player)
 {
-    return (sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));
+    float dx;
+    float dy;
+    float dist;
+    float angle_diff;
+
+    
+    dx = x2 - x1;
+    dy = y2 - y1;
+    dist = sqrt(dx * dx + dy * dy);
+    angle_diff = atan2(dy, dx) - player.angle;
+    
+    return(dist * cos(angle_diff));
 }
 
 
@@ -135,9 +146,9 @@ void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang)
         ray_x += cos_ang;
         ray_y += sin_ang;
     }
-    dist = distance(cub->player.x, cub->player.y, ray_x, ray_y);
-    height = (BLOCK_SIZE / dist) * (WIDTH / 2);
-    start = (HEIGHT - height) / 3;
+    dist = distance(cub->player.x, cub->player.y, ray_x, ray_y, cub->player);
+    height = (BLOCK_SIZE / dist) * (WIDTH);
+    start = (HEIGHT - height) / 2;
     end = start + height;
     
     while(start < end)
@@ -189,10 +200,9 @@ int loop_hook(void *param)
         draw_square((int)cube->player.x, (int)cube->player.y, 15, 0xFF00FF, cube);
     }
     
-    while (column < WIDTH)//her bir ışını tek tek radar fonksiyonuna gönderiyorum
-    //debug flagine göre 2d ya da 3d çizim yapıyor
+    while (column < WIDTH)//her bir ışını tek tek radar fonksiyonuna gönderiyorum debug flagine göre 2d ya da 3d çizim yapıyor
     {
-        min_angle = cube->player.angle - PI / 6 + (column * (PI/3) / WIDTH);
+        min_angle = cube->player.angle - PI / 6 + (column * (PI / 3) / WIDTH);
         radar(cube, column, min_angle);
         column ++;
     }
