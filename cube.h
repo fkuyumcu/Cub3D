@@ -126,16 +126,10 @@ void arg_check(int argc, char **argv);
 void init_cube(t_cube *cube);
 
 
-
 void init_player(t_cube *cube);
 int key_press(int keycode, t_player *player);
 int key_release(int keycode, t_player *player);
 void move_player(t_player *player);
-
-
-
-
-
 
 
 #endif

@@ -132,6 +132,28 @@ float distance(float x1, float y1, float x2, float y2, t_player player)//fisheye
     return(dist * cos(angle_diff));
 }
 
+void set_background(int start, int end, t_cube *cub, int i)
+{
+    int color;
+    int ceiling_color = 0xFF0000;
+    int basement_color = 0x00FF00;
+
+    color = (cub->r << 16) | (cub->g << 8) | cub->b;
+
+    for (int y = 0; y < start; y++)//ekranın en üst kısmının y değeri 0
+        put_pixel(i, y, ceiling_color, cub);//y = 0 ekranın en alt kısmı
+                                        //aşağı indikçe y değeri artmakta
+    for (int y = end; y < HEIGHT - 1; y++)
+        put_pixel(i, y, basement_color, cub);
+
+    while(start < end)
+    {
+        put_pixel(i, start, color, cub);
+        start++;
+    }
+    
+}
+
 
 void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang)
 {
@@ -141,7 +163,6 @@ void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang)
     float height;
     float start;
     float end;
-    int color;
 
     
     cub->r = 0;
@@ -160,28 +181,15 @@ void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang)
     float shade_factor = 1.0;
     if (dist > 0)
         shade_factor = 1.0 - (dist / 1000.0);
-    
-    //mavi - 0x0000FF
     cub->r = (int)(cub->r * shade_factor);
     cub->g = (int)(cub->g * shade_factor);
     cub->b = (int)(cub->b * shade_factor);
     
-
-    color = (cub->r << 16) | (cub->g << 8) | cub->b;
     
     height = (BLOCK_SIZE / dist) * (WIDTH);
     start = (HEIGHT - height) / 2;
     end = start + height;
-    
-    int ceiling_color = 0x87CEEB;
-    for (float y = -5; y < start; y++)
-        put_pixel(i, y, ceiling_color, cub);// i sabit, y 
-
-    while(start < end)
-    {
-        put_pixel(i, start, color, cub);
-        start++;
-    }
+    set_background(start,end,cub, i);  
 }
 
 
