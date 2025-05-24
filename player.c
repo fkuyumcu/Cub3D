@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:51:35 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/05/24 11:42:09 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/24 11:47:06 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void move_player(t_player *player)
         player->x -= player->cube->sin_val * player->cube->speed;
         player->y += player->cube->cos_val * player->cube->speed;
     }
-    if(player->key_pov)
+    if (player->key_pov)
     {
         player->cube->debug = !player->cube->debug;
     }

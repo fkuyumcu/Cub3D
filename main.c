@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:59:47 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/24 11:36:29 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/24 14:16:37 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void put_pixel(int x, int y, int color, t_cube *game)
 {
-    if(x >= game->width || y >= game->height || x < 0 || y < 0)
+    if(x >= WIDTH || y >= HEIGHT || x < 0 || y < 0)
         return;
     
     int index = y * game->size_line + x * game->bpp / 8;
@@ -28,8 +28,8 @@ void put_pixel(int x, int y, int color, t_cube *game)
 void init_mlx(t_cube *cube)
 {
     cube->mlx = mlx_init();
-    cube->win = mlx_new_window(cube->mlx, cube->width, cube->height, "Cub3D");
-    cube->img = mlx_new_image(cube->mlx, cube->width, cube->height);
+    cube->win = mlx_new_window(cube->mlx, WIDTH, HEIGHT, "Cub3D");
+    cube->img = mlx_new_image(cube->mlx, WIDTH, HEIGHT);
     mlx_put_image_to_window(cube->mlx, cube->win, cube->img, 0, 0);
     cube->data = mlx_get_data_addr(cube->img, &cube->bpp, &cube->size_line, &cube->endian);
 }
@@ -65,9 +65,9 @@ void clear_image(t_cube *cube)
 {
     int x;
     int y;
-    for (y = 0; y < cube->height; y++)
+    for (y = 0; y < HEIGHT; y++)
     {
-        for (x = 0; x < cube->width; x++)
+        for (x = 0; x < WIDTH; x++)
         {
             put_pixel(x, y, 0, cube);
         }
@@ -82,11 +82,11 @@ char **get_map(void)
     map[1] = "100000000000001";
     map[2] = "100000000000001";
     map[3] = "100000100000001";
-    map[4] = "100000000000001";
+    map[4] = "100000111100001";
     map[5] = "100000010000001";
-    map[6] = "100001000000001";
-    map[7] = "100000000000001";
-    map[8] = "100000000000001";
+    map[6] = "100001101000001";
+    map[7] = "100000000001001";
+    map[8] = "100000010001001";
     map[9] = "111111111111111";
     map[10] = NULL;
     return (map);
@@ -103,13 +103,13 @@ void draw_map(t_cube *cub)
                 draw_square(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, color, cub);
 }
 
-bool is_colliding(float player_x, float player_y, t_cube *cub)//ışının çarpışıp çarşpışmadığının kontrolü
+bool is_colliding(float ray_x, float ray_y, t_cube *cub)//ışının çarpışıp çarşpışmadığının kontrolü
 {
     //aşağıdaki kodda playerin piksel cinsinden koordinatlarını oyunun bir bloğu cinsinden koordinata çevirdim.
     //örneğin bir bloğumuz 64 piksel olsun, player piksel cinsinden (128,128) koordinatına sahip olsun.
     //bu durumda playerin block cinsinden x ve y koordinatları 2,2 olur.
-    int x = player_x / BLOCK_SIZE;
-    int y = player_y / BLOCK_SIZE;
+    int x = ray_x / BLOCK_SIZE;
+    int y = ray_y / BLOCK_SIZE;
     if(cub->map[y][x] == '1')
         return (true);
     return (false);
@@ -141,7 +141,15 @@ void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang)
     float height;
     float start;
     float end;
+    int color;
+    int r;
+    int g;
+    int b;
     
+    r = 0;
+    g = 0;
+    b = 255;
+
     ray_x = cub->player.x;
     ray_y = cub->player.y;
     while (!is_colliding(ray_x, ray_y, cub))
@@ -150,16 +158,28 @@ void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang)
         ray_y += sin_ang;
     }
     dist = distance(cub->player.x, cub->player.y, ray_x, ray_y, cub->player);
+    
+    float shade_factor = 1.0;
+    if (dist > 0)
+        shade_factor = 1.0 - (dist / 1000.0);
+    
+    //mavi - 0x0000FF
+    r = (int)(r * shade_factor);
+    g = (int)(g * shade_factor);
+    b = (int)(b * shade_factor);
+    
+
+    color = (r << 16) | (g << 8) | b;
+    
     height = (BLOCK_SIZE / dist) * (WIDTH);
     start = (HEIGHT - height) / 2;
     end = start + height;
     
     while(start < end)
     {
-        put_pixel(i, start, 0x0000FF, cub);
+        put_pixel(i, start, color, cub);
         start++;
     }
-    
 }
 
 
@@ -219,12 +239,11 @@ int main(int argc, char **argv)
     t_cube cube;
 
     cube.map = get_map();
-    cube.width = WIDTH;
-    cube.height = HEIGHT;
     init_player(&cube);
     init_mlx(&cube);
-    cube.player.x = cube.width / 2; 
-    cube.player.y = cube.height / 2;
+    init_cube(&cube);
+    cube.player.x = WIDTH / 2; 
+    cube.player.y = HEIGHT / 2;
     
     mlx_hook(cube.win, 2, 1, key_press_hook, &cube);//1L<<0 eventler ve maskler??
     mlx_hook(cube.win, 3, 2, key_release_hook, &cube);//1L<<1

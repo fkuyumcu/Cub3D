@@ -45,17 +45,20 @@ void arg_check(int argc, char **argv)
 
 void init_cube(t_cube *cube)
 {
-    cube->width = 0;
-    cube->height = 0;
-    cube->map = NULL;
+     //cube->map = NULL;
+    
     cube->texture_n = NULL;
     cube->texture_s = NULL;
     cube->texture_e = NULL;
     cube->texture_w = NULL;
     cube->color_f = NULL;
-    cube->color_c = NULL;
+    cube->color_c = NULL; 
     cube->all_of_file = NULL;
     cube->player_pov = 0;
+
+    cube->r = 0;
+    cube->g = 0;
+    cube->b = 255;
 }
 
 

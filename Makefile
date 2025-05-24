@@ -2,11 +2,11 @@ NAME = cub3D
 
 CC = cc
 CFLAGS = # -Wall -Wextra -Werror
-LIBRARY = -Lminilibx-linux -lmlx -lX11 -lXext -lm
+LIBRARY = -Lminilibx-linux -lmlx -lX11 -lXext -lm -g
 MINILIBX = minilibx-linux/
 SRC = main.c \
       cube_utils.c \
-      player.c
+      player.c\
 
 OBJ = $(SRC:.c=.o)
 
