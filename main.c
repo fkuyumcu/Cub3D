@@ -6,11 +6,12 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:59:47 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/24 11:25:10 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/24 11:36:29 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
+
 
 void put_pixel(int x, int y, int color, t_cube *game)
 {
@@ -22,6 +23,7 @@ void put_pixel(int x, int y, int color, t_cube *game)
     game->data[index + 1] = (color >> 8) & 0xFF;//8 bit sonrası yeşil
     game->data[index + 2] = (color >> 16) & 0xFF;//8 bit sağı kırmızı
 }
+
 
 void init_mlx(t_cube *cube)
 {
@@ -61,7 +63,8 @@ int key_release_hook(int keycode, void *param)
 
 void clear_image(t_cube *cube)
 {
-    int x, y;
+    int x;
+    int y;
     for (y = 0; y < cube->height; y++)
     {
         for (x = 0; x < cube->width; x++)
@@ -113,7 +116,7 @@ bool is_colliding(float player_x, float player_y, t_cube *cub)//ışının çarp
 }
 
 
-float distance(float x1, float y1, float x2, float y2, t_player player)
+float distance(float x1, float y1, float x2, float y2, t_player player)//fisheye fix
 {
     float dx;
     float dy;
@@ -171,7 +174,7 @@ void radar(t_cube *cub, int column, float angle)
     ray_y = cub->player.y;
     sin_ang = sin(angle);
     cos_ang = cos(angle);
-    if (!DEBUG)    
+    if (!cub->debug)    
         ray_cast(cub, column, sin_ang, cos_ang);
     else
     {
@@ -194,7 +197,7 @@ int loop_hook(void *param)
     cube = (t_cube *)param;
     move_player(&cube->player);
     clear_image(cube);
-    if (DEBUG)
+    if (cube->debug)
     {
         draw_map(cube);
         draw_square((int)cube->player.x, (int)cube->player.y, 15, 0xFF00FF, cube);

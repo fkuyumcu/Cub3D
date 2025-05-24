@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/24 11:13:24 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/24 11:35:30 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@
 # define D 100
 # define S 115
 # define A 97
+# define ESC 65307
+# define P 112
 
-#define LEFT 65361
-#define RIGHT 65363 
+# define LEFT 65361
+# define RIGHT 65363 
 
 # define PI 3.14159
 
@@ -51,6 +53,7 @@ typedef struct s_player
 	bool key_down;
 	bool key_left;
 	bool key_right;
+	bool key_pov;
 
 	bool left;
 	bool right;
@@ -87,6 +90,7 @@ typedef struct s_cube
     int size_line;
     int endian;
 	
+	bool debug;
 	int speed;
     float a_speed;
     float cos_val;

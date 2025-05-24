@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:51:35 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/05/24 10:51:36 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/24 11:42:09 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ void init_player(t_cube *cube)
     cube->player.y = 0;
     cube->player.angle =  0;
     cube->min_angle = 0;
+    cube->debug = 0;
     cube->angle_step = PI / 6 / WIDTH;
+    cube->player.key_pov = false;
     cube->player.key_up = false;
     cube->player.key_down = false;
     cube->player.key_left = false;
@@ -44,6 +46,8 @@ int key_press(int keycode, t_player *player)
         player->left = true;
     if(keycode == RIGHT)
         player->right = true; 
+    if(keycode == P)
+        player->key_pov = true;
     return 0;
 }
 
@@ -61,13 +65,13 @@ int key_release(int keycode, t_player *player)
         player->left = false;
     if(keycode == RIGHT)
         player->right = false;
+    if(keycode == P)
+        player->key_pov = false;
     return 0;
 }
 
 void move_player(t_player *player)
 {
-
-
     player->cube->sin_val = sin(player->angle);
     player->cube->cos_val = cos(player->angle);
     player->cube->speed = 3;
@@ -110,5 +114,9 @@ void move_player(t_player *player)
     {
         player->x -= player->cube->sin_val * player->cube->speed;
         player->y += player->cube->cos_val * player->cube->speed;
+    }
+    if(player->key_pov)
+    {
+        player->cube->debug = !player->cube->debug;
     }
 }
