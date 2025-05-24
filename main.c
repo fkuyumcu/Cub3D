@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:59:47 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/21 18:39:58 by yalp             ###   ########.fr       */
+/*   Updated: 2025/05/24 08:58:02 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,9 +133,9 @@ int loop_hook(void *param)
     ray_x = cube->player.x;
     ray_y = cube->player.y;
     cube->player.sin_ang = sin(cube->player.angle);
+    cube->player.cos_ang = cos(cube->player.angle);
     //oyuncunun açısının sin ve cos değerleri, oyuncunun baktığı açıya göre 
     //ışının bir sonraki pikselde nereye gideceğini belirler.
-    cube->player.cos_ang = cos(cube->player.angle);
     
     while (!is_colliding(ray_x, ray_y, cube))//ray_x ve ray_y çarpışmadığı sürece
     {
@@ -143,7 +143,8 @@ int loop_hook(void *param)
         ray_x += cube->player.cos_ang;
         ray_y += cube->player.sin_ang;
     } 
-
+	printf("Player Angle: %f\n",cube->player.angle * 180 / PI);
+	
     mlx_put_image_to_window(cube->mlx, cube->win, cube->img, 0, 0);
     return (0);
 }

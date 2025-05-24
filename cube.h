@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/21 18:42:19 by yalp             ###   ########.fr       */
+/*   Updated: 2025/05/24 09:42:18 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,13 @@
 //block, bir karenin piksel cinsinden uzunluğunu belirler
 # define DEBUG 0
 
-# define W 100
-# define D 115
-# define S 97
-# define A 119
-# define LEFT 0
-# define RIGHT 0
+# define W 119
+# define D 100
+# define S 115
+# define A 97
+
+#define LEFT 65361
+#define RIGHT 65363 
 
 # define PI 3.14159
 

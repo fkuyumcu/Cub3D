@@ -1,14 +1,13 @@
 #include "cube.h"
 #include <math.h>
 
-#define LEFT 65361 // Sol ok tuşu için doğru bir değer
-#define RIGHT 65363 // Sağ ok tuşu için doğru bir değer
+
 
 void init_player(t_cube *cube)
 {
     cube->player.x = 0;
     cube->player.y = 0;
-    cube->player.angle = 0;
+    cube->player.angle =  0;
     cube->player.sin_ang = 0;
     cube->player.cos_ang = 0;
     cube->player.key_up = false;
