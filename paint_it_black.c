@@ -86,7 +86,6 @@ void set_background(int start, int end, t_cube *cub, int i)
     y = end - 1;
     while (++y < HEIGHT - 1)
         put_pixel(i, y, basement_color, cub);
-
     while (start < end)
     {
         put_pixel(i, start, color, cub);

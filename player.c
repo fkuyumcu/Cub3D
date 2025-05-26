@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:51:35 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/05/24 11:47:06 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/26 20:30:39 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ int key_release(int keycode, t_player *player)
 
 void move_player(t_player *player)
 {
+    float new_x;
+    float new_y;
     player->cube->sin_val = sin(player->angle);
     player->cube->cos_val = cos(player->angle);
     player->cube->speed = 3;
@@ -97,23 +99,43 @@ void move_player(t_player *player)
 
     if (player->key_up)
     {
-        player->x += player->cube->cos_val * player->cube->speed;
-        player->y += player->cube->sin_val * player->cube->speed;
+        new_x = player->x + player->cube->cos_val * player->cube->speed;
+        new_y = player->y + player->cube->sin_val * player->cube->speed;
+        if (!is_colliding(new_x, new_y, player->cube))
+        {
+            player->x = new_x;
+            player->y = new_y;
+        }
     }
     if (player->key_down)
     {
-        player->x -= player->cube->cos_val * player->cube->speed;
-        player->y -= player->cube->sin_val * player->cube->speed;
+        new_x = player->x - player->cube->cos_val * player->cube->speed;
+        new_y = player->y - player->cube->sin_val * player->cube->speed;
+        if (!is_colliding(new_x, new_y, player->cube))
+        {
+            player->x = new_x;
+            player->y = new_y;
+        }
     }
     if (player->key_left)
     {
-        player->x += player->cube->sin_val * player->cube->speed;
-        player->y -= player->cube->cos_val * player->cube->speed;
+        new_x = player->x + player->cube->sin_val * player->cube->speed;
+        new_y = player->y - player->cube->cos_val * player->cube->speed;
+        if (!is_colliding(new_x, new_y, player->cube))
+        {
+            player->x = new_x;
+            player->y = new_y;
+        }
     }
     if (player->key_right)
     {
-        player->x -= player->cube->sin_val * player->cube->speed;
-        player->y += player->cube->cos_val * player->cube->speed;
+        new_x = player->x - player->cube->sin_val * player->cube->speed;
+        new_y = player->y + player->cube->cos_val * player->cube->speed;
+        if (!is_colliding(new_x, new_y, player->cube))
+        {
+            player->x = new_x;
+            player->y = new_y;
+        }
     }
     if (player->key_pov)
     {

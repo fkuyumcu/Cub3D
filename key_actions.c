@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:06:18 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/05/26 13:11:50 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/26 20:30:49 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,49 @@ int key_press_hook(int keycode, void *param)
 {
     t_cube *cube = (t_cube *)param;
     key_press(keycode, &cube->player);
-    return 0;
+    return (0);
 }
 
 int key_release_hook(int keycode, void *param)
 {
     t_cube *cube = (t_cube *)param;
     key_release(keycode, &cube->player);
-    return 0;
+    return (0);
 }
 
-int loop_hook(void *param)
+
+int calculate_fps(t_cube *cube)
+{
+    struct timeval now;
+    static struct timeval last_time;
+    static int fps;
+    static int frame_count;
+    float elapsed_time;
+    
+    gettimeofday(&now, NULL);
+    if(last_time.tv_sec == 0 && last_time.tv_usec == 0)
+    last_time = now;    
+    elapsed_time = (now.tv_sec - last_time.tv_sec) + (now.tv_usec - last_time.tv_usec) / 1000000.0;
+    frame_count++;
+    if(elapsed_time >= 1.0)
+    {
+        fps = frame_count / elapsed_time;
+        last_time = now;
+        frame_count = 0;
+    }
+    return (fps);
+}
+
+
+
+int loop_hook(t_cube *cube)
 {
     float min_angle;
-    t_cube *cube;
     int column;
-
+    
+    cube->fps = calculate_fps(cube);
+    printf("FPS: %d\n", cube->fps);
     column = 0;
-    cube = (t_cube *)param;
     move_player(&cube->player);
     clear_image(cube);
     if (cube->debug)

@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:08:26 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/05/26 13:12:44 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/26 20:19:01 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,5 @@ void init_cube(t_cube *cube)
     cube->r = 0;
     cube->g = 0;
     cube->b = 255;
+    cube->fps = 0;
 }

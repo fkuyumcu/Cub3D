@@ -6,19 +6,16 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:59:47 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/26 13:54:30 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:17:24 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
 
 
-
-
-
 void draw_square(int x, int y, int size, int color, t_cube *game)
 {
-    int i;
+
     for (int i = 0; i < size; i++)
         put_pixel(x + i, y, color, game);
     for (int i = 0; i < size; i++)
@@ -29,20 +26,6 @@ void draw_square(int x, int y, int size, int color, t_cube *game)
         put_pixel(x + i, y + size, color, game);
 }
 
-
-bool is_colliding(float ray_x, float ray_y, t_cube *cub) // ışının çarpışıp çarşpışmadığının kontrolü
-{
-    // aşağıdaki kodda playerin piksel cinsinden koordinatlarını oyunun bir bloğu cinsinden koordinata çevirdim.
-    // örneğin bir bloğumuz 64 piksel olsun, player piksel cinsinden (128,128) koordinatına sahip olsun.
-    // bu durumda playerin block cinsinden x ve y koordinatları 2,2 olur.
-    int x;
-    int y;
-    x = ray_x / BLOCK_SIZE;
-    y = ray_y / BLOCK_SIZE;
-    if (cub->map[y][x] == '1')
-        return (true);
-    return (false);
-}
 
 float distance(float x1, float y1, float x2, float y2, t_player player) // fisheye fix
 {

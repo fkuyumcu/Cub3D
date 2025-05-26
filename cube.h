@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/26 13:11:32 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/26 20:29:25 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "minilibx-linux/mlx.h"
 # include <stdbool.h>
 # include <math.h>
+# include <sys/time.h>
 
 //defines
 
@@ -93,7 +94,9 @@ typedef struct s_cube
     float sin_val;
 	float min_angle;
 	float angle_step;
+	float elapsed_time;
 
+	int fps;
 	int r;
 	int g;
 	int b;
@@ -115,11 +118,12 @@ void clear_image(t_cube *cube);
 char **get_map(void);
 void draw_map(t_cube *cub);
 bool is_colliding(float ray_x, float ray_y, t_cube *cub);
+bool is_colliding_point(float ray_x, float ray_y, t_cube *cub);
 float distance(float x1, float y1, float x2, float y2, t_player player);
 
 void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang);
 void radar(t_cube *cub, int column, float angle);
-int loop_hook(void *param);
+int loop_hook(t_cube *cube);
 
 void end(t_cube *cube);
 void arg_check(int argc, char **argv);
