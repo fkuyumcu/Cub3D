@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:59:47 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/26 13:10:04 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/26 13:54:30 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@
 void draw_square(int x, int y, int size, int color, t_cube *game)
 {
     int i;
-    i = -1;
-    while (++i < size)
-    {
-        put_pixel(x + i, y + i, color, game);
-        put_pixel(x + size - i, y + i, color, game);
-        put_pixel(x + i, y + size - i, color, game);
-        put_pixel(x + size - i, y + size - i, color, game);
-    }
+    for (int i = 0; i < size; i++)
+        put_pixel(x + i, y, color, game);
+    for (int i = 0; i < size; i++)
+        put_pixel(x, y + i, color, game);
+    for (int i = 0; i < size; i++)
+        put_pixel(x + size, y + i, color, game);
+    for (int i = 0; i < size; i++)
+        put_pixel(x + i, y + size, color, game);
 }
 
 

@@ -6,13 +6,13 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:02:46 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/05/26 13:11:43 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/26 14:02:55 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
 
-void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang)//3D painting
+void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang) // 3D painting
 {
     float params[3]; // ray_x, ray_y, dist
     float height;
@@ -44,7 +44,7 @@ void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang)//3D painting
     set_background(start, end, cub, i);
 }
 
-void radar(t_cube *cub, int column, float angle)//2D painting
+void radar(t_cube *cub, int column, float angle) // 2D painting
 {
     float ray_x;
     float ray_y;
@@ -99,14 +99,14 @@ void draw_map(t_cube *cub)
     int x;
     int y;
     int color;
-    x = -1;
     y = -1;
-    
-    while(cub->map[++y])
+    color = 0x00FF00; // yeşil renk
+    while (cub->map[++y])
     {
-        while(cub->map[y][++x])
+        x = -1;
+        while (cub->map[y][++x])
         {
-            if(cub->map[y][x] == 1)
+            if (cub->map[y][x] == '1')
                 draw_square(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, color, cub);
         }
     }
