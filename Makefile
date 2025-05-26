@@ -7,6 +7,10 @@ MINILIBX = minilibx-linux/
 SRC = main.c \
       cube_utils.c \
       player.c\
+	  inits.c \
+	  paint_it_black.c \
+	  key_actions.c \
+	  
 
 OBJ = $(SRC:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/24 13:48:50 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/26 13:11:32 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,8 @@ void init_player(t_cube *cube);
 int key_press(int keycode, t_player *player);
 int key_release(int keycode, t_player *player);
 void move_player(t_player *player);
+void set_background(int start, int end, t_cube *cub, int i);
+
 
 
 #endif
