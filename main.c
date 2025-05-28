@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:59:47 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/28 18:15:51 by yalp             ###   ########.fr       */
+/*   Updated: 2025/05/28 19:06:13 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,22 @@ void end(t_cube *cube)
 	}
 	if (cube->all_of_file != NULL)
 		free(cube->all_of_file);
+	if (cube->texture_n != NULL)
+		free(cube->texture_n);
+	if (cube->texture_s != NULL)
+		free(cube->texture_s);
+	if (cube->texture_e != NULL)
+		free(cube->texture_e);
+	if (cube->texture_w != NULL)
+		free(cube->texture_w);
+	if (cube->color_f != NULL)
+		free(cube->color_f);
+	if (cube->color_c != NULL)
+		free(cube->color_c);
+	if (cube->values_c != NULL)
+		free(cube->values_c);
+	if (cube->values_f != NULL)
+		free(cube->values_f);
 	exit(EXIT_FAILURE);
 }
 
@@ -357,11 +373,18 @@ int is_valid_rgb(char *line)
     {
         if (ft_atoi(rgb[i]) < 0 || ft_atoi(rgb[i]) > 255)
         {
-            free(rgb);
+			i = 0;
+            while(rgb[i])
+				free(rgb[i++]);
+			free(rgb);
             return 0;
         }
         i++;
     }
+	i = 0;
+	while(rgb[i])
+		free(rgb[i++]);
+	free(rgb);
     return (1);
 }
 
