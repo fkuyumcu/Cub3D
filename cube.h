@@ -50,6 +50,22 @@ typedef enum e_face
 	WEST
 }t_face;
 
+// DDA algoritması için yapı
+typedef struct s_dda
+{
+	float delta_dist_x;  // X ekseni boyunca bir grid'den diğerine mesafe
+	float delta_dist_y;  // Y ekseni boyunca bir grid'den diğerine mesafe
+	float side_dist_x;   // Ray'den sonraki X grid'e mesafe
+	float side_dist_y;   // Ray'den sonraki Y grid'e mesafe
+	int step_x;          // X yönünde adım (+1 veya -1)
+	int step_y;          // Y yönünde adım (+1 veya -1)
+	int map_x;           // Mevcut grid X koordinatı
+	int map_y;           // Mevcut grid Y koordinatı
+	int hit;             // Duvarla çarpışma flag'i
+	int side;            // 0: X tarafından vuruş, 1: Y tarafından vuruş
+	float perpendicular_wall_dist; // Duvara dik mesafe
+}t_dda;
+
 typedef struct s_player
 {
 	float x;
