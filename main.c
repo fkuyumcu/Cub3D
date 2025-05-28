@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:59:47 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/28 18:05:22 by yalp             ###   ########.fr       */
+/*   Updated: 2025/05/28 18:15:51 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -381,6 +381,11 @@ void send_to_init(t_cube *cube, char *line, int id)
         cube->count_c++;
     init_idents(cube, line, id);
 }
+int is_map_line(char *line)
+{
+    line = skip_spaces(line);
+    return (*line == '1' || *line == '0');
+}
 
 void check_file(t_cube *cube)
 {
@@ -410,7 +415,7 @@ void check_file(t_cube *cube)
             }
 			send_to_init(cube, cube->all_of_file[i], id);
         }
-        else if ((cube->all_of_file[i][0] == '1' || cube->all_of_file[i][0] == '0'))
+        else if (is_map_line(cube->all_of_file[i]))
             map_started = 1;
         else if (map_started && id)
         {
@@ -447,6 +452,8 @@ int main(int argc, char **argv)
 	printf("%s\n", cube.texture_w);
 	printf("%s\n", cube.color_f);
 	printf("%s\n", cube.color_c);
+    printf("%d, %d, %d\n", cube.values_c[0], cube.values_c[1], cube.values_c[2]);
+    printf("%d, %d, %d\n", cube.values_f[0], cube.values_f[1], cube.values_f[2]);
     end(&cube);
     //init_mlx(&cube);
 
