@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:20:24 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/05/26 15:20:24 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:04:20 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ bool is_colliding_point(float ray_x, float ray_y, t_cube *cub)
 
 bool is_colliding(float ray_x, float ray_y, t_cube *cub)
 {
-    float player_radius = BLOCK_SIZE / 15.0;
+    float player_radius = BLOCK_SIZE / 3000.0; // Oyuncunun yarıçapı
     
     if (is_colliding_point(ray_x, ray_y, cub))
         return (true);

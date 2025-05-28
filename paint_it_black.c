@@ -6,43 +6,141 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:02:46 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/05/26 14:02:55 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:06:39 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
 
+t_text *get_wall_texture(t_cube *cub)
+{
+	if (cub->wall_face == NORTH)
+		return &(cub->n_text);
+	else if (cub->wall_face == SOUTH)
+		return &(cub->s_text);
+	else if (cub->wall_face == EAST)
+		return &(cub->e_text);
+	else // WEST
+		return &(cub->w_text);
+}
+
+int get_texture_x(t_cube *cub, float ray_x, float ray_y, t_text *texture)
+{
+	float wall_hit;
+
+	if (cub->wall_face == EAST || cub->wall_face == WEST)
+		wall_hit = fmod(ray_y, BLOCK_SIZE);
+	else
+		wall_hit = fmod(ray_x, BLOCK_SIZE);
+
+	int tex_x = (wall_hit / BLOCK_SIZE) * texture->width;
+
+	// Kenar taşmalarını önle
+	if (tex_x < 0)
+		tex_x = 0;
+	if (tex_x >= texture->width)
+		tex_x = texture->width - 1;
+
+	return tex_x;
+}
+
+void draw_textured_wall(t_cube *cub, int column, int start, int end, float shade, int tex_x, t_text *texture)
+{
+	int y;
+	int color;
+	
+
+	if (!texture || !texture->data || !texture->img)
+	{
+		color = (cub->r << 16) | (cub->g << 8) | cub->b;
+		for (y = start; y < end; y++)
+			put_pixel(column, y, color, cub);
+		return;
+	}
+	
+	for (y = start; y < end; y++)
+	{
+		// texture y koordinatını bul
+		int tex_y = (float)(y - start) / (end - start) * texture->height;
+		
+		// Boundary check for texture coordinates
+		if (tex_y < 0)
+			tex_y = 0;
+		if (tex_y >= texture->height)
+			tex_y = texture->height - 1;
+
+		// pixel renk verisi
+		color = texture->data[tex_y * (texture->line_length / 4) + tex_x];
+
+		// gölgelendirme
+		int r = ((color >> 16) & 0xFF);
+		int g = ((color >> 8) & 0xFF);
+		int b = (color & 0xFF);
+		color = (r << 16) | (g << 8) | b;
+
+		put_pixel(column, y, color, cub);
+	}
+}
+
 void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang) // 3D painting
 {
-    float params[3]; // ray_x, ray_y, dist
-    float height;
-    float start;
-    float end;
-    float shade;
+    float ray_x = cub->player.x;
+    float ray_y = cub->player.y;
+    float prev_x, prev_y;
+    float dist, height, start, end;
+    float shade = 1.0;
 
     cub->r = 0;
     cub->g = 0;
     cub->b = 255;
-    shade = 1.0;
 
-    params[0] = cub->player.x;
-    params[1] = cub->player.y;
-    while (!is_colliding(params[0], params[1], cub))
+    // Ray ilerletme
+    while (!is_colliding(ray_x, ray_y, cub))
     {
-        params[0] += cos_ang;
-        params[1] += sin_ang;
+        prev_x = ray_x;
+        prev_y = ray_y;
+        ray_x += cos_ang;
+        ray_y += sin_ang;
     }
-    params[2] = distance(cub->player.x, cub->player.y, params[0], params[1], cub->player);
-    if (params[2] > 0)
-        shade = 1.0 - (params[2] / 1000.0);
-    cub->r = (int)(cub->r * shade);
-    cub->g = (int)(cub->g * shade);
-    cub->b = (int)(cub->b * shade);
-    height = (BLOCK_SIZE / params[2]) * (WIDTH);
+
+    // Duvara çarpınca yön tespiti
+    int map_x = (int)(ray_x / BLOCK_SIZE);
+    int map_y = (int)(ray_y / BLOCK_SIZE);
+    int prev_map_x = (int)(prev_x / BLOCK_SIZE);
+    int prev_map_y = (int)(prev_y / BLOCK_SIZE);
+
+    if (map_x > prev_map_x)
+        cub->wall_face = EAST;
+    else if (map_x < prev_map_x)
+        cub->wall_face = WEST;
+    else if (map_y > prev_map_y)
+        cub->wall_face = SOUTH;
+    else if (map_y < prev_map_y)
+        cub->wall_face = NORTH;
+
+    dist = distance(cub->player.x, cub->player.y, ray_x, ray_y, cub->player);
+
+
+    height = (BLOCK_SIZE / dist) * WIDTH;
     start = (HEIGHT - height) / 2;
     end = start + height;
-    set_background(start, end, cub, i);
+    t_text *texture = get_wall_texture(cub);
+    
+    if (start < 0)
+        start = 0;
+    if (end >= HEIGHT)
+        end = HEIGHT - 1;
+        
+
+    if (texture && texture->img) {
+        int tex_x = get_texture_x(cub, ray_x, ray_y, texture);
+        draw_textured_wall(cub, i, start, end, shade, tex_x, texture);
+    } else {
+        set_background(start, end, cub, i);
+    }
 }
+
+
 
 void radar(t_cube *cub, int column, float angle) // 2D painting
 {

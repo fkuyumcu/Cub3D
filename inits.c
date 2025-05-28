@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:08:26 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/05/26 20:19:01 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:01:09 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,30 @@ void init_cube(t_cube *cube)
     cube->g = 0;
     cube->b = 255;
     cube->fps = 0;
+    
+    // Initialize textures
+    cube->e_text.img = mlx_xpm_file_to_image(cube->mlx, "textures/wall.xpm", &cube->e_text.width, &cube->e_text.height);
+    cube->w_text.img = mlx_xpm_file_to_image(cube->mlx, "textures/wall_2.xpm", &cube->w_text.width, &cube->w_text.height);
+    cube->n_text.img = mlx_xpm_file_to_image(cube->mlx, "textures/wall_3.xpm", &cube->n_text.width, &cube->n_text.height);
+    cube->s_text.img = mlx_xpm_file_to_image(cube->mlx, "textures/wall_4.xpm", &cube->s_text.width, &cube->s_text.height);
+
+    cube->e_text.data = NULL;
+    cube->w_text.data = NULL;
+    cube->n_text.data = NULL;
+    cube->s_text.data = NULL;
+    
+    // Get data addresses for textures only if loading was successful
+    if (cube->e_text.img)
+        cube->e_text.data = (int *)mlx_get_data_addr(cube->e_text.img, &cube->e_text.bpp, &cube->e_text.line_length, &cube->e_text.endian);
+    if (cube->w_text.img)
+        cube->w_text.data = (int *)mlx_get_data_addr(cube->w_text.img, &cube->w_text.bpp, &cube->w_text.line_length, &cube->w_text.endian);
+    if (cube->n_text.img)
+        cube->n_text.data = (int *)mlx_get_data_addr(cube->n_text.img, &cube->n_text.bpp, &cube->n_text.line_length, &cube->n_text.endian);
+    if (cube->s_text.img)
+        cube->s_text.data = (int *)mlx_get_data_addr(cube->s_text.img, &cube->s_text.bpp, &cube->s_text.line_length, &cube->s_text.endian);
+        
+    // Check if textures loaded successfully
+    if (!cube->e_text.img || !cube->w_text.img || !cube->n_text.img || !cube->s_text.img) {
+        printf("Warning: Some textures failed to load. Check if 'textures/wall.xpm' exists and is valid.\n");
+    }
 }

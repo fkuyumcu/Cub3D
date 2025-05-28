@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/26 20:29:25 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:40:22 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,14 @@
 
 # define PI 3.14159
 
+typedef enum e_face
+{
+	NORTH,
+	SOUTH,
+	EAST,
+	WEST
+}t_face;
+
 typedef struct s_player
 {
 	float x;
@@ -59,6 +67,17 @@ typedef struct s_player
 	struct s_cube *cube;
 }	t_player;
 
+
+typedef struct s_text
+{
+	void *img;
+	int *data;
+	int width;
+	int height;
+	int bpp;
+	int line_length;
+	int endian;
+}t_text;
 
 typedef struct s_cube
 {
@@ -100,9 +119,14 @@ typedef struct s_cube
 	int r;
 	int g;
 	int b;
-	
+	t_face wall_face;
     t_player player;
+	t_text e_text;
+	t_text w_text;
+	t_text n_text;
+	t_text s_text;
 }	t_cube;
+
 
 
 void arg_check(int argc, char **argv);
