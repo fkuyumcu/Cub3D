@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/22 16:33:56 by yalp             ###   ########.fr       */
+/*   Updated: 2025/05/28 17:10:14 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ typedef struct s_cube
 	int		count_e;
 	char	*color_c;
 	int		count_c;
+	int		*values_c;
 	char	*color_f;
 	int		count_f;
+	int		*values_f;
 	char	player_pov;
 	int		width;
 	int		height;

@@ -6,11 +6,111 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:59:47 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/22 17:15:03 by yalp             ###   ########.fr       */
+/*   Updated: 2025/05/28 18:05:22 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
+
+int	ft_atoi(const char *str)
+{
+	int		i;
+	int		j;
+	int		k;
+
+	i = 0;
+	j = 0;
+	k = 1;
+	while (str[i] == 32 || (str[i] <= 13 && str[i] >= 9))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			k = -1;
+		i++;
+	}
+	while ((str[i] <= 57 && str[i] >= 48))
+	{
+		j = j * 10 + (str[i] - 48);
+		i++;
+	}
+	return (k * j);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	size_t		a;
+	size_t		slen;
+	char		*str;
+
+	slen = strlen(s);
+	a = 0;
+	if (len > slen - start)
+		len = slen - start;
+	if (start >= slen)
+	{
+		str = malloc(sizeof(char));
+		str[0] = '\0';
+		return (str);
+	}
+	str = malloc((len + 1) * sizeof(char));
+	if (!str)
+		return (0);
+	while (a < len)
+	{
+		str[a] = s[start + a];
+		a++;
+	}
+	str[a] = '\0';
+	return (str);
+}
+
+static int	cw(char const *str, char c)
+{
+	int	count;
+
+	count = 0;
+	if (!*str)
+		return (0);
+	while (*str)
+	{
+		while (*str == c)
+			str++;
+		if (*str)
+			count++;
+		while (*str != c && *str)
+			str++;
+	}
+	return (count);
+}
+
+char	**ft_split(char const *s, char c)
+{
+	char		**words;
+	long		wordlen;
+	int			i;
+
+	i = 0;
+	words = (char **)malloc((cw(s, c) + 1) * sizeof(char *));
+	if (!words || !s)
+		return (0);
+	while (*s)
+	{
+		while (*s == c && *s)
+			s++;
+		if (*s)
+		{
+			if (!strchr(s, c))
+				wordlen = strlen(s);
+			else
+				wordlen = strchr(s, c) - s;
+			words[i++] = ft_substr(s, 0, wordlen);
+			s += wordlen;
+		}
+	}
+	words[i] = NULL;
+	return (words);
+}
 
 void end(t_cube *cube)
 {
@@ -64,6 +164,8 @@ void init_cube(t_cube *cube)
 	cube->all_of_file = NULL;
 	cube->mlx = NULL;
 	cube->win = NULL;
+    cube->values_c = NULL;
+    cube->values_f = NULL;
 	cube->player_pov = 0;
 	cube->width = 0;
 	cube->height = 0;
@@ -158,28 +260,57 @@ char *trim_spaces(char *str)
     return str;
 }
 
+int *init_values(char *color)
+{
+    char **rgb;
+    int *values;
+    int i;
+
+    rgb = ft_split(color, ',');
+    if (!rgb)
+        return NULL;
+    values = malloc(sizeof(int) * 3);
+    if (!values)
+    {
+        free(rgb);
+        return NULL;
+    }
+    i = 0;
+    while (i < 3 && rgb[i])
+    {
+        values[i] = ft_atoi(rgb[i]);
+        free(rgb[i]);
+        i++;
+    }
+    free(rgb);
+    return (values);
+}
+
 void init_idents(t_cube *cube, char *line, int id)
 {
     char *value;
-    if (id >= 1 && id <= 4)
-        value = trim_spaces(line + 3); // "NO ", "SO ", "EA ", "WE "
-    else if (id == 5 || id == 6)
-        value = trim_spaces(line + 2); // "F ", "C "
+
+    value = trim_spaces(line);
+    if (id == 1)
+    cube->texture_n = strdup(skip_spaces(value + 2));
+    else if (id == 2)
+    cube->texture_s = strdup(skip_spaces(value + 2));
+    else if (id == 3)
+    cube->texture_e = strdup(skip_spaces(value + 2));
+    else if (id == 4)
+    cube->texture_w = strdup(skip_spaces(value + 2));
+    else if (id == 5)
+    {
+        cube->color_f = strdup(skip_spaces(value + 1));
+        cube->values_f = init_values(cube->color_f);
+    }
+    else if (id == 6)
+    {
+        cube->color_c = strdup(skip_spaces(value + 1));
+        cube->values_c = init_values(cube->color_c);
+    }
     else
         return;
-
-    if (id == 1)
-        cube->texture_n = strdup(value);
-    else if (id == 2)
-        cube->texture_s = strdup(value);
-    else if (id == 3)
-        cube->texture_e = strdup(value);
-    else if (id == 4)
-        cube->texture_w = strdup(value);
-    else if (id == 5)
-        cube->color_f = strdup(value);
-    else if (id == 6)
-        cube->color_c = strdup(value);
 }
 
 // Satır tamamen boş mu kontrolü
@@ -207,24 +338,48 @@ int is_valid_path(char *line)
 // RGB kontrolü (F ve C için) burayı hallediceem split ile virgüle göre bölüp sayıları kontrol edicem
 int is_valid_rgb(char *line)
 {
-    
+    char    **rgb;
+    int     i;
+
+    i = 0;
+    rgb = ft_split(skip_spaces(skip_spaces(line) + 1 ), ',');
+    if (!rgb)
+        return (0);
+    while (rgb[i])
+        i++;;
+    if (i != 3)
+    {
+        free(rgb);
+        return 0;
+    }
+    i = 0;
+    while (rgb[i])
+    {
+        if (ft_atoi(rgb[i]) < 0 || ft_atoi(rgb[i]) > 255)
+        {
+            free(rgb);
+            return 0;
+        }
+        i++;
+    }
+    return (1);
 }
 
 void send_to_init(t_cube *cube, char *line, int id)
 {
-            if (id == 1) 
-                cube->count_n++;
-            else if (id == 2) 
-                cube->count_s++;
-            else if (id == 3) 
-                cube->count_e++;
-            else if (id == 4) 
-                cube->count_w++;
-            else if (id == 5) 
-                cube->count_f++;
-            else if (id == 6) 
-                cube->count_c++;
-            init_idents(cube, line, id);
+    if (id == 1) 
+        cube->count_n++;
+    else if (id == 2) 
+        cube->count_s++;
+    else if (id == 3) 
+        cube->count_e++;
+    else if (id == 4) 
+        cube->count_w++;
+    else if (id == 5) 
+        cube->count_f++;
+    else if (id == 6) 
+        cube->count_c++;
+    init_idents(cube, line, id);
 }
 
 void check_file(t_cube *cube)
