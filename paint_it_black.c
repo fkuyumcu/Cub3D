@@ -69,87 +69,175 @@ void draw_textured_wall(t_cube *cub, int column, int start, int end, float shade
 
         // pixel renk verisi
         color = texture->data[tex_y * (texture->line_length / 4) + tex_x];
+
+        // gölgelendirme
+        int r = ((color >> 16) & 0xFF);
+        int g = ((color >> 8) & 0xFF);
+        int b = (color & 0xFF);
+        color = (r << 16) | (g << 8) | b;
+
         put_pixel(column, y, color, cub);
     }
 }
 
-void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang) // 3D painting
+// DDA algoritması ile ışın takibi
+void ray_cast_dda(t_cube *cub, int column, float angle)
 {
-    float ray_x = cub->player.x;
-    float ray_y = cub->player.y;
-    float prev_x, prev_y;
-    float dist;
-    float height;
-    float shade = 1.0;
-
-    cub->r = 0;
-    cub->g = 0;
-    cub->b = 255;
-
-    // Ray ilerletme
-    while (!is_colliding(ray_x, ray_y, cub))
+    float ray_dir_x = cos(angle);
+    float ray_dir_y = sin(angle);
+    
+    // Oyuncunun grid koordinatları
+    int map_x = (int)(cub->player.x / BLOCK_SIZE);
+    int map_y = (int)(cub->player.y / BLOCK_SIZE);
+    
+    // Delta mesafeler (1 grid hücresi için)
+    float delta_dist_x = (ray_dir_x == 0) ? 1e30 : fabs(1.0 / ray_dir_x);
+    float delta_dist_y = (ray_dir_y == 0) ? 1e30 : fabs(1.0 / ray_dir_y);
+    
+    // Hareket yönü ve başlangıç mesafeleri
+    int step_x, step_y;
+    float side_dist_x, side_dist_y;
+    
+    if (ray_dir_x < 0)
     {
-        prev_x = ray_x;
-        prev_y = ray_y;
-        ray_x += cos_ang;
-        ray_y += sin_ang;
+        step_x = -1;
+        side_dist_x = ((cub->player.x / BLOCK_SIZE) - map_x) * delta_dist_x;
     }
-
-    // Duvara çarpınca yön tespiti
-    int map_x = (int)(ray_x / BLOCK_SIZE);
-    int map_y = (int)(ray_y / BLOCK_SIZE);
-    int prev_map_x = (int)(prev_x / BLOCK_SIZE);
-    int prev_map_y = (int)(prev_y / BLOCK_SIZE);
-
-    if (map_x > prev_map_x)
-        cub->wall_face = EAST;
-    else if (map_x < prev_map_x)
-        cub->wall_face = WEST;
-    else if (map_y > prev_map_y)
-        cub->wall_face = SOUTH;
-    else if (map_y < prev_map_y)
-        cub->wall_face = NORTH;
-
-    dist = distance(cub->player.x, cub->player.y, ray_x, ray_y, cub->player);
-
-    // duvar yüksekliği ve orijinal çizim aralığı
-    height = (BLOCK_SIZE / dist) * WIDTH;
-    float drawStartOrig = (HEIGHT - height) / 2;
-    float drawEndOrig = drawStartOrig + height;
+    else
+    {
+        step_x = 1;
+        side_dist_x = (map_x + 1.0 - (cub->player.x / BLOCK_SIZE)) * delta_dist_x;
+    }
+    
+    if (ray_dir_y < 0)
+    {
+        step_y = -1;
+        side_dist_y = ((cub->player.y / BLOCK_SIZE) - map_y) * delta_dist_y;
+    }
+    else
+    {
+        step_y = 1;
+        side_dist_y = (map_y + 1.0 - (cub->player.y / BLOCK_SIZE)) * delta_dist_y;
+    }
+    
+    // DDA algoritması
+    int hit = 0;
+    int side; // 0: X duvarı, 1: Y duvarı
+    
+    while (hit == 0)
+    {
+        // En yakın kenarı seç ve adım at
+        if (side_dist_x < side_dist_y)
+        {
+            side_dist_x += delta_dist_x;
+            map_x += step_x;
+            side = 0;
+        }
+        else
+        {
+            side_dist_y += delta_dist_y;
+            map_y += step_y;
+            side = 1;
+        }
+        
+        // Duvar kontrolü
+        if (map_x < 0 || map_y < 0 || !cub->map[map_y] || cub->map[map_y][map_x] == '\0')
+            break;
+            
+        if (cub->map[map_y][map_x] == '1')
+            hit = 1;
+    }
+    
+    // Duvar yüzünü belirle
+    if (side == 0)
+    {
+        if (step_x > 0)
+            cub->wall_face = WEST;
+        else
+            cub->wall_face = EAST;
+    }
+    else
+    {
+        if (step_y > 0)
+            cub->wall_face = NORTH;
+        else
+            cub->wall_face = SOUTH;
+    }
+    
+    // Perpendicular distance hesabı (fish-eye etkisini önlemek için)
+    float perp_wall_dist;
+    if (side == 0)
+        perp_wall_dist = (map_x - (cub->player.x / BLOCK_SIZE) + (1 - step_x) / 2) / ray_dir_x;
+    else
+        perp_wall_dist = (map_y - (cub->player.y / BLOCK_SIZE) + (1 - step_y) / 2) / ray_dir_y;
+    
+    // Fish-eye düzeltmesi: ışını kamera düzlemine olan açıya göre düzelt
+    float player_angle = cub->player.angle;
+    float ray_angle = angle;
+    float fix_angle = player_angle - ray_angle;
+    // Açı 0-2PI aralığında olsun
+    if (fix_angle < 0)
+        fix_angle += 2 * PI;
+    if (fix_angle > 2 * PI)
+        fix_angle -= 2 * PI;
+    
+    // Düzeltilmiş mesafe ile duvar yüksekliğini hesapla
+    float corrected_dist = perp_wall_dist * cos(fix_angle);
+    float line_height = (BLOCK_SIZE / (corrected_dist * BLOCK_SIZE)) * WIDTH;
+    float drawStartOrig = (HEIGHT - line_height) / 2;
+    float drawEndOrig = drawStartOrig + line_height;
+    
+    // Ekran sınırları kontrolü
     int drawStart = (int)drawStartOrig;
     int drawEnd = (int)drawEndOrig;
-    int lineHeight = (int)(drawEndOrig - drawStartOrig);
-
-    // clamp çizim sınırları
+    
     if (drawStart < 0)
         drawStart = 0;
     if (drawEnd >= HEIGHT)
         drawEnd = HEIGHT - 1;
-
-    t_text *texture = get_wall_texture(cub);
     
-        int tex_x = get_texture_x(cub, ray_x, ray_y, texture);
-        draw_textured_wall(cub, i, drawStart, drawEnd, shade, lineHeight, drawStartOrig, tex_x, texture);
-        set_background(drawStart, drawEnd, cub, i);
+    // Wall X koordinatı (doku için)
+    float wall_x;
+    if (side == 0)
+        wall_x = cub->player.y / BLOCK_SIZE + perp_wall_dist * ray_dir_y;
+    else
+        wall_x = cub->player.x / BLOCK_SIZE + perp_wall_dist * ray_dir_x;
+    wall_x -= floor(wall_x); // Ondalık kısmını al
+    
+    // Texture koordinatı
+    t_text *texture = get_wall_texture(cub);
+    int tex_x = (int)(wall_x * texture->width);
+    
+    // Texture yönü düzeltme
+    if ((side == 0 && ray_dir_x > 0) || (side == 1 && ray_dir_y < 0))
+        tex_x = texture->width - tex_x - 1;
+    
+    // Texture çizimi
+    if (texture && texture->img)
+    {
+        draw_textured_wall(cub, column, drawStart, drawEnd, 1.0, 
+                          (int)line_height, drawStartOrig, tex_x, texture);
+        cub->r = 0;
+        cub->g = 0;
+        cub->b = 255;
+        set_background(drawStart, drawEnd, cub, column);
     }
-
-
+}
 
 void radar(t_cube *cub, int column, float angle) // 2D painting
 {
-    float ray_x;
-    float ray_y;
-    float sin_ang;
-    float cos_ang;
-
-    ray_x = cub->player.x;
-    ray_y = cub->player.y;
-    sin_ang = sin(angle);
-    cos_ang = cos(angle);
     if (!cub->debug)
-        ray_cast(cub, column, sin_ang, cos_ang);
+    {
+        ray_cast_dda(cub, column, angle);
+    }
     else
     {
+        // Debug modu için eski ray-tracing
+        float ray_x = cub->player.x;
+        float ray_y = cub->player.y;
+        float sin_ang = sin(angle);
+        float cos_ang = cos(angle);
+
         while (!is_colliding(ray_x, ray_y, cub))
         {
             ray_x += cos_ang;
@@ -170,9 +258,7 @@ void set_background(int start, int end, t_cube *cub, int i)
     y = -1;
 
     while (++y < start)
-        put_pixel(i, y, ceiling_color, cub); // ekranın en üst kısmının y değeri 0
-    // y = 0 ekranın en alt kısmı
-    // aşağı indikçe y değeri artmakta
+        put_pixel(i, y, ceiling_color, cub);
 
     y = end - 1;
     while (++y < HEIGHT - 1)
