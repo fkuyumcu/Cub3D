@@ -35,7 +35,6 @@ int get_texture_x(t_cube *cub, float ray_x, float ray_y, t_text *texture)
 
 	int tex_x = (wall_hit / BLOCK_SIZE) * texture->width;
 
-	// Kenar taşmalarını önle
 	if (tex_x < 0)
 		tex_x = 0;
 	if (tex_x >= texture->width)
@@ -70,13 +69,6 @@ void draw_textured_wall(t_cube *cub, int column, int start, int end, float shade
 
         // pixel renk verisi
         color = texture->data[tex_y * (texture->line_length / 4) + tex_x];
-
-        // gölgelendirme
-        int r = ((color >> 16) & 0xFF);
-        int g = ((color >> 8) & 0xFF);
-        int b = (color & 0xFF);
-        color = (r << 16) | (g << 8) | b;
-
         put_pixel(column, y, color, cub);
     }
 }
@@ -136,13 +128,10 @@ void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang) // 3D painting
 
     t_text *texture = get_wall_texture(cub);
     
-    if (texture && texture->img) {
         int tex_x = get_texture_x(cub, ray_x, ray_y, texture);
         draw_textured_wall(cub, i, drawStart, drawEnd, shade, lineHeight, drawStartOrig, tex_x, texture);
-    } else {
         set_background(drawStart, drawEnd, cub, i);
     }
-}
 
 
 
@@ -188,11 +177,6 @@ void set_background(int start, int end, t_cube *cub, int i)
     y = end - 1;
     while (++y < HEIGHT - 1)
         put_pixel(i, y, basement_color, cub);
-    while (start < end)
-    {
-        put_pixel(i, start, color, cub);
-        start++;
-    }
 }
 
 void draw_map(t_cube *cub)
