@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/28 17:10:14 by yalp             ###   ########.fr       */
+/*   Updated: 2025/05/29 20:39:44 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_cube
 {
 	char	**all_of_file;
 	char	**map;
+	char	**cpymap;
 	char	*texture_s;
 	int		count_s;
 	char	*texture_n;
@@ -39,6 +40,9 @@ typedef struct s_cube
 	int		count_f;
 	int		*values_f;
 	char	player_pov;
+	int		player_count;
+	int		player_x;
+	int		player_y;
 	int		width;
 	int		height;
 	void	*mlx;
