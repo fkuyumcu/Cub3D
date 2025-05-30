@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:59:47 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/30 17:45:11 by yalp             ###   ########.fr       */
+/*   Updated: 2025/05/30 17:51:07 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -729,6 +729,30 @@ void manage_map(char ***map, t_cube *cube)
 	add_space_line(map, find_largest_line(*map), cube);
 	fill_space(map, cube);
 }
+
+void check_double_map(char **map, t_cube *cube)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (map[i] != NULL)
+	{
+		j = 0;
+		while (map[i][j] != '\0')
+		{
+			if (ft_strchr_gnl("01NSEW", map[i][j]) != 0)
+			{
+				printf("invalid map\n");
+				end(cube);
+			}
+		
+			j++;
+		}
+		i++;
+	}
+}
+
 void ffill(char **map, int x, int y, t_cube *cube)
 {
     if (map[y][x] == 'X' || map[y][x] == ' ')
@@ -759,6 +783,7 @@ void check_map(t_cube *cube)
 		printf("%s\n", cube->cpy_map[i]);
 		i++;
 	}
+	check_double_map(cube->cpy_map, cube);
 }
 	
 
