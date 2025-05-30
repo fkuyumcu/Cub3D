@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:59:47 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/30 17:29:52 by yalp             ###   ########.fr       */
+/*   Updated: 2025/05/30 17:45:11 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -513,6 +513,11 @@ char **mapcpy(char **map, t_cube *cube)
 	while (map[i] != NULL)
 		i++;
 	cpymap = malloc(sizeof(char *) * (i + 1));
+	if (!cpymap)
+	{
+		fprintf(stderr, "Error: Memory allocation failed for cpymap\n");
+		end(cube);
+	}
 	i = 0;
 	while (map[i] != NULL)
 	{
@@ -681,6 +686,37 @@ int find_largest_line(char **map)
 	return (max_length);
 }
 
+void fill_space(char ***map, t_cube *cube)
+{
+    int i;
+    int j;
+    int max_length;
+    char *line;
+    char *newline_pos;
+
+    max_length = find_largest_line(*map);
+    i = 0;
+    while ((*map)[i] != NULL)
+    {
+        line = (*map)[i];
+        newline_pos = strchr(line, '\n');
+        if (newline_pos)
+            j = newline_pos - line;
+        else
+            j = strlen(line);
+
+        while (j < max_length)
+        {
+            line[j] = ' ';
+            j++;
+        }
+        if (newline_pos)
+            line[j] = '\n';
+        line[j + (newline_pos ? 1 : 0)] = '\0';
+        i++;
+    }
+}
+
 void manage_map(char ***map, t_cube *cube)
 {
 	int i;
@@ -691,19 +727,38 @@ void manage_map(char ***map, t_cube *cube)
 		i++;
 	}
 	add_space_line(map, find_largest_line(*map), cube);
-	i = 0;
-	
-	
-	
+	fill_space(map, cube);
 }
-
+void ffill(char **map, int x, int y, t_cube *cube)
+{
+    if (map[y][x] == 'X' || map[y][x] == ' ')
+        return ;
+    if (map[y][x] == '0' || map[y][x] == cube->player_pov || map[y][x] == '1')
+        map[y][x] = 'X';
+    if (map[y+1] && map[y+1][x])
+        ffill(map, x + 1, y, cube);
+    if (map[y-1] && map[y-1][x])
+        ffill(map, x - 1, y, cube);
+    if (map[y] && map[y][x+1])
+        ffill(map, x, y + 1, cube);
+    if (map[y] && map[y][x-1])
+        ffill(map, x, y - 1, cube);
+}
 
 void check_map(t_cube *cube)
 {
 	check_player(cube);
 	cube->cpymap=mapcpy(cube->map, cube);
 	manage_map(&cube->cpymap, cube);
+	cube->cpy_map=mapcpy(cube->cpymap, cube);
+	int i = 0;
 	flood_fill(cube->cpymap, cube->player_x + 1, cube->player_y + 1, cube);
+	ffill(cube->cpy_map, cube->player_x + 1, cube->player_y + 1, cube);
+	while (cube->cpy_map[i] != NULL)
+	{
+		printf("%s\n", cube->cpy_map[i]);
+		i++;
+	}
 }
 	
 
