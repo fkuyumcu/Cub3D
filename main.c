@@ -6,12 +6,24 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:59:47 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/31 14:50:46 by yalp             ###   ########.fr       */
+/*   Updated: 2025/05/31 14:52:00 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
 
+void free_double_pointer(char **ptr)
+{
+	int i = 0;
+	if (!ptr)
+		return;
+	while (ptr[i])
+	{
+		free(ptr[i]);
+		i++;
+	}
+	free(ptr);
+}
 int	ft_atoi(const char *str)
 {
 	int		i;
@@ -355,18 +367,6 @@ int is_valid_path(char *line)
     return 1;
 }
 
-void free_double_pointer(char **ptr)
-{
-	int i = 0;
-	if (!ptr)
-		return;
-	while (ptr[i])
-	{
-		free(ptr[i]);
-		i++;
-	}
-	free(ptr);
-}
 
 // RGB kontrolü (F ve C için) burayı hallediceem split ile virgüle göre bölüp sayıları kontrol edicem
 int is_valid_rgb(char *line)
@@ -668,7 +668,7 @@ void add_space_line(char ***map_ptr, int space_count, t_cube *cube)
     if (!space_line)
     {
         fprintf(stderr, "Error: Memory allocation failed\n");
-        end(cube);
+        end(cube, 1);
     }
     memset(space_line, ' ', space_count);
 	space_line[0] = '\n'; // düzelt
