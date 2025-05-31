@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:59:47 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/28 15:56:37 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/30 17:37:00 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,7 @@ void draw_square(int x, int y, int size, int color, t_cube *game)
 }
 
 
-float distance(float x1, float y1, float x2, float y2, t_player player) // fisheye fix
-{
-    float dx;
-    float dy;
-    float dist;
-    float angle_diff;
 
-    dx = x2 - x1;
-    dy = y2 - y1;
-    dist = sqrt(dx * dx + dy * dy);
-    angle_diff = atan2(dy, dx) - player.angle;
-
-    return (dist * cos(angle_diff));
-}
 
 
 int main(int argc, char **argv)

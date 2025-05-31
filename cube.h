@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/28 15:40:22 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/30 15:19:50 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ char **get_map(void);
 void draw_map(t_cube *cub);
 bool is_colliding(float ray_x, float ray_y, t_cube *cub);
 bool is_colliding_point(float ray_x, float ray_y, t_cube *cub);
-float distance(float x1, float y1, float x2, float y2, t_player player);
+float distance(float x1, float y1, float x2, float y2, t_player player, t_cube *cub);
 
 void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang);
 void radar(t_cube *cub, int column, float angle);
