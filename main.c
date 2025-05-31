@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:59:47 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/30 17:59:00 by yalp             ###   ########.fr       */
+/*   Updated: 2025/05/31 14:50:46 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ char	**ft_split(char const *s, char c)
 	return (words);
 }
 
-void end(t_cube *cube)
+void end(t_cube *cube, int exit_code)
 {
 	int	i;
 
@@ -141,15 +141,16 @@ void end(t_cube *cube)
 		free(cube->values_c);
 	if (cube->values_f != NULL)
 		free(cube->values_f);
-	exit(EXIT_FAILURE);
+	
+	exit(exit_code);
 }
 
 void arg_check(int argc, char **argv)
 {
 	if (argc != 2)
 	{
-	fprintf(stderr, "Error: Wrong number of arguments\n");
-	exit(EXIT_FAILURE);
+		fprintf(stderr, "Error: Wrong number of arguments\n");
+		exit(EXIT_FAILURE);
 	}
 	if (argv[1][strlen(argv[1]) - 4] != '.')
 	{
@@ -172,6 +173,7 @@ void init_cube(t_cube *cube)
 {
 	cube->map = NULL;
 	cube->cpymap = NULL;
+	cube->cpy_map = NULL;
 	cube->texture_n = NULL;
 	cube->texture_s = NULL;
 	cube->texture_e = NULL;
@@ -290,8 +292,8 @@ int *init_values(char *color)
     values = malloc(sizeof(int) * 3);
     if (!values)
     {
-        free(rgb);
-        return NULL;
+        free_double_pointer(rgb);
+        return (NULL);
     }
     i = 0;
     while (i < 3 && rgb[i])
@@ -353,6 +355,19 @@ int is_valid_path(char *line)
     return 1;
 }
 
+void free_double_pointer(char **ptr)
+{
+	int i = 0;
+	if (!ptr)
+		return;
+	while (ptr[i])
+	{
+		free(ptr[i]);
+		i++;
+	}
+	free(ptr);
+}
+
 // RGB kontrolü (F ve C için) burayı hallediceem split ile virgüle göre bölüp sayıları kontrol edicem
 int is_valid_rgb(char *line)
 {
@@ -367,26 +382,26 @@ int is_valid_rgb(char *line)
         i++;;
     if (i != 3)
     {
-        free(rgb);
+        free_double_pointer(rgb);
         return 0;
     }
+	if (ft_strlen_gnl(rgb[0]) > 3 || ft_strlen_gnl(rgb[1]) > 3 || ft_strlen_gnl(rgb[2]) > 3)
+	{
+		free_double_pointer(rgb);
+		return 0;
+	}
     i = 0;
     while (rgb[i])
     {
         if (ft_atoi(rgb[i]) < 0 || ft_atoi(rgb[i]) > 255)
         {
-			i = 0;
-            while(rgb[i])
-				free(rgb[i++]);
-			free(rgb);
+			free_double_pointer(rgb);
             return 0;
         }
         i++;
     }
 	i = 0;
-	while(rgb[i])
-		free(rgb[i++]);
-	free(rgb);
+	free_double_pointer(rgb);
     return (1);
 }
 
@@ -431,12 +446,12 @@ void check_file(t_cube *cube)
             if (id >= 1 && id <= 4 && !is_valid_path(content))
             {
                 fprintf(stderr, "Error: Invalid path for identifier: %s", cube->all_of_file[i]);
-                end(cube);
+                end(cube, 1);
             }
             if ((id == 5 || id == 6) && !is_valid_rgb(content))
             {
                 fprintf(stderr, "Error: Invalid RGB value for identifier: %s", cube->all_of_file[i]);
-                end(cube);
+                end(cube, 1);
             }
 			send_to_init(cube, cube->all_of_file[i], id);
         }
@@ -445,12 +460,12 @@ void check_file(t_cube *cube)
         else if (map_started && id)
         {
             fprintf(stderr, "Error: Identifier after map started: %s", cube->all_of_file[i]);
-            end(cube);
+            end(cube, 1);
         }
         else if (!map_started && !id)
         {
             fprintf(stderr, "Error: Invalid identifier or map line: %s", cube->all_of_file[i]);
-            end(cube);
+            end(cube, 1);
         }
         i++;
     }
@@ -458,7 +473,7 @@ void check_file(t_cube *cube)
     {
         fprintf(stderr, "Error: Identifiers must be defined exactly once (NO:%d SO:%d EA:%d WE:%d F:%d C:%d)\n",
             cube->count_n, cube->count_s, cube->count_e, cube->count_w, cube->count_f, cube->count_c);
-        end(cube);
+        end(cube, 1);
     }
 }
 
@@ -495,7 +510,7 @@ void get_map(t_cube *cube)
 	if (!cube->map)
 	{
 		fprintf(stderr, "Error: Memory allocation failed for map\n");
-		end(cube);
+		end(cube, 1);
 	}
 	while (j < i)
 	{
@@ -516,7 +531,7 @@ char **mapcpy(char **map, t_cube *cube)
 	if (!cpymap)
 	{
 		fprintf(stderr, "Error: Memory allocation failed for cpymap\n");
-		end(cube);
+		end(cube, 1);
 	}
 	i = 0;
 	while (map[i] != NULL)
@@ -555,7 +570,7 @@ void check_player(t_cube *cube)
 	if (cube->player_count != 1)
 	{
 		fprintf(stderr, "Error: There must be exactly one player in the map\n");
-		end(cube);
+		end(cube, 1);
 	}
 }
 
@@ -564,7 +579,7 @@ void flood_fill(char **map, int x, int y, t_cube *cube)
 	if (map[y][x] == ' ' || map[y][x] == '\t')
 	{
 		printf("Error: Invalid map");
-		end(cube);
+		end(cube, 1);
 	}
 	if (map[y][x] == '1' || map[y][x] == 'X')
 		return ;
@@ -592,7 +607,7 @@ void add_space(char **map, int i, t_cube *cube)
     if (!new_line)
     {
         fprintf(stderr, "Error: Memory allocation failed\n");
-        end(cube);
+        end(cube, 1);
     }
     new_line[0] = ' ';
     if (has_newline)
@@ -628,7 +643,7 @@ void add_space_line(char ***map_ptr, int space_count, t_cube *cube)
     if (!new_map)
     {
         fprintf(stderr, "Error: Memory allocation failed\n");
-        end(cube);
+        end(cube, 1);
     }
 
     // Baştaki tamamen space olan satırı oluştur
@@ -636,7 +651,7 @@ void add_space_line(char ***map_ptr, int space_count, t_cube *cube)
     if (!space_line)
     {
         fprintf(stderr, "Error: Memory allocation failed\n");
-        end(cube);
+        end(cube, 1);
     }
     memset(space_line, ' ', space_count);
     space_line[space_count] = '\n';
@@ -744,7 +759,7 @@ void check_double_map(char **map, t_cube *cube)
 			if (ft_strchr_gnl("01NSEW", map[i][j]) != 0)
 			{
 				printf("invalid map\n");
-				end(cube);
+				end(cube, 1);
 			}
 		
 			j++;
@@ -769,9 +784,32 @@ void ffill(char **map, int x, int y, t_cube *cube)
         ffill(map, x, y - 1, cube);
 }
 
+void check_map_chars(char **map, t_cube *cube)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (map[i] != NULL)
+	{
+		j = 0;
+		while (map[i][j] != '\0')
+		{
+			if (ft_strchr_gnl("01NSEW ", map[i][j]) == 0)
+			{
+				fprintf(stderr, "Error: Invalid character '%c' in map\n", map[i][j]);
+				end(cube, 1);
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
 void check_map(t_cube *cube)
 {
 	check_player(cube);
+	check_map_chars(cube->map, cube);
 	cube->cpymap=mapcpy(cube->map, cube);
 	manage_map(&cube->cpymap, cube);
 	cube->cpy_map=mapcpy(cube->cpymap, cube);
@@ -800,7 +838,7 @@ int main(int argc, char **argv)
 	get_map(&cube);
 	check_map(&cube);
 
-    end(&cube);
+    end(&cube, 0);
     //init_mlx(&cube);
 
     return (0);
