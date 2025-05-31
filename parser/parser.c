@@ -6,11 +6,11 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:58:58 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/05/31 16:58:45 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/31 19:29:22 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube.h"
+#include "../cube.h"
 
 void free_double_pointer(char **ptr)
 {
@@ -206,17 +206,6 @@ void init_cube(t_cube *cube)
 	cube->count_w = 0;
 	cube->count_f = 0;
 	cube->count_c = 0;
-    
-    cube->e_text.data = NULL;
-    cube->w_text.data = NULL;
-    cube->n_text.data = NULL;
-    cube->s_text.data = NULL;
-    
-    cube->r = 0;
-    cube->g = 0;
-    cube->b = 255;
-    cube->fps = 0;
-
 }
 void read_file(t_cube *cube, char *file)
 {
@@ -246,24 +235,48 @@ void read_file(t_cube *cube, char *file)
 	cube->all_of_file[i] = NULL;
 	close(fd);
 }
+
 int is_ident_line(char *line)
 {
+	printf("DEBUG: Checking line: '%s'\n", line);
 	while (*line == ' '|| *line == '\t')
 		line++;
-	if (*line == 'N' && *(line + 1) == 'O')
+	printf("DEBUG: After skipping spaces: '%s'\n", line);
+	if (*line == 'N' && *(line + 1) == 'O' && (*(line + 2) == ' ' || *(line + 2) == '\t'))
+	{
+		printf("DEBUG: Found NO identifier\n");
 		return (1);
-	else if (*line == 'S' && *(line + 1) == 'O')
+	}
+	else if (*line == 'S' && *(line + 1) == 'O' && (*(line + 2) == ' ' || *(line + 2) == '\t'))
+	{
+		printf("DEBUG: Found SO identifier\n");
 		return (2);
-	else if (*line == 'E' && *(line + 1) == 'A')
+	}
+	else if (*line == 'E' && *(line + 1) == 'A' && (*(line + 2) == ' ' || *(line + 2) == '\t'))
+	{
+		printf("DEBUG: Found EA identifier\n");
 		return (3);
-	else if (*line == 'W' && *(line + 1) == 'E')
+	}
+	else if (*line == 'W' && *(line + 1) == 'E' && (*(line + 2) == ' ' || *(line + 2) == '\t'))
+	{
+		printf("DEBUG: Found WE identifier\n");
 		return (4);
+	}
 	else if (*line == 'F' && (*(line + 1) == ' ' || *(line + 1) == '\t'))
+	{
+		printf("DEBUG: Found F identifier\n");
 		return (5);
+	}
 	else if (*line == 'C' && (*(line + 1) == ' ' || *(line + 1) == '\t'))
+	{
+		printf("DEBUG: Found C identifier\n");
 		return (6);
+	}
 	else
+	{
+		printf("DEBUG: No identifier found\n");
 		return (0);
+	}
 }
 
 // Satır başındaki boşlukları atla
@@ -369,35 +382,48 @@ int is_valid_rgb(char *line)
 {
     char    **rgb;
     int     i;
+    char    *trimmed_line;
 
+    // Remove newline and trailing spaces
+    trimmed_line = trim_spaces(line);
+    
     i = 0;
-    rgb = ft_split(skip_spaces(skip_spaces(line) + 1 ), ',');
+    rgb = ft_split(skip_spaces(trimmed_line), ',');
     if (!rgb)
         return (0);
     while (rgb[i])
-        i++;;
+        i++;
     if (i != 3)
     {
         free_double_pointer(rgb);
         return 0;
     }
-	if (ft_strlen_gnl(rgb[0]) > 3 || ft_strlen_gnl(rgb[1]) > 3 || ft_strlen_gnl(rgb[2]) > 3)
-	{
-		free_double_pointer(rgb);
-		return 0;
-	}
+    
+    // Trim each RGB component individually
     i = 0;
     while (rgb[i])
     {
-        if (ft_atoi(rgb[i]) < 0 || ft_atoi(rgb[i]) > 255)
+        rgb[i] = trim_spaces(rgb[i]);
+        if (ft_strlen_gnl(rgb[i]) > 3 || ft_strlen_gnl(rgb[i]) == 0)
         {
-			free_double_pointer(rgb);
+            free_double_pointer(rgb);
             return 0;
         }
         i++;
     }
-	i = 0;
-	free_double_pointer(rgb);
+    
+    i = 0;
+    while (rgb[i])
+    {
+        int val = ft_atoi(rgb[i]);
+        if (val < 0 || val > 255)
+        {
+            free_double_pointer(rgb);
+            return 0;
+        }
+        i++;
+    }
+    free_double_pointer(rgb);
     return (1);
 }
 
@@ -428,17 +454,26 @@ void check_file(t_cube *cube)
     int i = 0;
     int map_started = 0;
 
+    printf("DEBUG: Starting check_file\n");
     while (cube->all_of_file[i])
     {
+        printf("DEBUG: Processing line %d: '%s'\n", i, cube->all_of_file[i]);
         if (is_empty_line(cube->all_of_file[i]))
         {
+            printf("DEBUG: Line %d is empty\n", i);
             i++;
             continue;
         }
         int id = is_ident_line(cube->all_of_file[i]);
+        printf("DEBUG: Line %d identifier result: %d\n", i, id);
         if (!map_started && id)
         {
-            char *content = cube->all_of_file[i] + 2;
+            char *content;
+            if (id >= 1 && id <= 4)
+                content = cube->all_of_file[i] + 2;  // Skip 2 chars for NO, SO, EA, WE
+            else
+                content = cube->all_of_file[i] + 1;  // Skip 1 char for F, C
+            
             if (id >= 1 && id <= 4 && !is_valid_path(content))
             {
                 fprintf(stderr, "Error: Invalid path for identifier: %s", cube->all_of_file[i]);
@@ -574,7 +609,7 @@ void flood_fill(char **map, int x, int y, t_cube *cube)
 {
 	if (map[y][x] == ' ' || map[y][x] == '\t')
 	{
-		fprintf(stderr, "Error: Invalid map - not properly enclosed\n");
+		fprintf(stderr, "Error: Invalid map\n");
 		end(cube, 1);
 	}
 	if (map[y][x] == '1' || map[y][x] == 'X')
@@ -705,6 +740,7 @@ void fill_space(char ***map, t_cube *cube)
     char *line;
     char *newline_pos;
 
+    (void)cube;  // Mark as intentionally unused
     max_length = find_largest_line(*map);
     i = 0;
     while ((*map)[i] != NULL)
@@ -751,11 +787,12 @@ void check_double_map(char **map, t_cube *cube)
 	{
 		j = 0;
 		while (map[i][j] != '\0')
-		{		if (ft_strchr_gnl("01NSEW", map[i][j]) != 0)
 		{
-			fprintf(stderr, "Error: Invalid map character during validation\n");
-			end(cube, 1);
-		}
+			if (ft_strchr_gnl("01NSEW", map[i][j]) != 0)
+			{
+				printf("invalid map\n");
+				end(cube, 1);
+			}
 		
 			j++;
 		}
@@ -790,7 +827,12 @@ void check_map_chars(char **map, t_cube *cube)
 		j = 0;
 		while (map[i][j] != '\0')
 		{
-			if (ft_strchr_gnl("01NSEW \n", map[i][j]) == 0)
+			if (map[i][j] == '\n')
+			{
+				j++;  // Skip newline character
+				continue;
+			}
+			if (ft_strchr_gnl("01NSEW ", map[i][j]) == 0)
 			{
 				fprintf(stderr, "Error: Invalid character '%c' in map\n", map[i][j]);
 				end(cube, 1);
@@ -811,9 +853,13 @@ void check_map(t_cube *cube)
 	int i = 0;
 	flood_fill(cube->cpymap, cube->player_x + 1, cube->player_y + 1, cube);
 	ffill(cube->cpy_map, cube->player_x + 1, cube->player_y + 1, cube);
+	while (cube->cpy_map[i] != NULL)
+	{
+		printf("%s\n", cube->cpy_map[i]);
+		i++;
+	}
 	check_double_map(cube->cpy_map, cube);
 }
-
 
 int parser(int argc, char **argv, t_cube *cube)
 {
@@ -825,8 +871,5 @@ int parser(int argc, char **argv, t_cube *cube)
 	get_map(cube);
 	check_map(cube);
     
-    // Player starting position initialized
-    
-    // Don't call end() here, return to main instead
     return (0);
 }

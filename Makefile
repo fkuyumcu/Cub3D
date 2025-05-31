@@ -10,7 +10,7 @@ SRC = main.c \
       paint_it_black.c \
       key_actions.c \
       collision.c \
-      parser.c \
+      parser/parser.c \
       gnl/get_next_line.c \
       gnl/get_next_line_utils.c \
 
