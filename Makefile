@@ -11,6 +11,7 @@ SRC = main.c \
 	  paint_it_black.c \
 	  key_actions.c \
 	  collision.c \
+	  parser.c \
 	  
 
 OBJ = $(SRC:.c=.o)

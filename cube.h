@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/30 15:19:50 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/31 15:04:23 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <string.h>
 # include "minilibx-linux/mlx.h"
+# include "gnl/get_next_line.h"
 # include <stdbool.h>
 # include <math.h>
 # include <sys/time.h>
@@ -50,21 +51,16 @@ typedef enum e_face
 	WEST
 }t_face;
 
-// DDA algoritması için yapı
-typedef struct s_dda
+typedef struct s_text
 {
-	float delta_dist_x;  // X ekseni boyunca bir grid'den diğerine mesafe
-	float delta_dist_y;  // Y ekseni boyunca bir grid'den diğerine mesafe
-	float side_dist_x;   // Ray'den sonraki X grid'e mesafe
-	float side_dist_y;   // Ray'den sonraki Y grid'e mesafe
-	int step_x;          // X yönünde adım (+1 veya -1)
-	int step_y;          // Y yönünde adım (+1 veya -1)
-	int map_x;           // Mevcut grid X koordinatı
-	int map_y;           // Mevcut grid Y koordinatı
-	int hit;             // Duvarla çarpışma flag'i
-	int side;            // 0: X tarafından vuruş, 1: Y tarafından vuruş
-	float perpendicular_wall_dist; // Duvara dik mesafe
-}t_dda;
+	void *img;
+	int *data;
+	int width;
+	int height;
+	int bpp;
+	int line_length;
+	int endian;
+}t_text;
 
 typedef struct s_player
 {
@@ -84,21 +80,12 @@ typedef struct s_player
 }	t_player;
 
 
-typedef struct s_text
-{
-	void *img;
-	int *data;
-	int width;
-	int height;
-	int bpp;
-	int line_length;
-	int endian;
-}t_text;
-
 typedef struct s_cube
 {
 	char	**all_of_file;
 	char	**map;
+	char	**cpymap;
+	char    **cpy_map;
 	char	*texture_s;
 	int		count_s;
 	char	*texture_n;
@@ -109,9 +96,18 @@ typedef struct s_cube
 	int		count_e;
 	char	*color_c;
 	int		count_c;
+	int		*values_c;
 	char	*color_f;
 	int		count_f;
+	int		*values_f;
 	char	player_pov;
+	int		player_count;
+	int		player_x;
+	int		player_y;
+	int		width;
+	int		height;
+	void	*mlx;
+	void	*win;
 
 	void	*img;
 	void	*mlx;
@@ -131,16 +127,18 @@ typedef struct s_cube
 	float angle_step;
 	float elapsed_time;
 
-	int fps;
-	int r;
-	int g;
-	int b;
-	t_face wall_face;
-    t_player player;
 	t_text e_text;
 	t_text w_text;
 	t_text n_text;
 	t_text s_text;
+	int r;
+	int g;
+	int b;
+	
+	int fps;
+	t_face wall_face;
+    t_player player;
+
 }	t_cube;
 
 

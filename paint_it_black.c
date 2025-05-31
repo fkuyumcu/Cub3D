@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:02:46 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/05/31 13:30:23 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/31 14:50:55 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,6 @@ void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang)
 
     float dist = fabs(perpDist * BLOCK_SIZE);
 
-
-    
     float height = (BLOCK_SIZE / dist) * WIDTH;
     float startO = (HEIGHT - height)/2, endO = startO + height;
     int start = fmax(0, (int)startO), end = fmin(HEIGHT-1, (int)endO);
