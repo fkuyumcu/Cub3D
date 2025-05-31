@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:31:28 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/31 15:35:43 by yalp             ###   ########.fr       */
+/*   Updated: 2025/05/31 16:14:22 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,5 @@ void end(t_cube *cube, int exit_code)
 		free(cube->values_c);
 	if (cube->values_f != NULL)
 		free(cube->values_f);
-	
 	exit(exit_code);
 }
