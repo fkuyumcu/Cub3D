@@ -6,12 +6,17 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:58:58 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/05/31 15:37:17 by yalp             ###   ########.fr       */
+/*   Updated: 2025/05/31 15:42:59 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
 
+void put_error(char *message, t_cube *cube)
+{
+	ft_putstr_fd(2, "Error: %s\n", message);
+	end(cube, 1);
+}
 
 
 void arg_check(int argc, char **argv)
@@ -149,10 +154,8 @@ void check_player(t_cube *cube)
 		i++;
 	}
 	if (cube->player_count != 1)
-	{
-		fprintf(stderr, "Error: There must be exactly one player in the map\n");
-		end(cube, 1);
-	}
+		put_error("Error: There must be exactly one player in the map\n", cube);
+
 }
 
 

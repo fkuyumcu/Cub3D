@@ -6,11 +6,31 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:30:25 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/31 15:37:22 by yalp             ###   ########.fr       */
+/*   Updated: 2025/05/31 15:41:37 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
+
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	int	i;
+
+	i = 0;
+	if (s[i] != '\0')
+	{
+		while (s[i] != '\0')
+		{
+			ft_putchar_fd(s[i], fd);
+			i++;
+		}
+	}
+}
 
 char *ft_strdup(const char *s1)
 {
