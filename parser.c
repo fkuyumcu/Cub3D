@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:58:58 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/05/31 15:27:39 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/31 16:58:45 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,17 @@ void init_cube(t_cube *cube)
 	cube->count_w = 0;
 	cube->count_f = 0;
 	cube->count_c = 0;
+    
+    cube->e_text.data = NULL;
+    cube->w_text.data = NULL;
+    cube->n_text.data = NULL;
+    cube->s_text.data = NULL;
+    
+    cube->r = 0;
+    cube->g = 0;
+    cube->b = 255;
+    cube->fps = 0;
+
 }
 void read_file(t_cube *cube, char *file)
 {
@@ -247,9 +258,9 @@ int is_ident_line(char *line)
 		return (3);
 	else if (*line == 'W' && *(line + 1) == 'E')
 		return (4);
-	else if (*line == 'F')
+	else if (*line == 'F' && (*(line + 1) == ' ' || *(line + 1) == '\t'))
 		return (5);
-	else if (*line == 'C')
+	else if (*line == 'C' && (*(line + 1) == ' ' || *(line + 1) == '\t'))
 		return (6);
 	else
 		return (0);
@@ -563,7 +574,7 @@ void flood_fill(char **map, int x, int y, t_cube *cube)
 {
 	if (map[y][x] == ' ' || map[y][x] == '\t')
 	{
-		printf("Error: Invalid map");
+		fprintf(stderr, "Error: Invalid map - not properly enclosed\n");
 		end(cube, 1);
 	}
 	if (map[y][x] == '1' || map[y][x] == 'X')
@@ -740,12 +751,11 @@ void check_double_map(char **map, t_cube *cube)
 	{
 		j = 0;
 		while (map[i][j] != '\0')
+		{		if (ft_strchr_gnl("01NSEW", map[i][j]) != 0)
 		{
-			if (ft_strchr_gnl("01NSEW", map[i][j]) != 0)
-			{
-				printf("invalid map\n");
-				end(cube, 1);
-			}
+			fprintf(stderr, "Error: Invalid map character during validation\n");
+			end(cube, 1);
+		}
 		
 			j++;
 		}
@@ -780,7 +790,7 @@ void check_map_chars(char **map, t_cube *cube)
 		j = 0;
 		while (map[i][j] != '\0')
 		{
-			if (ft_strchr_gnl("01NSEW ", map[i][j]) == 0)
+			if (ft_strchr_gnl("01NSEW \n", map[i][j]) == 0)
 			{
 				fprintf(stderr, "Error: Invalid character '%c' in map\n", map[i][j]);
 				end(cube, 1);
@@ -801,28 +811,22 @@ void check_map(t_cube *cube)
 	int i = 0;
 	flood_fill(cube->cpymap, cube->player_x + 1, cube->player_y + 1, cube);
 	ffill(cube->cpy_map, cube->player_x + 1, cube->player_y + 1, cube);
-	while (cube->cpy_map[i] != NULL)
-	{
-		printf("%s\n", cube->cpy_map[i]);
-		i++;
-	}
 	check_double_map(cube->cpy_map, cube);
 }
 
 
-int parser(int argc, char **argv)
+int parser(int argc, char **argv, t_cube *cube)
 {
-    t_cube cube;
-
-    int i = 0;
-    init_cube(&cube);
+    init_cube(cube);  // Initialize first
+    init_player(cube);
     arg_check(argc, argv);
-    read_file(&cube, argv[1]);
-    check_file(&cube);
-	get_map(&cube);
-	check_map(&cube);
-
-    end(&cube, 0);
-
+    read_file(cube, argv[1]);
+    check_file(cube);
+	get_map(cube);
+	check_map(cube);
+    
+    // Player starting position initialized
+    
+    // Don't call end() here, return to main instead
     return (0);
 }

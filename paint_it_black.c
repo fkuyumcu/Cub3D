@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:02:46 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/05/31 14:50:55 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/31 16:48:01 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,23 @@ void draw_textured_wall(t_cube *cub, int column, int start, int end, float shade
 {
     int y;
     int color;
+    
+    // Safety checks
+    if (!texture || !texture->data || texture->width <= 0 || texture->height <= 0)
+        return;
+    
+    if (tex_x < 0 || tex_x >= texture->width)
+        return;
+    
     y = start;
     while (y < end)
     {
         int tex_y;
         tex_y = ((y - start_orig) / ray_height) * texture->height;
+        
+        // Ensure tex_y is within bounds
+        if (tex_y < 0) tex_y = 0;
+        if (tex_y >= texture->height) tex_y = texture->height - 1;
         
         color = texture->data[tex_y * (texture->line_length / 4) + tex_x];
         put_pixel(column, y, color, cub);        
@@ -96,7 +108,7 @@ void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang)
             mapY += stepY;
             side = 1;
         }
-        if (cub->map[mapY] && cub->map[mapY][mapX] == '1')
+        if (mapY < 0 || mapX < 0 || !cub->map[mapY] || !cub->map[mapY][mapX] || cub->map[mapY][mapX] == '1')
             break;
     }
     // ışının sola ya da sağa bakmasına göre duvar yüzeyini belirle

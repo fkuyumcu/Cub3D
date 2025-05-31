@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/31 15:04:23 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/05/31 16:06:31 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,12 +106,10 @@ typedef struct s_cube
 	int		player_y;
 	int		width;
 	int		height;
-	void	*mlx;
 	void	*win;
 
 	void	*img;
 	void	*mlx;
-	void	*win;
 
 	char *data;
     int bpp;
@@ -153,7 +151,6 @@ void draw_square(int x, int y, int size, int color, t_cube *game);
 int key_press_hook(int keycode, void *param);
 int key_release_hook(int keycode, void *param);
 void clear_image(t_cube *cube);
-char **get_map(void);
 void draw_map(t_cube *cub);
 bool is_colliding(float ray_x, float ray_y, t_cube *cub);
 bool is_colliding_point(float ray_x, float ray_y, t_cube *cub);
@@ -163,7 +160,7 @@ void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang);
 void radar(t_cube *cub, int column, float angle);
 int loop_hook(t_cube *cube);
 
-void end(t_cube *cube);
+
 void arg_check(int argc, char **argv);
 void init_cube(t_cube *cube);
 
@@ -173,6 +170,8 @@ int key_press(int keycode, t_player *player);
 int key_release(int keycode, t_player *player);
 void move_player(t_player *player);
 void set_background(int start, int end, t_cube *cub, int i);
+
+int parser(int argc, char **argv,  t_cube *cube);
 
 
 
