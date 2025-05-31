@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:58:58 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/05/31 15:42:59 by yalp             ###   ########.fr       */
+/*   Updated: 2025/05/31 16:17:13 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,22 @@ void arg_check(int argc, char **argv)
 {
 	if (argc != 2)
 	{
-		fprintf(stderr, "Error: Wrong number of arguments\n");
+		ft_putstr_fd(2, "Error: Wrong number of arguments\n");
 		exit(EXIT_FAILURE);
 	}
 	if (argv[1][strlen(argv[1]) - 4] != '.')
 	{
-		fprintf(stderr, "Error: Invalid file extension\n");
+		ft_putstr_fd(2, "Error: Invalid file extension\n");
 		exit(EXIT_FAILURE);
 	}
 	if (strcmp(&argv[1][strlen(argv[1]) - 4], ".cub") != 0)
 	{
-		fprintf(stderr, "Error: Invalid file extension\n");
+		ft_putstr_fd(2, "Error: Invalid file extension\n");
 		exit(EXIT_FAILURE);
 	}
 	if (open(argv[1], O_RDONLY) < 0)
 	{
-		fprintf(stderr, "Error: File can not be read\n");
+		ft_putstr_fd(2, "Error: File can not be read\n");
 		exit(EXIT_FAILURE);
 	}
 }
