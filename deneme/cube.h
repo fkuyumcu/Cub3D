@@ -5,6 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/01 14:49:57 by yalp              #+#    #+#             */
+/*   Updated: 2025/06/01 14:53:50 by yalp             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cube.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
 /*   Updated: 2025/06/01 14:47:06 by yalp             ###   ########.fr       */
 /*                                                                            */
@@ -17,7 +29,6 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <string.h>
-# include "minilibx-linux/mlx.h"
 # include "gnl/get_next_line.h"
 # include <stdbool.h>
 # include <math.h>
@@ -172,39 +183,14 @@ void ffill(char **map, int x, int y, t_cube *cube);
 void check_map_chars(char **map, t_cube *cube);
 void check_map(t_cube *cube);
 void	ft_putchar_fd(char c, int fd);
-void	ft_putstr_fd(char *s, int fd);
+void	ft_putstr_fd(int fd, char *s);
 char *ft_strdup(const char *s1);
 int	ft_atoi(const char *str);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 static int	cw(char const *str, char c);
 char	**ft_split(char const *s, char c);
+void check_player(t_cube *cube);
 
-void put_pixel(int x, int y, int color, t_cube *game);
-void init_mlx(t_cube *cube);
-void draw_square(int x, int y, int size, int color, t_cube *game);
-int key_press_hook(int keycode, void *param);
-int key_release_hook(int keycode, void *param);
-void clear_image(t_cube *cube);
-char **get_map(void);
-void draw_map(t_cube *cub);
-bool is_colliding(float ray_x, float ray_y, t_cube *cub);
-bool is_colliding_point(float ray_x, float ray_y, t_cube *cub);
-float distance(float x1, float y1, float x2, float y2, t_player player, t_cube *cub);
-
-void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang);
-void radar(t_cube *cub, int column, float angle);
-int loop_hook(t_cube *cube);
-
-void end(t_cube *cube, int exit_code);
-void arg_check(int argc, char **argv);
-void init_cube(t_cube *cube);
-
-
-void init_player(t_cube *cube);
-int key_press(int keycode, t_player *player);
-int key_release(int keycode, t_player *player);
-void move_player(t_player *player);
-void set_background(int start, int end, t_cube *cub, int i);
 
 
 
