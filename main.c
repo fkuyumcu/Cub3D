@@ -33,6 +33,7 @@ int main(int argc, char **argv)
 
     parser(argc, argv, &cube);
     init_mlx(&cube);
+    init_player(&cube); // Bu satırı ekliyoruz!
     
     cube.player.x = (cube.player_x * BLOCK_SIZE) + (BLOCK_SIZE / 2);
     cube.player.y = (cube.player_y * BLOCK_SIZE) + (BLOCK_SIZE / 2);

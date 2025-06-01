@@ -57,7 +57,7 @@ int loop_hook(t_cube *cube)
     int column;
     
     cube->fps = calculate_fps(cube);
-    printf("FPS: %d\n", cube->fps);
+    //printf("FPS: %d\n", cube->fps);
     column = 0;
     move_player(&cube->player);
     clear_image(cube);

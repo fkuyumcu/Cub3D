@@ -1,19 +1,23 @@
 NAME = cub3D
 
 CC = cc
-CFLAGS = -fPIE # -Wall -Wextra -Werror
-LIBRARY = -Lminilibx-linux -lmlx -lX11 -lXext -lm -g
+CFLAGS = -fPIE -g  #-Wall -Wextra -Werror
+LIBRARY = -Lminilibx-linux -lmlx -lX11 -lXext -lm
 MINILIBX = minilibx-linux/
 SRC = main.c \
+      cube_utils.c \
       player.c\
-      inits.c \
-      paint_it_black.c \
-      key_actions.c \
-      collision.c \
-      parser/parser.c \
-      gnl/get_next_line.c \
-      gnl/get_next_line_utils.c \
-
+	  inits.c \
+	  paint_it_black.c \
+	  key_actions.c \
+	  collision.c \
+	  ./gnl/get_next_line.c \
+	  ./gnl/get_next_line_utils.c \
+	  ./parser/parser.c \
+	  ./parser/end.c \
+	  ./parser/file.c \
+	  ./parser/map.c \
+	  ./parser/parser_utils.c \
 
 OBJ = $(SRC:.c=.o)
 

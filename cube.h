@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/31 16:06:31 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/01 14:47:06 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,10 @@ typedef struct s_cube
 	int		player_y;
 	int		width;
 	int		height;
-	void	*win;
 
 	void	*img;
 	void	*mlx;
+	void	*win;
 
 	char *data;
     int bpp;
@@ -144,6 +144,40 @@ typedef struct s_cube
 void arg_check(int argc, char **argv);
 void init_cube(t_cube *cube);
 void check_file(t_cube *cube);
+void free_double_pointer(char **ptr);
+void end(t_cube *cube, int exit_code);
+char *skip_spaces(char *str);
+char *trim_spaces(char *str);
+int *init_values(char *color);
+void check_file(t_cube *cube);
+int is_empty_line(char *line);
+int is_valid_path(char *line);
+void init_idents(t_cube *cube, char *line, int id);
+void send_to_init(t_cube *cube, char *line, int id);
+int is_ident_line(char *line);
+void read_file(t_cube *cube, char *file);
+void put_error(char *message, t_cube *cube);
+int is_valid_rgb(char *line);
+int is_map_line(char *line);
+int find_largest_line(char **map);
+void add_space_line(char ***map_ptr, int space_count, t_cube *cube);
+void get_map(t_cube *cube);
+char **mapcpy(char **map, t_cube *cube);
+void flood_fill(char **map, int x, int y, t_cube *cube);
+void add_space(char **map, int i, t_cube *cube);
+void fill_space(char ***map, t_cube *cube);
+void manage_map(char ***map, t_cube *cube);
+void check_double_map(char **map, t_cube *cube);
+void ffill(char **map, int x, int y, t_cube *cube);
+void check_map_chars(char **map, t_cube *cube);
+void check_map(t_cube *cube);
+void check_player(t_cube *cube);
+void	ft_putchar_fd(char c, int fd);
+void	ft_putstr_fd(char *s, int fd);
+char *ft_strdup(const char *s1);
+int	ft_atoi(const char *str);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	**ft_split(char const *s, char c);
 
 void put_pixel(int x, int y, int color, t_cube *game);
 void init_mlx(t_cube *cube);
@@ -160,18 +194,16 @@ void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang);
 void radar(t_cube *cub, int column, float angle);
 int loop_hook(t_cube *cube);
 
-
+void end(t_cube *cube, int exit_code);
 void arg_check(int argc, char **argv);
 void init_cube(t_cube *cube);
-
+int parser(int argc, char **argv, t_cube *cube);
 
 void init_player(t_cube *cube);
 int key_press(int keycode, t_player *player);
 int key_release(int keycode, t_player *player);
 void move_player(t_player *player);
 void set_background(int start, int end, t_cube *cub, int i);
-
-int parser(int argc, char **argv,  t_cube *cube);
 
 
 
