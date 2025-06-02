@@ -11,6 +11,7 @@ SRC = main.c \
 	  paint_it_black.c \
 	  key_actions.c \
 	  collision.c \
+	  ray_cast.c \
 	  ./gnl/get_next_line.c \
 	  ./gnl/get_next_line_utils.c \
 	  ./parser/parser.c \
@@ -25,7 +26,7 @@ OBJ = $(SRC:.c=.o)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJ)
-	make -C $(MINILIBX)
+	@make -C $(MINILIBX)
 	@$(CC) $(OBJ) $(CFLAGS) $(LIBRARY) -o $(NAME)
 
 all: $(NAME)

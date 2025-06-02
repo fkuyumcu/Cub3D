@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/01 14:47:06 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/02 14:15:06 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,16 @@ int key_press(int keycode, t_player *player);
 int key_release(int keycode, t_player *player);
 void move_player(t_player *player);
 void set_background(int start, int end, t_cube *cub, int i);
+
+void draw_textured_wall(t_cube *cub, int column, int start, int end, float shade, int ray_height, float start_orig, int tex_x, t_text *texture);
+t_text *get_wall_texture(t_cube *cub);
+int	ft_atoi(const char *str);
+void set_background(int start, int end, t_cube *cub, int i);
+
+void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang);
+
+
+
 
 
 
