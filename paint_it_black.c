@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:02:46 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/02 14:20:52 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/02 14:58:07 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ void draw_textured_wall(t_cube *cub, int column, int start, int end, float shade
 {
     int y;
     int color;
-    
-    if (tex_x < 0 || tex_x >= texture->width)
-        return;
-    
+        
     y = start;
     while (y < end)
     {
@@ -81,17 +78,13 @@ void set_background(int start, int end, t_cube *cub, int i)
     int ceiling_color = 0xFF0000;
     int basement_color = 0x0000FF;
     
-    
     int y;
     color = (cub->r << 16) | (cub->g << 8) | cub->b;
 
     y = -1;
 
     while (++y < start)
-        put_pixel(i, y, ceiling_color, cub); // ekranın en üst kısmının y değeri 0
-    // y = 0 ekranın en alt kısmı
-    // aşağı indikçe y değeri artmakta
-
+        put_pixel(i, y, ceiling_color, cub);
     y = end - 1;
     while (++y < HEIGHT - 1)
         put_pixel(i, y, basement_color, cub);

@@ -6,26 +6,13 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 14:12:52 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/02 14:34:35 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/02 14:55:39 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
 
-typedef struct s_ray
-{
-    float rayDirX;
-    float rayDirY;
-    float sideDistX;
-    float sideDistY;
-    float deltaDistX;
-    float deltaDistY;
-    int   mapX;
-    int   mapY;
-    int   stepX;
-    int   stepY;
-    int   side;
-}               t_ray;
+
 
 typedef struct s_draw_params
 {
@@ -36,7 +23,7 @@ typedef struct s_draw_params
     int   lineH;
 }               t_draw_params;
 
-static void init_ray(t_cube *cub, t_ray *ray, float sin_ang, float cos_ang)
+void init_ray(t_cube *cub, t_ray *ray, float sin_ang, float cos_ang)
 {
     ray->rayDirX = cos_ang;
     ray->rayDirY = sin_ang;
@@ -67,7 +54,7 @@ static void init_ray(t_cube *cub, t_ray *ray, float sin_ang, float cos_ang)
             * ray->deltaDistY;
 }
 
-static int dda_algorithm(t_cube *cub, t_ray *ray)
+int dda_algorithm(t_cube *cub, t_ray *ray)
 {
     while (1)
     {
@@ -88,10 +75,10 @@ static int dda_algorithm(t_cube *cub, t_ray *ray)
             || cub->map[ray->mapY][ray->mapX] == '1')
             break;
     }
-    return ray->side;
+    return (ray->side);
 }
 
-static void which_wall(t_cube *cub, t_ray *ray)
+void which_wall(t_cube *cub, t_ray *ray)
 {
     if (ray->side == 0)
     {
@@ -109,7 +96,7 @@ static void which_wall(t_cube *cub, t_ray *ray)
     }
 }
 
-static float get_perp_dist(t_cube *cub, t_ray *ray)
+float get_perp_dist(t_cube *cub, t_ray *ray)
 {
     float perpDist;
 
@@ -124,7 +111,7 @@ static float get_perp_dist(t_cube *cub, t_ray *ray)
     return perpDist;
 }
 
-static void compute_draw_params(float dist, t_draw_params *dp)
+void draw_params(float dist, t_draw_params *dp)
 {
     dp->startO = (HEIGHT - (BLOCK_SIZE / dist) * WIDTH) / 2;
     dp->endO = dp->startO + (BLOCK_SIZE / dist) * WIDTH;
@@ -164,7 +151,7 @@ void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang)
     which_wall(cub, &ray);
     perpDist = get_perp_dist(cub, &ray);
     dist = fabs(perpDist * BLOCK_SIZE);
-    compute_draw_params(dist, &dp);
+    draw_params(dist, &dp);
     tex = get_wall_texture(cub);
     tex_x = compute_tex_x(cub, &ray, perpDist, tex);
     draw_textured_wall(cub, i, dp.start, dp.end,

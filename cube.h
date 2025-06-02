@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/02 14:15:06 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/02 14:37:19 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,24 @@ typedef enum e_face
 	EAST,
 	WEST
 }t_face;
+
+
+
+
+typedef struct s_ray
+{
+    float rayDirX;
+    float rayDirY;
+    float sideDistX;
+    float sideDistY;
+    float deltaDistX;
+    float deltaDistY;
+    int   mapX;
+    int   mapY;
+    int   stepX;
+    int   stepY;
+    int   side;
+}               t_ray;
 
 typedef struct s_text
 {
