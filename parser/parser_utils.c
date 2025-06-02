@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:30:25 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/31 15:41:37 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/02 17:24:25 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_putchar_fd(char c, int fd)
 	write(fd, &c, 1);
 }
 
-void	ft_putstr_fd(char *s, int fd)
+void	ft_putstr_fd(int fd, char *s)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/01 14:47:06 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/02 17:13:43 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ void ffill(char **map, int x, int y, t_cube *cube);
 void check_map_chars(char **map, t_cube *cube);
 void check_map(t_cube *cube);
 void	ft_putchar_fd(char c, int fd);
-void	ft_putstr_fd(char *s, int fd);
+void	ft_putstr_fd(int fd, char *s);
 char *ft_strdup(const char *s1);
 int	ft_atoi(const char *str);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
