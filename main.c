@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:59:47 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/02 18:12:56 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/02 18:58:48 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ void draw_square(int x, int y, int size, int color, t_cube *game)
 int close_hook(t_cube *cube)
 {
     // free parser allocations
-    if (cube->all_of_file)
-        free_double_pointer(cube->all_of_file);
-    if (cube->map)
-        free_double_pointer(cube->map);
-    if (cube->cpymap)
-        free_double_pointer(cube->cpymap);
+    //if (cube->all_of_file)
+         //free_double_pointer(cube->all_of_file);
+     if (cube->map)
+         free_double_pointer(cube->map);
+     if (cube->cpymap)
+         free_double_pointer(cube->cpymap);
     if (cube->cpy_map)
-        free_double_pointer(cube->cpy_map);
+         free_double_pointer(cube->cpy_map);
 
     // destroy MLX images and window
     mlx_destroy_image(cube->mlx, cube->img);
@@ -47,8 +47,7 @@ int close_hook(t_cube *cube)
     mlx_destroy_image(cube->mlx, cube->s_text.img);
     mlx_destroy_window(cube->mlx, cube->win);
     mlx_destroy_display(cube->mlx);
-    free(cube->mlx);
-    exit(0);
+    end(cube, 0);
 }
 
 int main(int argc, char **argv)
