@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:58:58 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/02 18:16:20 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/02 18:25:00 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int is_valid_rgb(char *line, t_cube *cube)
     int     i;
 
     i = 0;
-    rgb = ft_split(skip_spaces(trim_spaces(line) + 1 ), ',');
+    rgb = ft_split(skip_spaces(trim_spaces(line)), ',');
     if (!rgb)
         return (0);
     while (rgb[i])
