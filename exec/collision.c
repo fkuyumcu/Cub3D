@@ -6,11 +6,11 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:20:24 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/05/28 16:04:20 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/02 15:56:20 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube.h"
+#include "../cube.h"
 
 bool is_colliding_point(float ray_x, float ray_y, t_cube *cub)
 {

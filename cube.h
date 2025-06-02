@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/02 14:37:19 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/02 18:09:04 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ typedef struct s_text
 	int *data;
 	int width;
 	int height;
-	int bpp;
 	int line_length;
 	int endian;
+	int bpp;
 }t_text;
 
 typedef struct s_player
@@ -175,7 +175,7 @@ void send_to_init(t_cube *cube, char *line, int id);
 int is_ident_line(char *line);
 void read_file(t_cube *cube, char *file);
 void put_error(char *message, t_cube *cube);
-int is_valid_rgb(char *line);
+int is_valid_rgb(char *line, t_cube *cube);
 int is_map_line(char *line);
 int find_largest_line(char **map);
 void add_space_line(char ***map_ptr, int space_count, t_cube *cube);

@@ -6,11 +6,11 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:02:46 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/02 15:01:58 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/02 18:14:28 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube.h"
+#include "../cube.h"
 
 
 t_text *get_wall_texture(t_cube *cub)
@@ -55,21 +55,20 @@ void radar(t_cube *cub, int column, float angle)
 
 void set_background(int start, int end, t_cube *cub, int i)
 {
-    //ceiling ve basement renklerini yunustan al
-    int color;
-    int ceiling_color = 0xFF0000;
-    int basement_color = 0x0000FF;
+    
+    int ceiling_hex = (cub->values_c[0] << 16) | (cub->values_c[1] << 8) | cub->values_c[2];
+    int basement_hex = (cub->values_f[0] << 16) | (cub->values_f[1] << 8) | cub->values_f[2];
+    
     
     int y;
-    color = (cub->r << 16) | (cub->g << 8) | cub->b;
 
     y = -1;
 
     while (++y < start)
-        put_pixel(i, y, ceiling_color, cub);
+        put_pixel(i, y, ceiling_hex, cub);
     y = end - 1;
     while (++y < HEIGHT - 1)
-        put_pixel(i, y, basement_color, cub);
+        put_pixel(i, y, basement_hex, cub);
 
 }
 

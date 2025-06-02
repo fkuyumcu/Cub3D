@@ -6,11 +6,11 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 14:12:52 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/02 15:22:10 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/02 15:56:20 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube.h"
+#include "../cube.h"
 
 
 
@@ -96,17 +96,17 @@ void which_wall(t_cube *cub, t_ray *ray)
     }
 }
 
-float get_perp_dist(t_cube *cub, t_ray *ray)
+float get_raw_dist(t_cube *cub, t_ray *ray)//camera plane distance hesaplanıyor
 {
-    float perpDist;
+    float rawdist;
 
     if (ray->side == 0)
-        perpDist = (ray->mapX - cub->player.x / BLOCK_SIZE
+        rawdist = (ray->mapX - cub->player.x / BLOCK_SIZE
             + (1 - ray->stepX) / 2) / ray->rayDirX;
     else
-        perpDist = (ray->mapY - cub->player.y / BLOCK_SIZE
+        rawdist = (ray->mapY - cub->player.y / BLOCK_SIZE
             + (1 - ray->stepY) / 2) / ray->rayDirY;
-    return perpDist;
+    return rawdist;
 }
 
 void draw_params(float dist, t_draw_params *dp)
@@ -118,7 +118,7 @@ void draw_params(float dist, t_draw_params *dp)
     dp->lineH = (int)(dp->endO - dp->startO);
 }
 
-static int compute_tex_x(t_cube *cub, t_ray *ray, float rawDist, t_text *tex)//texture'dan dilim dilim veri çekeceğimizden dolayı hangi x dilimine çarptığımızı hesaplayalım
+int get_x(t_cube *cub, t_ray *ray, float rawDist, t_text *tex)//texture'dan dilim dilim veri çekeceğimizden dolayı hangi x dilimine çarptığımızı hesaplayalım
 {
     float wallX;
     int   tex_x;
@@ -146,10 +146,11 @@ void draw_textured_wall(t_cube *cub, int column, int start, int end, float shade
         int tex_y;
         tex_y = ((y - start_orig) / ray_height) * texture->height;
         
-        if (tex_y < 0) tex_y = 0;
-        if (tex_y >= texture->height) tex_y = texture->height - 1;
+
+        if (tex_y >= texture->height)
+            tex_y = texture->height - 1;
         
-        color = texture->data[tex_y * (texture->line_length / 4) + tex_x];
+        color = texture->data[tex_y * (texture->line_length / 4) + tex_x];//texture datasından color seç
         put_pixel(column, y, color, cub);        
         y++;
     }
@@ -169,12 +170,12 @@ void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang)//texture yerleş
     init_ray(cub, &ray, sin_ang, cos_ang);
     dda_algorithm(cub, &ray);
     which_wall(cub, &ray);
-    rawDist = get_perp_dist(cub, &ray);
+    rawDist = get_raw_dist(cub, &ray);
     perpDist = rawDist * cos(atan2(ray.rayDirY, ray.rayDirX) - cub->player.angle);
-    dist = fabs(perpDist * BLOCK_SIZE);
+    dist = perpDist * BLOCK_SIZE;
     draw_params(dist, &dp);
     tex = get_wall_texture(cub);
-    tex_x = compute_tex_x(cub, &ray, rawDist, tex);
+    tex_x = get_x(cub, &ray, rawDist, tex);
     draw_textured_wall(cub, i, dp.start, dp.end,
         1.0f, dp.lineH, dp.startO, tex_x, tex);
     set_background(dp.start, dp.end, cub, i);

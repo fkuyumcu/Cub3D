@@ -6,11 +6,11 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:08:26 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/05/31 16:02:09 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/02 15:56:20 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube.h"
+#include "../cube.h"
 
 void init_mlx(t_cube *cube)
 {

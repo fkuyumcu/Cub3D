@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:58:58 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/01 15:21:34 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/02 18:16:20 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,15 @@ void init_cube(t_cube *cube)
 
 
 
+void init_rgbs(t_cube *cube, char **values)
+{
+	int ptr[3];
+	ptr[0] = ft_atoi(values[0]);
+	ptr[1] = ft_atoi(values[1]);
+	ptr[2] = ft_atoi(values[2]);
+}
 
-
-int is_valid_rgb(char *line)
+int is_valid_rgb(char *line, t_cube *cube)
 {
     char    **rgb;
     int     i;
@@ -111,7 +117,6 @@ int is_valid_rgb(char *line)
         }
         i++;
     }
-	i = 0;
 	free_double_pointer(rgb);
     return (1);
 }
@@ -169,6 +174,7 @@ int parser(int argc, char **argv, t_cube *cube)
     check_file(cube);
 	get_map(cube);
 	check_map(cube);
+	printf("%d", cube->values_c[0]);
 
     return (0);
 }

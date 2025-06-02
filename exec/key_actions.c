@@ -6,11 +6,11 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:06:18 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/05/26 20:30:49 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/02 15:56:20 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube.h"
+#include "../cube.h"
 
 int key_press_hook(int keycode, void *param)
 {
