@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:59:47 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/02 18:58:48 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/02 19:17:22 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,7 @@ void draw_square(int x, int y, int size, int color, t_cube *game)
 int close_hook(t_cube *cube)
 {
     // free parser allocations
-    //if (cube->all_of_file)
-         //free_double_pointer(cube->all_of_file);
-     if (cube->map)
-         free_double_pointer(cube->map);
-     if (cube->cpymap)
-         free_double_pointer(cube->cpymap);
-    if (cube->cpy_map)
-         free_double_pointer(cube->cpy_map);
+    
 
     // destroy MLX images and window
     mlx_destroy_image(cube->mlx, cube->img);
