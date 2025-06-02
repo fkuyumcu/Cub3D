@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:32:00 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/02 18:10:15 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/02 19:46:12 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,11 +217,9 @@ void read_file(t_cube *cube, char *file)
 	close(fd);
 	cube->all_of_file = malloc(sizeof(char *) * (y + 1));
 	fd = open(file, O_RDONLY);
-	while (y > 0)
-	{
+	while (y-- > 0)
 		cube->all_of_file[i++] = get_next_line(fd);
-		y--;
-	}
+    free(cube->all_of_file[i]);
 	cube->all_of_file[i] = NULL;
 	close(fd);
 }
