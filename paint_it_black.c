@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:02:46 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/02 14:58:07 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/02 15:01:58 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,7 @@ t_text *get_wall_texture(t_cube *cub)
 }
 
 
-void draw_textured_wall(t_cube *cub, int column, int start, int end, float shade, int ray_height, float start_orig, int tex_x, t_text *texture)
-{
-    int y;
-    int color;
-        
-    y = start;
-    while (y < end)
-    {
-        int tex_y;
-        tex_y = ((y - start_orig) / ray_height) * texture->height;
-        
-        if (tex_y < 0) tex_y = 0;
-        if (tex_y >= texture->height) tex_y = texture->height - 1;
-        
-        color = texture->data[tex_y * (texture->line_length / 4) + tex_x];
-        put_pixel(column, y, color, cub);        
-        y++;
-    }
-}
+
 
 
 void radar(t_cube *cub, int column, float angle)
