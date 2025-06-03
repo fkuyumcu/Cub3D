@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:58:58 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/03 15:15:48 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/03 15:53:20 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int check_len(char **rgb)
 		free_double_pointer(rgb);
 		return 0;
 	}
-	return (1)
+	return (1);
 }
 
 
