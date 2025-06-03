@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:58:58 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/03 14:51:36 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:15:48 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,33 @@ void init_cube(t_cube *cube)
 }
 
 
+int check_range(char **rgb)
+{
+	int i;
+
+	i = 0;
+	while (rgb[i])
+    {
+        if (ft_atoi(rgb[i]) < 0 || ft_atoi(rgb[i]) > 255)
+        {
+			free_double_pointer(rgb);
+            return 0;
+        }
+        i++;
+    }
+	return (1);
+}
+
+int check_len(char **rgb)
+{
+	if (strlen(rgb[0]) > 3 || strlen(rgb[1]) > 3 || strlen(rgb[2]) > 3)
+	{
+		free_double_pointer(rgb);
+		return 0;
+	}
+	return (1)
+}
+
 
 int is_valid_rgb(char *line)
 {
@@ -89,21 +116,13 @@ int is_valid_rgb(char *line)
         free_double_pointer(rgb);
         return 0;
     }
-	if (strlen(rgb[0]) > 3 || strlen(rgb[1]) > 3 || strlen(rgb[2]) > 3)
+	if (!check_len(rgb))
+		return 0;
+    if (!check_range(rgb))
 	{
 		free_double_pointer(rgb);
 		return 0;
 	}
-    i = 0;
-    while (rgb[i])
-    {
-        if (ft_atoi(rgb[i]) < 0 || ft_atoi(rgb[i]) > 255)
-        {
-			free_double_pointer(rgb);
-            return 0;
-        }
-        i++;
-    }
 	free_double_pointer(rgb);
     return (1);
 }

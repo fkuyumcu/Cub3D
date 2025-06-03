@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:32:08 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/03 15:05:07 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:17:34 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,30 +37,20 @@ void add_space_line(char ***map_ptr, int space_count, t_cube *cube)
     char **new_map;
     char *space_line;
 
-    // Eski satır sayısını bul
     while (map[old_len])
         old_len++;
-
-    // Yeni map için yer ayır (2 satır fazla)
     new_map = malloc(sizeof(char *) * (old_len + 3));
     if (!new_map)
         put_error("Error: Memory allocation failed\n", cube);
-
-    // Baştaki tamamen space olan satırı oluştur
     space_line = malloc(space_count + 1);
     if (!space_line)
         put_error("Error: Memory allocation failed\n", cube);
     memset(space_line, ' ', space_count);
     space_line[space_count] = '\n';
 	space_line[space_count + 1] = '\0';
-
     new_map[0] = space_line;
-
-    // Eski satırları kopyala
     for (i = 0; i < old_len; i++)
         new_map[i + 1] = map[i];
-
-    // Sona tamamen space olan satırı ekle
     space_line = malloc(space_count + 1);
     if (!space_line)
         put_error("Error: Memory allocation failed\n", cube);
@@ -68,13 +58,8 @@ void add_space_line(char ***map_ptr, int space_count, t_cube *cube)
 	space_line[0] = '\n'; // düzelt
     space_line[space_count] = '\0';
     new_map[old_len + 1] = space_line;
-
-    // Sonlandırıcı
     new_map[old_len + 2] = NULL;
-
-    // Eski map pointer'ını güncelle
     *map_ptr = new_map;
-    // Eski map dizisinin sadece pointer'ı serbest bırakılır, satırlar korunur
     free(map);
 }
 
