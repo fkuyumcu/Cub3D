@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/03 14:51:51 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:32:09 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ typedef struct s_cube
 }	t_cube;
 
 
+int close_hook(t_cube *cube);
 
 void arg_check(int argc, char **argv);
 void init_cube(t_cube *cube);

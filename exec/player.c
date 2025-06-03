@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:51:35 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/02 15:56:20 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:32:22 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int key_press(int keycode, t_player *player)
         player->right = true; 
     if(keycode == P)
         player->key_pov = true;
+    if(keycode == 65307)
+        close_hook(player->cube);
     return 0;
 }
 
