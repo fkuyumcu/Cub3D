@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:59:47 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/03 12:50:53 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:58:01 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ int main(int argc, char **argv)
     cube.player.angle = PI;
     
     int width, height;
+    if(open(cube.texture_e,O_RDONLY) == -1)
+        put_error("err",&cube);
     cube.e_text.img = mlx_xpm_file_to_image(cube.mlx, cube.texture_e, &width, &height);
     cube.e_text.width = width;
     cube.e_text.height = height;

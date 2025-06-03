@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/02 18:09:04 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:51:51 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,12 @@ typedef struct s_cube
 	t_face wall_face;
     t_player player;
 
+	float startO;
+    float endO;
+    int   start;
+    int   end;
+    int   lineH;
+
 }	t_cube;
 
 
@@ -175,7 +181,7 @@ void send_to_init(t_cube *cube, char *line, int id);
 int is_ident_line(char *line);
 void read_file(t_cube *cube, char *file);
 void put_error(char *message, t_cube *cube);
-int is_valid_rgb(char *line, t_cube *cube);
+int is_valid_rgb(char *line);
 int is_map_line(char *line);
 int find_largest_line(char **map);
 void add_space_line(char ***map_ptr, int space_count, t_cube *cube);
@@ -183,7 +189,7 @@ void get_map(t_cube *cube);
 char **mapcpy(char **map, t_cube *cube);
 void flood_fill(char **map, int x, int y, t_cube *cube);
 void add_space(char **map, int i, t_cube *cube);
-void fill_space(char ***map, t_cube *cube);
+void fill_space(char ***map);
 void manage_map(char ***map, t_cube *cube);
 void check_double_map(char **map, t_cube *cube);
 void ffill(char **map, int x, int y, t_cube *cube);
@@ -223,7 +229,7 @@ int key_release(int keycode, t_player *player);
 void move_player(t_player *player);
 void set_background(int start, int end, t_cube *cub, int i);
 
-void draw_textured_wall(t_cube *cub, int column, int start, int end, float shade, int ray_height, float start_orig, int tex_x, t_text *texture);
+void draw_textured_wall(t_cube *cub, int column,int tex_x, t_text *texture);
 t_text *get_wall_texture(t_cube *cub);
 int	ft_atoi(const char *str);
 void set_background(int start, int end, t_cube *cub, int i);

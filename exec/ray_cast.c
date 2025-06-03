@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 14:12:52 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/02 15:56:20 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:50:09 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,6 @@
 
 
 
-typedef struct s_draw_params
-{
-    float startO;
-    float endO;
-    int   start;
-    int   end;
-    int   lineH;
-}               t_draw_params;
 
 void init_ray(t_cube *cub, t_ray *ray, float sin_ang, float cos_ang)
 {
@@ -109,13 +101,13 @@ float get_raw_dist(t_cube *cub, t_ray *ray)//camera plane distance hesaplanıyor
     return rawdist;
 }
 
-void draw_params(float dist, t_draw_params *dp)
+void draw_params(float dist,t_cube *cub)
 {
-    dp->startO = (HEIGHT - (BLOCK_SIZE / dist) * WIDTH) / 2;
-    dp->endO = dp->startO + (BLOCK_SIZE / dist) * WIDTH;
-    dp->start = fmax(0, (int)dp->startO);
-    dp->end = fmin(HEIGHT - 1, (int)dp->endO);
-    dp->lineH = (int)(dp->endO - dp->startO);
+    cub->startO = (HEIGHT - (BLOCK_SIZE / dist) * WIDTH) / 2;
+    cub->endO = cub->startO + (BLOCK_SIZE / dist) * WIDTH;
+    cub->start = fmax(0, (int)cub->startO);
+    cub->end = fmin(HEIGHT - 1, (int)cub->endO);
+    cub->lineH = (int)(cub->endO - cub->startO);
 }
 
 int get_x(t_cube *cub, t_ray *ray, float rawDist, t_text *tex)//texture'dan dilim dilim veri çekeceğimizden dolayı hangi x dilimine çarptığımızı hesaplayalım
@@ -135,16 +127,16 @@ int get_x(t_cube *cub, t_ray *ray, float rawDist, t_text *tex)//texture'dan dili
     return tex_x;
 }
 
-void draw_textured_wall(t_cube *cub, int column, int start, int end, float shade, int ray_height, float start_orig, int tex_x, t_text *texture)
+void draw_textured_wall(t_cube *cub, int column, int tex_x, t_text *texture)
 {
     int y;
     int color;
         
-    y = start;
-    while (y < end)
+    y = cub->start;
+    while (y < cub->end)
     {
         int tex_y;
-        tex_y = ((y - start_orig) / ray_height) * texture->height;
+        tex_y = ((y - cub->startO) / cub->lineH) * texture->height;
         
 
         if (tex_y >= texture->height)
@@ -160,7 +152,6 @@ void draw_textured_wall(t_cube *cub, int column, int start, int end, float shade
 void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang)//texture yerleşimi için rawdist kullanılmalı
 {
     t_ray        ray;
-    t_draw_params dp;
     float         rawDist;//orijinal distance
     float         perpDist;//camera plane distance
     float         dist;
@@ -173,10 +164,9 @@ void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang)//texture yerleş
     rawDist = get_raw_dist(cub, &ray);
     perpDist = rawDist * cos(atan2(ray.rayDirY, ray.rayDirX) - cub->player.angle);
     dist = perpDist * BLOCK_SIZE;
-    draw_params(dist, &dp);
+    draw_params(dist, cub);
     tex = get_wall_texture(cub);
     tex_x = get_x(cub, &ray, rawDist, tex);
-    draw_textured_wall(cub, i, dp.start, dp.end,
-        1.0f, dp.lineH, dp.startO, tex_x, tex);
-    set_background(dp.start, dp.end, cub, i);
+    draw_textured_wall(cub, i, tex_x, tex);
+    set_background(cub->start, cub->end, cub, i);
 }

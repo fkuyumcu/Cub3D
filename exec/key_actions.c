@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:06:18 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/02 15:56:20 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:44:28 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int key_release_hook(int keycode, void *param)
 }
 
 
-int calculate_fps(t_cube *cube)
+int calculate_fps()
 {
     struct timeval now;
     static struct timeval last_time;
@@ -56,7 +56,7 @@ int loop_hook(t_cube *cube)
     float min_angle;
     int column;
     
-    cube->fps = calculate_fps(cube);
+    cube->fps = calculate_fps();
     //printf("FPS: %d\n", cube->fps);
     column = 0;
     move_player(&cube->player);

@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:32:08 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/03 12:46:52 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:05:07 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,11 @@ void add_space_line(char ***map_ptr, int space_count, t_cube *cube)
     free(map);
 }
 
+
+
+
+
+
 void get_map(t_cube *cube)
 {
 	int i;
@@ -144,10 +149,10 @@ void add_space(char **map, int i, t_cube *cube)
 {
     char *new_line;
     int len;
-    int has_newline;
+    char *has_newline;
 
     len = strlen(map[i]);
-    has_newline = ft_strchr_gnl(map[i], '\n');
+    has_newline = ft_strchr(map[i], '\n');
     new_line = malloc(len + 3); // +2 space, +1 null
     if (!new_line)
         put_error("Error: Memory allocation failed\n", cube);
@@ -169,7 +174,7 @@ void add_space(char **map, int i, t_cube *cube)
     map[i] = new_line;
 }
 
-void fill_space(char ***map, t_cube *cube)
+void fill_space(char ***map)
 {
     int i;
     int j;
@@ -210,7 +215,7 @@ void manage_map(char ***map, t_cube *cube)
 		i++;
 	}
 	add_space_line(map, find_largest_line(*map), cube);
-	fill_space(map, cube);
+	fill_space(map);
 }
 
 void check_double_map(char **map, t_cube *cube)
@@ -224,7 +229,7 @@ void check_double_map(char **map, t_cube *cube)
 		j = 0;
 		while (map[i][j] != '\0')
 		{
-			if (ft_strchr_gnl("01NSEW", map[i][j]) != 0)
+			if (strchr("01NSEW", map[i][j]) != 0)
 				put_error("invalid map\n", cube);
 			j++;
 		}
@@ -259,7 +264,7 @@ void check_map_chars(char **map, t_cube *cube)
 		j = 0;
 		while (map[i][j] != '\0')
 		{
-			if (ft_strchr_gnl("01NSEW\t\n ", map[i][j]) == 0)
+			if (strchr("01NSEW\t\n ", map[i][j]) == 0)
 			{
 				fprintf(stderr, "Error: Invalid character '%c' in map\n", map[i][j]);
 				end(cube, 1);

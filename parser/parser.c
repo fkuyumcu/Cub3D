@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:58:58 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/02 18:25:00 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/03 14:51:36 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,20 +73,7 @@ void init_cube(t_cube *cube)
 
 
 
-
-
-
-
-
-void init_rgbs(t_cube *cube, char **values)
-{
-	int ptr[3];
-	ptr[0] = ft_atoi(values[0]);
-	ptr[1] = ft_atoi(values[1]);
-	ptr[2] = ft_atoi(values[2]);
-}
-
-int is_valid_rgb(char *line, t_cube *cube)
+int is_valid_rgb(char *line)
 {
     char    **rgb;
     int     i;
@@ -102,7 +89,7 @@ int is_valid_rgb(char *line, t_cube *cube)
         free_double_pointer(rgb);
         return 0;
     }
-	if (ft_strlen_gnl(rgb[0]) > 3 || ft_strlen_gnl(rgb[1]) > 3 || ft_strlen_gnl(rgb[2]) > 3)
+	if (strlen(rgb[0]) > 3 || strlen(rgb[1]) > 3 || strlen(rgb[2]) > 3)
 	{
 		free_double_pointer(rgb);
 		return 0;

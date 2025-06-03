@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:32:00 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/02 19:46:12 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/03 14:52:20 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void check_file(t_cube *cube)
                 fprintf(stderr, "Error: Invalid path for identifier: %s", cube->all_of_file[i]);
                 end(cube, 1);
             }
-            if ((id == 5 || id == 6) && !is_valid_rgb(content, cube))
+            if ((id == 5 || id == 6) && !is_valid_rgb(content))
             {
                 fprintf(stderr, "Error: Invalid RGB value for identifier: %s", cube->all_of_file[i]);
                 end(cube, 1);
