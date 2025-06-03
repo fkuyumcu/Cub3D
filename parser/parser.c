@@ -6,19 +6,18 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:58:58 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/03 15:53:20 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/03 16:58:08 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
 
-void put_error(char *message, t_cube *cube)
+void put_error(char *message, t_cube *cube)	
 {
 	ft_putstr_fd(message, 2);
 	ft_putstr_fd("\n", 2);
 	end(cube, 1);
 }
-
 
 void arg_check(int argc, char **argv)
 {

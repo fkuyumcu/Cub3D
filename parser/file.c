@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   file.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:32:00 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/03 14:52:20 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:00:18 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
 
 
-// Satır başındaki boşlukları atla
 char *skip_spaces(char *str)
 {
     while (*str == ' ' || *str == '\t')
@@ -21,7 +20,6 @@ char *skip_spaces(char *str)
     return str;
 }
 
-// Satır başındaki ve sonundaki boşlukları atla
 char *trim_spaces(char *str)
 {
     char *end;

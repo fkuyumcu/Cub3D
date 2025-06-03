@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:32:08 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/03 16:24:03 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/03 16:59:19 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,6 @@ void add_space_line(char ***map_ptr, int space_count, t_cube *cube)
     *map_ptr = new_map;
     free(map);
 }
-
-
-
-
-
 
 void get_map(t_cube *cube)
 {
@@ -267,10 +262,5 @@ void check_map(t_cube *cube)
 	int i = 0;
 	flood_fill(cube->cpymap, cube->player_x + 1, cube->player_y + 1, cube);
 	ffill(cube->cpy_map, cube->player_x + 1, cube->player_y + 1, cube);
-	while (cube->cpy_map[i] != NULL)
-	{
-		//printf("%s\n", cube->cpy_map[i]);
-		i++;
-	}
 	check_double_map(cube->cpy_map, cube);
 }
