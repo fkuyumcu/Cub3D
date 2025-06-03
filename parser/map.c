@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:32:08 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/31 16:51:25 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/03 12:46:52 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,7 +282,7 @@ void check_map(t_cube *cube)
 	ffill(cube->cpy_map, cube->player_x + 1, cube->player_y + 1, cube);
 	while (cube->cpy_map[i] != NULL)
 	{
-		printf("%s\n", cube->cpy_map[i]);
+		//printf("%s\n", cube->cpy_map[i]);
 		i++;
 	}
 	check_double_map(cube->cpy_map, cube);
