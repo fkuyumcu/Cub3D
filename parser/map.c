@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:32:08 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/03 16:59:19 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/03 18:12:37 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,16 @@ void get_map(t_cube *cube)
 	j = 0;
 	while (!is_map_line(cube->all_of_file[i++]))
 		j++;
-	while (cube->all_of_file[i])
-		i++;
-	cube->map =	malloc(sizeof(char *) * (i - j + 1));
+	i = j;
+	while (is_map_line(cube->all_of_file[j]))
+		j++;
+	cube->map =	malloc(sizeof(char *) * (j - i + 1));
 	if (!cube->map)
 		put_error("Error: Memory allocation failed for map\n", cube);
-	while (j < i)
+	while (j > i)
 	{
-		cube->map[a++] = ft_strdup(cube->all_of_file[j]);
-		j++;
+		cube->map[a++] = ft_strdup(cube->all_of_file[i]);
+		i++;
 	}
 	cube->map[a] = NULL;
 }
@@ -259,7 +260,6 @@ void check_map(t_cube *cube)
 	cube->cpymap=mapcpy(cube->map, cube);
 	manage_map(&cube->cpymap, cube);
 	cube->cpy_map=mapcpy(cube->cpymap, cube);
-	int i = 0;
 	flood_fill(cube->cpymap, cube->player_x + 1, cube->player_y + 1, cube);
 	ffill(cube->cpy_map, cube->player_x + 1, cube->player_y + 1, cube);
 	check_double_map(cube->cpy_map, cube);

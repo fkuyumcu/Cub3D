@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:58:58 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/03 16:58:08 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/03 18:13:42 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,8 @@ int is_valid_rgb(char *line)
 
 int is_map_line(char *line)
 {
+	if (!line)
+		return 0;
     line = skip_spaces(line);
     return (*line == '1' || *line == '0');
 }
@@ -178,6 +180,12 @@ int parser(int argc, char **argv, t_cube *cube)
     read_file(cube, argv[1]);
     check_file(cube);
 	get_map(cube);
+	int i = 0;
+	while (cube->map[i] != NULL)
+	{
+		printf("%s\n", cube->map[i]);
+		i++;
+	}
 	check_map(cube);
 	printf("%d", cube->values_c[0]);
 
