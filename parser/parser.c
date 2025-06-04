@@ -6,13 +6,13 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:58:58 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/03 18:13:42 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/04 15:08:24 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
 
-void put_error(char *message, t_cube *cube)	
+void	put_error(char *message, t_cube *cube)	
 {
 	ft_putstr_fd(message, 2);
 	ft_putstr_fd("\n", 2);
@@ -26,12 +26,12 @@ void arg_check(int argc, char **argv)
 		ft_putstr_fd("Error: Wrong number of arguments\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	if (argv[1][strlen(argv[1]) - 4] != '.')
+	if (argv[1][ft_strlen(argv[1]) - 4] != '.')
 	{
 		ft_putstr_fd("Error: Invalid file extension\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	if (strcmp(&argv[1][strlen(argv[1]) - 4], ".cub") != 0)
+	if (strcmp(&argv[1][ft_strlen(argv[1]) - 4], ".cub") != 0)
 	{
 		ft_putstr_fd("Error: Invalid file extension\n", 2);
 		exit(EXIT_FAILURE);
@@ -90,7 +90,7 @@ int check_range(char **rgb)
 
 int check_len(char **rgb)
 {
-	if (strlen(rgb[0]) > 3 || strlen(rgb[1]) > 3 || strlen(rgb[2]) > 3)
+	if (ft_strlen(rgb[0]) > 3 || ft_strlen(rgb[1]) > 3 || ft_strlen(rgb[2]) > 3)
 	{
 		free_double_pointer(rgb);
 		return 0;

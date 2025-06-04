@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:32:00 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/03 18:03:45 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/04 15:02:20 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char *trim_spaces(char *str)
     str = skip_spaces(str);
     if (*str == 0)
         return str;
-    end = str + strlen(str) - 1;
+    end = str + ft_strlen(str) - 1;
     while (end > str && (*end == ' ' || *end == '\t' || *end == '\n'))
         end--;
     *(end + 1) = 0;
@@ -135,21 +135,21 @@ void init_idents(t_cube *cube, char *line, int id)
 
     value = trim_spaces(line);
     if (id == 1)
-    cube->texture_n = strdup(skip_spaces(value + 2));
+    cube->texture_n = ft_strdup(skip_spaces(value + 2));
     else if (id == 2)
-    cube->texture_s = strdup(skip_spaces(value + 2));
+    cube->texture_s = ft_strdup(skip_spaces(value + 2));
     else if (id == 3)
-    cube->texture_e = strdup(skip_spaces(value + 2));
+    cube->texture_e = ft_strdup(skip_spaces(value + 2));
     else if (id == 4)
-    cube->texture_w = strdup(skip_spaces(value + 2));
+    cube->texture_w = ft_strdup(skip_spaces(value + 2));
     else if (id == 5)
     {
-        cube->color_f = strdup(skip_spaces(value + 1));
+        cube->color_f = ft_strdup(skip_spaces(value + 1));
         cube->values_f = init_values(cube->color_f);
     }
     else if (id == 6)
     {
-        cube->color_c = strdup(skip_spaces(value + 1));
+        cube->color_c = ft_strdup(skip_spaces(value + 1));
         cube->values_c = init_values(cube->color_c);
     }
     else

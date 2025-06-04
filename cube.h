@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/03 15:32:09 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/04 15:15:55 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,11 @@ typedef struct s_cube
 
 
 int close_hook(t_cube *cube);
-
+void	*ft_memset(void *b, int c, size_t len);
+char	*ft_strdup(const char *s1);
+char	*ft_strncpy(char *dest, char *src, int n);
+int ft_strcmp(char *s1, char *s2);
+char    *ft_strcpy(char *s1, char *s2);
 void arg_check(int argc, char **argv);
 void init_cube(t_cube *cube);
 void check_file(t_cube *cube);

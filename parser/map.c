@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:32:08 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/03 18:12:37 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/04 15:04:18 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int find_largest_line(char **map)
 	max_length = 0;
 	while (map[i] != NULL)
 	{
-		int length = strlen(map[i]);
+		int length = ft_strlen(map[i]);
 		if (length > max_length)
 			max_length = length;
 		i++;
@@ -45,7 +45,7 @@ void add_space_line(char ***map_ptr, int space_count, t_cube *cube)
     space_line = malloc(space_count + 1);
     if (!space_line)
         put_error("Error: Memory allocation failed\n", cube);
-    memset(space_line, ' ', space_count);
+    ft_memset(space_line, ' ', space_count);
     space_line[space_count] = '\n';
 	space_line[space_count + 1] = '\0';
     new_map[0] = space_line;
@@ -54,7 +54,7 @@ void add_space_line(char ***map_ptr, int space_count, t_cube *cube)
     space_line = malloc(space_count + 1);
     if (!space_line)
         put_error("Error: Memory allocation failed\n", cube);
-    memset(space_line, ' ', space_count);
+    ft_memset(space_line, ' ', space_count);
 	space_line[0] = '\n'; // düzelt
     space_line[space_count] = '\0';
     new_map[old_len + 1] = space_line;
@@ -132,7 +132,7 @@ void add_space(char **map, int i, t_cube *cube)
     int len;
     char *has_newline;
 
-    len = strlen(map[i]);
+    len = ft_strlen(map[i]);
     has_newline = ft_strchr(map[i], '\n');
     new_line = malloc(len + 3); // +2 space, +1 null
     if (!new_line)
@@ -140,14 +140,14 @@ void add_space(char **map, int i, t_cube *cube)
     new_line[0] = ' ';
     if (has_newline)
     {
-        strncpy(new_line + 1, map[i], len - 1); // kopyala, \n hariç
+        ft_strncpy(new_line + 1, map[i], len - 1); // kopyala, \n hariç
         new_line[len] = ' ';
         new_line[len + 1] = '\n';
         new_line[len + 2] = '\0';
     }
     else
     {
-        strcpy(new_line + 1, map[i]);
+        ft_strcpy(new_line + 1, map[i]);
         new_line[len + 1] = ' ';
         new_line[len + 2] = '\0';
     }
@@ -168,11 +168,11 @@ void fill_space(char ***map)
     while ((*map)[i] != NULL)
     {
         line = (*map)[i];
-        newline_pos = strchr(line, '\n');
+        newline_pos = ft_strchr(line, '\n');
         if (newline_pos)
             j = newline_pos - line;
         else
-            j = strlen(line);
+            j = ft_strlen(line);
 
         while (j < max_length)
             line[j++] = ' ';
@@ -207,7 +207,7 @@ void check_double_map(char **map, t_cube *cube)
 		j = 0;
 		while (map[i][j] != '\0')
 		{
-			if (strchr("01NSEW", map[i][j]) != 0)
+			if (ft_strchr("01NSEW", map[i][j]) != 0)
 				put_error("invalid map\n", cube);
 			j++;
 		}
@@ -242,7 +242,7 @@ void check_map_chars(char **map, t_cube *cube)
 		j = 0;
 		while (map[i][j] != '\0')
 		{
-			if (strchr("01NSEW\t\n ", map[i][j]) == 0)
+			if (ft_strchr("01NSEW\t\n ", map[i][j]) == 0)
 			{
 				fprintf(stderr, "Error: Invalid character '%c' in map\n", map[i][j]);
 				end(cube, 1);
