@@ -1,16 +1,17 @@
 NAME = cub3D
 
 CC = cc
-CFLAGS = -fPIE # -Wall -Wextra -Werror
-LIBRARY = -Lminilibx-linux -lmlx -lX11 -lXext -lm -g
+CFLAGS = -fPIE -g  -Wall -Wextra -Werror
+LIBRARY = -Lminilibx-linux -lmlx -lX11 -lXext -lm
 MINILIBX = minilibx-linux/
 SRC = main.c \
-      cube_utils.c \
-      player.c\
-	  inits.c \
-	  paint_it_black.c \
-	  key_actions.c \
-	  collision.c \
+      ./exec/cube_utils.c \
+      ./exec/player.c\
+	  ./exec/inits.c \
+	  ./exec/paint_it_black.c \
+	  ./exec/key_actions.c \
+	  ./exec/collision.c \
+	  ./exec/ray_cast.c \
 	  ./gnl/get_next_line.c \
 	  ./gnl/get_next_line_utils.c \
 	  ./parser/parser.c \
@@ -25,7 +26,7 @@ OBJ = $(SRC:.c=.o)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJ)
-	make -C $(MINILIBX)
+	@make -C $(MINILIBX)
 	@$(CC) $(OBJ) $(CFLAGS) $(LIBRARY) -o $(NAME)
 
 all: $(NAME)

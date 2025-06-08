@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/02 17:13:43 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/04 15:15:55 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,33 @@ typedef enum e_face
 	WEST
 }t_face;
 
+
+
+
+typedef struct s_ray
+{
+    float rayDirX;
+    float rayDirY;
+    float sideDistX;
+    float sideDistY;
+    float deltaDistX;
+    float deltaDistY;
+    int   mapX;
+    int   mapY;
+    int   stepX;
+    int   stepY;
+    int   side;
+}               t_ray;
+
 typedef struct s_text
 {
 	void *img;
 	int *data;
 	int width;
 	int height;
-	int bpp;
 	int line_length;
 	int endian;
+	int bpp;
 }t_text;
 
 typedef struct s_player
@@ -137,10 +155,21 @@ typedef struct s_cube
 	t_face wall_face;
     t_player player;
 
+	float startO;
+    float endO;
+    int   start;
+    int   end;
+    int   lineH;
+
 }	t_cube;
 
 
-
+int close_hook(t_cube *cube);
+void	*ft_memset(void *b, int c, size_t len);
+char	*ft_strdup(const char *s1);
+char	*ft_strncpy(char *dest, char *src, int n);
+int ft_strcmp(char *s1, char *s2);
+char    *ft_strcpy(char *s1, char *s2);
 void arg_check(int argc, char **argv);
 void init_cube(t_cube *cube);
 void check_file(t_cube *cube);
@@ -165,18 +194,18 @@ void get_map(t_cube *cube);
 char **mapcpy(char **map, t_cube *cube);
 void flood_fill(char **map, int x, int y, t_cube *cube);
 void add_space(char **map, int i, t_cube *cube);
-void fill_space(char ***map, t_cube *cube);
+void fill_space(char ***map);
 void manage_map(char ***map, t_cube *cube);
 void check_double_map(char **map, t_cube *cube);
 void ffill(char **map, int x, int y, t_cube *cube);
 void check_map_chars(char **map, t_cube *cube);
 void check_map(t_cube *cube);
+void check_player(t_cube *cube);
 void	ft_putchar_fd(char c, int fd);
-void	ft_putstr_fd(int fd, char *s);
+void	ft_putstr_fd(char *s, int fd);
 char *ft_strdup(const char *s1);
 int	ft_atoi(const char *str);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-static int	cw(char const *str, char c);
 char	**ft_split(char const *s, char c);
 
 void put_pixel(int x, int y, int color, t_cube *game);
@@ -185,7 +214,6 @@ void draw_square(int x, int y, int size, int color, t_cube *game);
 int key_press_hook(int keycode, void *param);
 int key_release_hook(int keycode, void *param);
 void clear_image(t_cube *cube);
-char **get_map(void);
 void draw_map(t_cube *cub);
 bool is_colliding(float ray_x, float ray_y, t_cube *cub);
 bool is_colliding_point(float ray_x, float ray_y, t_cube *cub);
@@ -198,13 +226,23 @@ int loop_hook(t_cube *cube);
 void end(t_cube *cube, int exit_code);
 void arg_check(int argc, char **argv);
 void init_cube(t_cube *cube);
-
+int parser(int argc, char **argv, t_cube *cube);
 
 void init_player(t_cube *cube);
 int key_press(int keycode, t_player *player);
 int key_release(int keycode, t_player *player);
 void move_player(t_player *player);
 void set_background(int start, int end, t_cube *cub, int i);
+
+void draw_textured_wall(t_cube *cub, int column,int tex_x, t_text *texture);
+t_text *get_wall_texture(t_cube *cub);
+int	ft_atoi(const char *str);
+void set_background(int start, int end, t_cube *cub, int i);
+
+void ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang);
+
+
+
 
 
 
