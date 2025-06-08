@@ -3,105 +3,99 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/03 13:50:15 by yalp              #+#    #+#             */
-/*   Updated: 2024/11/09 13:47:03 by yalp             ###   ########.fr       */
+/*   Created: 2024/11/03 16:24:54 by fkuyumcu          #+#    #+#             */
+/*   Updated: 2024/11/10 16:41:10 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_get_line(char *dst)
+void	del(char **data)
 {
-	char	*ret;
-	size_t	i;
-
-	i = 0;
-	if (!*dst)
-		return (NULL);
-	while (dst[i] && dst[i] != '\n')
-		i++;
-	if (dst[i] == '\n')
-		i++;
-	ret = malloc(sizeof(char) * (i + 1));
-	if (!ret)
-		return (NULL);
-	i = -1;
-	while (dst[++i] && dst[i] != '\n')
-		ret[i] = dst[i];
-	if (dst[i] == '\n')
-	{
-		ret[i] = '\n';
-		i++;
-	}
-	ret[i] = '\0';
-	return (ret);
+	free(*data);
+	*data = NULL;
 }
 
-char	*ft_get_left_line(char *buff)
+int	content_buf(int fd, char **content, char *buffer)
 {
-	char	*ret;
-	size_t	i;
-	size_t	j;	
+	ssize_t	bytes;
+	char	*temp;
 
-	i = 0;
-	while (buff[i] && buff[i] != '\n')
-		i++;
-	if (!buff[i])
-		return (free(buff), NULL);
-	if (buff[i] == '\n')
-		i++;
-	ret = malloc(sizeof(char) * (ft_strlen_gnl(buff) - i + 1));
-	if (!ret)
-		return (free(buff), NULL);
-	j = 0;
-	while (buff[i])
-		ret[j++] = buff[i++];
-	ret[j] = '\0';
-	free(buff);
-	return (ret);
+	bytes = read(fd, buffer, BUFFER_SIZE);
+	if (bytes < 0)
+	{
+		del(content);
+		return (-1);
+	}
+	if (bytes == 0)
+		return (0);
+	buffer[bytes] = '\0';
+	temp = ft_strjoin(*content, buffer);
+	free(*content);
+	*content = temp;
+	return (1);
 }
 
-char	*ft_read_line(char *dst, int fd)
+void	content_nl(char *content, char **next_line)
 {
-	char	*buff;
-	int		reads;
+	size_t	len;
+	char	*start;
 
-	reads = 1;
-	if (!dst)
+	start = findnewline(content);
+	len = (ft_strlen(content) - ft_strlen(start) + 2);
+	*next_line = malloc(len * sizeof(char));
+	if (!*next_line)
+		return ;
+	ft_strlcpy(*next_line, content, len);
+}
+
+void	lineclear(char **content)
+{
+	char	*start;
+	char	*temp;
+
+	start = findnewline(*content);
+	if (!start)
 	{
-		dst = malloc(sizeof(char) * 1);
-		if (!dst)
-			return (NULL);
-		dst[0] = '\0';
+		del(content);
+		return ;
 	}
-	buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buff)
-		return (NULL);
-	while (!ft_strchr_gnl(dst, '\n') && reads != 0)
+	temp = malloc(ft_strlen(start) * sizeof(char));
+	if (!temp)
 	{
-		reads = read(fd, buff, BUFFER_SIZE);
-		if (reads == -1)
-			return (free(dst), free(buff), NULL);
-		buff[reads] = '\0';
-		dst = ft_strjoin_gnl(dst, buff);
+		del(content);
+		return ;
 	}
-	free(buff);
-	return (dst);
+	ft_strlcpy(temp,
+		(*content) + ft_strlen(*content) - ft_strlen(start) + 1,
+		ft_strlen(start));
+	free(*content);
+	*content = temp;
+	if (!**content)
+		del(content);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*buff;
-	char		*ret;
+	static char		*content;
+	char			*next_line;
+	char			*buffer;
+	int				status;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buff = ft_read_line(buff, fd);
-	if (!buff)
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buffer)
 		return (NULL);
-	ret = ft_get_line(buff);
-	buff = ft_get_left_line(buff);
-	return (ret);
+	status = 1;
+	while (!findnewline(content) && status > 0)
+		status = content_buf(fd, &content, buffer);
+	free(buffer);
+	if (!content || status == -1)
+		return (NULL);
+	content_nl(content, &next_line);
+	lineclear(&content);
+	return (next_line);
 }

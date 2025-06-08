@@ -6,14 +6,13 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:32:00 by yalp              #+#    #+#             */
-/*   Updated: 2025/05/31 15:43:41 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/04 15:02:20 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
 
 
-// Satır başındaki boşlukları atla
 char *skip_spaces(char *str)
 {
     while (*str == ' ' || *str == '\t')
@@ -21,14 +20,13 @@ char *skip_spaces(char *str)
     return str;
 }
 
-// Satır başındaki ve sonundaki boşlukları atla
 char *trim_spaces(char *str)
 {
     char *end;
     str = skip_spaces(str);
     if (*str == 0)
         return str;
-    end = str + strlen(str) - 1;
+    end = str + ft_strlen(str) - 1;
     while (end > str && (*end == ' ' || *end == '\t' || *end == '\n'))
         end--;
     *(end + 1) = 0;
@@ -61,12 +59,32 @@ int *init_values(char *color)
     return (values);
 }
 
+void check_supply(t_cube *cube, int id, int i)
+{
+    char *content;
+
+    content = cube->all_of_file[i] + 2;
+    if (id >= 1 && id <= 4 && !is_valid_path(content))
+    {
+        fprintf(stderr, "Error: Invalid path for identifier: %s", cube->all_of_file[i]);
+        end(cube, 1);
+    }
+    if ((id == 5 || id == 6) && !is_valid_rgb(content))
+    {
+        fprintf(stderr, "Error: Invalid RGB value for identifier: %s", cube->all_of_file[i]);
+        end(cube, 1);
+    }
+    send_to_init(cube, cube->all_of_file[i], id);
+}
+
 void check_file(t_cube *cube)
 {
-    int i = 0;
-    int map_started = 0;
+    int i;
+    int map_started;
 
-    while (cube->all_of_file[i])
+    i = 0;
+    map_started = 0;
+    while (cube->all_of_file[i] != NULL)
     {
         if (is_empty_line(cube->all_of_file[i]))
         {
@@ -75,41 +93,22 @@ void check_file(t_cube *cube)
         }
         int id = is_ident_line(cube->all_of_file[i]);
         if (!map_started && id)
-        {
-            char *content = cube->all_of_file[i] + 2;
-            if (id >= 1 && id <= 4 && !is_valid_path(content))
-            {
-                fprintf(stderr, "Error: Invalid path for identifier: %s", cube->all_of_file[i]);
-                end(cube, 1);
-            }
-            if ((id == 5 || id == 6) && !is_valid_rgb(content))
-            {
-                fprintf(stderr, "Error: Invalid RGB value for identifier: %s", cube->all_of_file[i]);
-                end(cube, 1);
-            }
-			send_to_init(cube, cube->all_of_file[i], id);
-        }
+            check_supply(cube, id, i);
         else if (is_map_line(cube->all_of_file[i]))
             map_started = 1;
         else if (map_started && id)
-        {
-            fprintf(stderr, "Error: Identifier after map started: %s", cube->all_of_file[i]);
-            end(cube, 1);
-        }
+            put_error("Error: Identifier after map started", cube);
         else if (!map_started && !id)
         {
-            fprintf(stderr, "Error: Invalid identifier or map line: %s", cube->all_of_file[i]);
-            end(cube, 1);
+            printf("%s", cube->all_of_file[i]);
+            put_error("Error: Invalid identifier or map line", cube);
         }
         i++;
     }
     if (cube->count_n != 1 || cube->count_s != 1 || cube->count_e != 1 || cube->count_w != 1 || cube->count_f != 1 || cube->count_c != 1)
-    {
-        fprintf(stderr, "Error: Identifiers must be defined exactly once (NO:%d SO:%d EA:%d WE:%d F:%d C:%d)\n",
-            cube->count_n, cube->count_s, cube->count_e, cube->count_w, cube->count_f, cube->count_c);
-        end(cube, 1);
-    }
+        put_error("Error: Missing or duplicate identifiers in the file.", cube);
 }
+
 
 // Satır tamamen boş mu kontrolü
 int is_empty_line(char *line)
@@ -139,21 +138,21 @@ void init_idents(t_cube *cube, char *line, int id)
 
     value = trim_spaces(line);
     if (id == 1)
-    cube->texture_n = strdup(skip_spaces(value + 2));
+    cube->texture_n = ft_strdup(skip_spaces(value + 2));
     else if (id == 2)
-    cube->texture_s = strdup(skip_spaces(value + 2));
+    cube->texture_s = ft_strdup(skip_spaces(value + 2));
     else if (id == 3)
-    cube->texture_e = strdup(skip_spaces(value + 2));
+    cube->texture_e = ft_strdup(skip_spaces(value + 2));
     else if (id == 4)
-    cube->texture_w = strdup(skip_spaces(value + 2));
+    cube->texture_w = ft_strdup(skip_spaces(value + 2));
     else if (id == 5)
     {
-        cube->color_f = strdup(skip_spaces(value + 1));
+        cube->color_f = ft_strdup(skip_spaces(value + 1));
         cube->values_f = init_values(cube->color_f);
     }
     else if (id == 6)
     {
-        cube->color_c = strdup(skip_spaces(value + 1));
+        cube->color_c = ft_strdup(skip_spaces(value + 1));
         cube->values_c = init_values(cube->color_c);
     }
     else
@@ -217,11 +216,9 @@ void read_file(t_cube *cube, char *file)
 	close(fd);
 	cube->all_of_file = malloc(sizeof(char *) * (y + 1));
 	fd = open(file, O_RDONLY);
-	while (y > 0)
-	{
+	while (y-- > 0)
 		cube->all_of_file[i++] = get_next_line(fd);
-		y--;
-	}
+    free(cube->all_of_file[i]);
 	cube->all_of_file[i] = NULL;
 	close(fd);
 }

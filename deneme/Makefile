@@ -3,7 +3,6 @@ NAME = cub3D
 CC = cc
 CFLAGS = -fPIE # -Wall -Wextra -Werror
 LIBRARY = #-Lminilibx-linux -lmlx -lX11 -lXext -lm -g
-MINILIBX = minilibx-linux/
 SRC = main.c \
 	  ./gnl/get_next_line.c \
 	  ./gnl/get_next_line_utils.c \
@@ -24,11 +23,9 @@ $(NAME): $(OBJ)
 all: $(NAME)
 
 clean:
-	make clean -C $(MINILIBX)
 	rm -f $(OBJ)
 
 fclean: clean
-	make clean -C $(MINILIBX)
 	rm -f $(NAME)
 
 re: fclean all
