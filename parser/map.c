@@ -112,20 +112,29 @@ char **mapcpy(char **map, t_cube *cube)
 
 void flood_fill(char **map, int x, int y, t_cube *cube)
 {
-	if (map[y][x] == ' ' || map[y][x] == '\t')
-		put_error("Error: Invalid map", cube);
-	if (map[y][x] == '1' || map[y][x] == 'X')
-		return ;
-	if (map[y][x] == '0' || map[y][x] == cube->player_pov)
-		map[y][x] = 'X';
-	if (map[y+1] && map[y+1][x])
-		flood_fill(map, x + 1, y, cube);
-	if (map[y-1] && map[y-1][x])
-		flood_fill(map, x - 1, y, cube);
-	if (map[y] && map[y][x+1])
-		flood_fill(map, x, y + 1, cube);
-	if (map[y] && map[y][x-1])
-		flood_fill(map, x, y - 1, cube);
+    if (map[y][x] == ' ' || map[y][x] == '\t' || map[y][x] == 'X' || map[y][x] == '\n' || map[y][x] == '\0')
+        return;
+    if (map[y][x] == '1')
+        map[y][x] = 'X';
+    else if (map[y][x] == '0' || map[y][x] == cube->player_pov)
+    {
+        if ((map[y+1] && map[y+1][x] == ' ') ||
+            (map[y-1] && map[y-1][x] == ' ') ||
+            (map[y][x+1] == ' ') ||
+            (map[y][x-1] == ' '))
+            put_error("Error: invalid map", cube);
+        map[y][x] = 'X';
+    }
+    else
+        return;
+    if (map[y+1] && map[y+1][x])
+        flood_fill(map, x, y + 1, cube);
+    if (map[y-1] && map[y-1][x])
+        flood_fill(map, x, y - 1, cube);
+    if (map[y][x+1])
+        flood_fill(map, x + 1, y, cube);
+    if (map[y][x-1])
+        flood_fill(map, x - 1, y, cube);
 }
 
 void add_space(char **map, int i, t_cube *cube)
