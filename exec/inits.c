@@ -25,12 +25,17 @@ void clear_image(t_cube *cube)
 {
     int x;
     int y;
-    for (y = 0; y < HEIGHT; y++)
+
+    y = 0;
+    while(y < HEIGHT)
     {
-        for (x = 0; x < WIDTH; x++)
+        x = 0;
+        while (x < WIDTH)
         {
             put_pixel(x, y, 0, cube);
+            x++;
         }
+        y++;
     }
 }
 

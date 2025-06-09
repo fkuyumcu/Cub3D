@@ -13,8 +13,31 @@
 #include "../cube.h"
 
 
-
-
+static void init_step(t_cube *cub, t_ray *ray)
+{
+    
+        if (ray->rayDirX < 0)
+            ray->stepX = -1;
+        else
+            ray->stepX = 1;
+        if (ray->rayDirY < 0)
+            ray->stepY = -1;
+        else
+            ray->stepY = 1;
+        if (ray->rayDirX < 0)
+            ray->sideDistX = (cub->player.x / BLOCK_SIZE - ray->mapX)
+                * ray->deltaDistX;
+        else
+            ray->sideDistX = (ray->mapX + 1.0f - cub->player.x / BLOCK_SIZE)
+                * ray->deltaDistX;
+        if (ray->rayDirY < 0)
+            ray->sideDistY = (cub->player.y / BLOCK_SIZE - ray->mapY)
+                * ray->deltaDistY;
+        else
+            ray->sideDistY = (ray->mapY + 1.0f - cub->player.y / BLOCK_SIZE)
+                * ray->deltaDistY;
+}
+    
 void init_ray(t_cube *cub, t_ray *ray, float sin_ang, float cos_ang)
 {
     ray->rayDirX = cos_ang;
@@ -23,27 +46,7 @@ void init_ray(t_cube *cub, t_ray *ray, float sin_ang, float cos_ang)
     ray->mapY = (int)(cub->player.y / BLOCK_SIZE);
     ray->deltaDistX = fabs(1.0f / ray->rayDirX);
     ray->deltaDistY = fabs(1.0f / ray->rayDirY);
-    
-    if (ray->rayDirX < 0)
-        ray->stepX = -1;
-    else
-        ray->stepX = 1;
-    if (ray->rayDirY < 0)
-        ray->stepY = -1;
-    else
-        ray->stepY = 1;
-    if (ray->rayDirX < 0)
-        ray->sideDistX = (cub->player.x / BLOCK_SIZE - ray->mapX)
-            * ray->deltaDistX;
-    else
-        ray->sideDistX = (ray->mapX + 1.0f - cub->player.x / BLOCK_SIZE)
-            * ray->deltaDistX;
-    if (ray->rayDirY < 0)
-        ray->sideDistY = (cub->player.y / BLOCK_SIZE - ray->mapY)
-            * ray->deltaDistY;
-    else
-        ray->sideDistY = (ray->mapY + 1.0f - cub->player.y / BLOCK_SIZE)
-            * ray->deltaDistY;
+    init_step(cub, ray);
 }
 
 int dda_algorithm(t_cube *cub, t_ray *ray)

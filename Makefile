@@ -5,7 +5,6 @@ CFLAGS = -fPIE -g  -Wall -Wextra -Werror
 LIBRARY = -Lminilibx-linux -lmlx -lX11 -lXext -lm
 MINILIBX = minilibx-linux/
 SRC = main.c \
-      ./exec/cube_utils.c \
       ./exec/player.c\
 	  ./exec/inits.c \
 	  ./exec/paint_it_black.c \
