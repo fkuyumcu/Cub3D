@@ -1,7 +1,7 @@
 NAME = cub3D
 
 CC = cc
-CFLAGS = -fPIE # -Wall -Wextra -Werror
+CFLAGS = -g -fPIE # -Wall -Wextra -Werror
 LIBRARY = #-Lminilibx-linux -lmlx -lX11 -lXext -lm -g
 SRC = main.c \
 	  ./gnl/get_next_line.c \
