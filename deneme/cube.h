@@ -184,7 +184,7 @@ void init_idents(t_cube *cube, char *line, int id);
 void send_to_init(t_cube *cube, char *line, int id);
 int is_ident_line(char *line);
 void read_file(t_cube *cube, char *file);
-void put_error(char *message, t_cube *cube);
+void put_error(char *message, char *messagee, t_cube *cube);
 int is_valid_rgb(char *line);
 int is_map_line(char *line);
 int find_largest_line(char **map);

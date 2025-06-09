@@ -47,22 +47,22 @@ void check_textures(t_cube *cube)
 {
     if(open(cube->texture_e,O_RDONLY) == -1)
     {
-        put_error("Error Loading Texture", NULL, cube);
+        put_error("Loading Texture", NULL, cube);
         end(cube,1);
     }
     if(open(cube->texture_w,O_RDONLY) == -1)
     {
-        put_error("Error Loading Texture", NULL, cube);
+        put_error("Loading Texture", NULL, cube);
         end(cube,1);
     }
     if(open(cube->texture_s,O_RDONLY) == -1)
     {
-        put_error("Error Loading Texture", NULL, cube);
+        put_error("Loading Texture", NULL, cube);
         end(cube,1);
     }
     if(open(cube->texture_n,O_RDONLY) == -1)
     {
-        put_error("Error loading texture.", NULL, cube);
+        put_error("loading texture.", NULL, cube);
         end(cube,1);
     }
 }

@@ -66,12 +66,12 @@ void	check_supply(t_cube *cube, int id, int i)
 	content = cube->all_of_file[i] + 2;
 	if (id >= 1 && id <= 4 && !is_valid_path(content))
 	{
-		fprintf(stderr, "Error: Invalid path for identifier: %s", cube->all_of_file[i]);
+		fprintf(stderr, "Invalid path for identifier: %s", cube->all_of_file[i]);
 		end(cube, 1);
 	}
 	if ((id == 5 || id == 6) && !is_valid_rgb(content))
 	{
-		fprintf(stderr, "Error: Invalid RGB value for identifier: %s", cube->all_of_file[i]);
+		fprintf(stderr, "Invalid RGB value for identifier: %s", cube->all_of_file[i]);
 		end(cube, 1);
 	}
 	send_to_init(cube, cube->all_of_file[i], id);
@@ -95,13 +95,13 @@ void	check_file(t_cube *cube)
 		else if (is_map_line(cube->all_of_file[i]))
 			map_started = 1;
 		else if (map_started && id)
-			put_error("Error: Identifier after map started", NULL, cube);
+			put_error("Identifier after map started", NULL, cube);
 		else if (!map_started && !id)
-			put_error("Error: Invalid identifier or map line", NULL, cube);
+			put_error("Invalid identifier or map line", NULL, cube);
 	}
 	if (cube->count_n != 1 || cube->count_s != 1 || cube->count_e != 1
 		|| cube->count_w != 1 || cube->count_f != 1 || cube->count_c != 1)
-		put_error("Error: Missing or duplicate identifiers in the file.", NULL, cube);
+		put_error("Missing or duplicate identifiers in the file.", NULL, cube);
 }
 
 

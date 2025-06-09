@@ -14,6 +14,7 @@
 
 void	put_error(char *message, char *messagee, t_cube *cube)	
 {
+	ft_putstr_fd("Error: ", 2);
 	ft_putstr_fd(message, 2);
 	if (messagee != NULL)
 		ft_putstr_fd(messagee, 2);
@@ -159,7 +160,7 @@ void	check_player(t_cube *cube)
 		i++;
 	}
 	if (cube->player_count != 1)
-		put_error("Error: There must be exactly one player in the map", cube);
+		put_error("There must be exactly one player in the map", NULL, cube);
 
 }
 
