@@ -31,36 +31,36 @@ int	find_largest_line(char **map)
 
 void	add_space_line(char ***map_ptr, int space_count, t_cube *cube)
 {
-    int		i;
-    int		old_len;
-    char	**map;
-    char	**new_map;
-    char	*space_line_top;
+    int i = 0;
+    int old_len = 0;
+    char **map = *map_ptr;
+    char **new_map;
+    char *space_line;
 
-    map = *map_ptr;
-    old_len = 0;
     while (map[old_len])
         old_len++;
     new_map = malloc(sizeof(char *) * (old_len + 3));
     if (!new_map)
         put_error("Memory allocation failed", NULL, cube);
-    space_line_top = malloc(space_count + 2);
-    if (!space_line_top)
+    // allocate top blank line with extra space for newline and null terminator
+    space_line = malloc(space_count + 2);
+    if (!space_line)
         put_error("Memory allocation failed", NULL, cube);
-    ft_memset(space_line_top, ' ', space_count);
-    space_line_top[space_count] = '\n';
-    space_line_top[space_count + 1] = '\0';
-    new_map[0] = space_line_top;
-    i = 0;
-    while (i < old_len)
-    {
+    ft_memset(space_line, ' ', space_count);
+    space_line[space_count] = '\n';
+    space_line[space_count + 1] = '\0';
+    new_map[0] = space_line;
+    for (i = 0; i < old_len; i++)
         new_map[i + 1] = map[i];
-        i++;
-    }
-    new_map[old_len + 1] = ft_strdup(space_line_top);
+    space_line = malloc(space_count + 2);
+    if (!space_line)
+        put_error("Memory allocation failed",NULL, cube);
+    ft_memset(space_line, ' ', space_count);
+    space_line[0] = '\n'; // düzelt
+    space_line[space_count] = '\0';
+    new_map[old_len + 1] = space_line;
     new_map[old_len + 2] = NULL;
     *map_ptr = new_map;
-    free(space_line_top);
     free(map);
 }
 
