@@ -41,11 +41,11 @@ void add_space_line(char ***map_ptr, int space_count, t_cube *cube)
         old_len++;
     new_map = malloc(sizeof(char *) * (old_len + 3));
     if (!new_map)
-        put_error("Error: Memory allocation failed\n", cube);
+        put_error("Error: Memory allocation failed", cube);
     // allocate top blank line with extra space for newline and null terminator
     space_line = malloc(space_count + 2);
     if (!space_line)
-        put_error("Error: Memory allocation failed\n", cube);
+        put_error("Error: Memory allocation failed", cube);
     ft_memset(space_line, ' ', space_count);
     space_line[space_count] = '\n';
     space_line[space_count + 1] = '\0';
@@ -55,7 +55,7 @@ void add_space_line(char ***map_ptr, int space_count, t_cube *cube)
     // allocate bottom blank line with extra space for newline and null terminator
     space_line = malloc(space_count + 2);
     if (!space_line)
-        put_error("Error: Memory allocation failed\n", cube);
+        put_error("Error: Memory allocation failed", cube);
     ft_memset(space_line, ' ', space_count);
     space_line[0] = '\n'; // düzelt
     space_line[space_count] = '\0';
@@ -81,7 +81,7 @@ void get_map(t_cube *cube)
 		j++;
 	cube->map =	malloc(sizeof(char *) * (j - i + 1));
 	if (!cube->map)
-		put_error("Error: Memory allocation failed for map\n", cube);
+		put_error("Error: Memory allocation failed for map", cube);
 	while (j > i)
 	{
 		cube->map[a++] = ft_strdup(cube->all_of_file[i]);
@@ -99,7 +99,7 @@ char **mapcpy(char **map, t_cube *cube)
 		i++;
 	cpymap = malloc(sizeof(char *) * (i + 1));
 	if (!cpymap)
-		put_error("Error: Memory allocation failed for cpymap\n", cube);
+		put_error("Error: Memory allocation failed for cpymap", cube);
 	i = 0;
 	while (map[i] != NULL)
 	{
@@ -147,7 +147,7 @@ void add_space(char **map, int i, t_cube *cube)
     has_newline = ft_strchr(map[i], '\n');
     new_line = malloc(len + 3); // +2 space, +1 null
     if (!new_line)
-        put_error("Error: Memory allocation failed\n", cube);
+        put_error("Error: Memory allocation failed", cube);
     new_line[0] = ' ';
     if (has_newline)
     {
@@ -219,7 +219,7 @@ void check_double_map(char **map, t_cube *cube)
 		while (map[i][j] != '\0')
 		{
 			if (ft_strchr("01NSEW", map[i][j]) != 0)
-				put_error("invalid map\n", cube);
+				put_error("invalid map", cube);
 			j++;
 		}
 		i++;

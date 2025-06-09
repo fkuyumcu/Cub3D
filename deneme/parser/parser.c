@@ -166,7 +166,7 @@ void check_player(t_cube *cube)
 		i++;
 	}
 	if (cube->player_count != 1)
-		put_error("Error: There must be exactly one player in the map\n", cube);
+		put_error("Error: There must be exactly one player in the map", cube);
 
 }
 
