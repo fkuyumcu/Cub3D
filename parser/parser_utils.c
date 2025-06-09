@@ -14,10 +14,9 @@
 
 char	*ft_strncpy(char *dest, char *src, int n)
 {
-	int i;
+	int	i;
 
 	i = 0;
-
 	while (src[i] && i <= n)
 	{
 		dest[i] = src[i];
@@ -30,14 +29,14 @@ char	*ft_strncpy(char *dest, char *src, int n)
 	return (dest);
 }
 
-
-int ft_strcmp(char *s1, char *s2)
+int	ft_strcmp(char *s1, char *s2)
 {
-	int i = 0;
+	int	i;
 
-	while((s1[i] == s2[i]) && s1[i] && s2[i])
+	i = 0;
+	while ((s1[i] == s2[i]) && s1[i] && s2[i])
 		i++;
-	return (s1[i]-s2[i]);
+	return (s1[i] - s2[i]);
 }
 
 char	*ft_strcpy(char *s1, char *s2)
@@ -53,8 +52,6 @@ char	*ft_strcpy(char *s1, char *s2)
 	s1[i] = s2[i];
 	return (s1);
 }
-
-
 
 void	*ft_memset(void *b, int c, size_t len)
 {
@@ -113,12 +110,11 @@ void	ft_putstr_fd(char *s, int fd)
 	}
 }
 
-
 int	ft_atoi(const char *str)
 {
-	int		i;
-	int		j;
-	int		k;
+	int	i;
+	int	j;
+	int	k;
 
 	i = 0;
 	j = 0;
@@ -141,9 +137,9 @@ int	ft_atoi(const char *str)
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	size_t		a;
-	size_t		slen;
-	char		*str;
+	size_t	a;
+	size_t	slen;
+	char	*str;
 
 	slen = strlen(s);
 	a = 0;
@@ -188,9 +184,9 @@ static int	cw(char const *str, char c)
 
 char	**ft_split(char const *s, char c)
 {
-	char		**words;
-	long		wordlen;
-	int			i;
+	char **words;
+	long wordlen;
+	int i;
 
 	i = 0;
 	words = (char **)malloc((cw(s, c) + 1) * sizeof(char *));

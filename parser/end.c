@@ -12,11 +12,13 @@
 
 #include "../cube.h"
 
-void free_double_pointer(char **ptr)
+void	free_double_pointer(char **ptr)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	if (!ptr)
-		return;
+		return ;
 	while (ptr[i])
 	{
 		free(ptr[i]);

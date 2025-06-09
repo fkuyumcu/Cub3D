@@ -12,19 +12,16 @@
 
 #include "../cube.h"
 
-bool is_colliding(float ray_x, float ray_y, t_cube *cub)
+bool	is_colliding(float ray_x, float ray_y, t_cube *cub)
 {
-    int x;
-    int y;
+	int	x;
+	int	y;
 
-    x = ray_x / BLOCK_SIZE;
-    y = ray_y / BLOCK_SIZE;
-    
-    if (x < 0 || y < 0 || !cub->map[y] || cub->map[y][x] == '\0')
-        return (true);
-    
-    if (cub->map[y][x] == '1')
-        return (true);
-    return (false);
+	x = ray_x / BLOCK_SIZE;
+	y = ray_y / BLOCK_SIZE;
+	if (x < 0 || y < 0 || !cub->map[y] || cub->map[y][x] == '\0')
+		return (true);
+	if (cub->map[y][x] == '1')
+		return (true);
+	return (false);
 }
-

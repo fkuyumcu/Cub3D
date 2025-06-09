@@ -12,7 +12,7 @@
 
 #include "../cube.h"
 
-void	put_error(char *message, char *messagee, t_cube *cube)	
+void	put_error(char *message, char *messagee, t_cube *cube)
 {
 	ft_putstr_fd("Error: ", 2);
 	ft_putstr_fd(message, 2);
@@ -22,7 +22,7 @@ void	put_error(char *message, char *messagee, t_cube *cube)
 	end(cube, 1);
 }
 
-void arg_check(int argc, char **argv)
+void	arg_check(int argc, char **argv)
 {
 	if (argc != 2)
 	{
@@ -60,8 +60,8 @@ void	init_cube(t_cube *cube)
 	cube->all_of_file = NULL;
 	cube->mlx = NULL;
 	cube->win = NULL;
-    cube->values_c = NULL;
-    cube->values_f = NULL;
+	cube->values_c = NULL;
+	cube->values_f = NULL;
 	cube->player_pov = 0;
 	cube->width = 0;
 	cube->height = 0;
@@ -75,7 +75,7 @@ void	init_cube(t_cube *cube)
 
 int	check_range(char **rgb)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (rgb[i])
@@ -95,7 +95,7 @@ int	check_len(char **rgb)
 	if (ft_strlen(rgb[0]) > 3 || ft_strlen(rgb[1]) > 3 || ft_strlen(rgb[2]) > 3)
 	{
 		free_double_pointer(rgb);
-		return 0;
+		return (0);
 	}
 	return (1);
 }
@@ -110,7 +110,8 @@ int	is_valid_rgb(char *line)
 	if (!rgb)
 		return (0);
 	while (rgb[i])
-		i++;;
+		i++;
+	;
 	if (i != 3)
 	{
 		free_double_pointer(rgb);
@@ -130,15 +131,15 @@ int	is_valid_rgb(char *line)
 int	is_map_line(char *line)
 {
 	if (!line)
-		return 0;
+		return (0);
 	line = skip_spaces(line);
 	return (*line == '1' || *line == '0');
 }
 
 void	check_player(t_cube *cube)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	cube->player_count = 0;
@@ -161,7 +162,6 @@ void	check_player(t_cube *cube)
 	}
 	if (cube->player_count != 1)
 		put_error("There must be exactly one player in the map", NULL, cube);
-
 }
 
 int	parser(int argc, char **argv, t_cube *cube)

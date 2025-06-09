@@ -10,6 +10,8 @@ SRC = main.c \
 	  ./exec/paint_it_black.c \
 	  ./exec/key_actions.c \
 	  ./exec/collision.c \
+	  ./exec/move.c \
+	  ./exec/texture_mapping.c \
 	  ./exec/ray_cast.c \
 	  ./gnl/get_next_line.c \
 	  ./gnl/get_next_line_utils.c \
