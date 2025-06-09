@@ -31,37 +31,36 @@ int	find_largest_line(char **map)
 
 void	add_space_line(char ***map_ptr, int space_count, t_cube *cube)
 {
-    int i = 0;
-    int old_len = 0;
-    char **map = *map_ptr;
-    char **new_map;
-    char *space_line;
+    int		i;
+    int		old_len;
+    char	**map;
+    char	**new_map;
+    char	*space_line_top;
 
+    map = *map_ptr;
+    old_len = 0;
     while (map[old_len])
         old_len++;
     new_map = malloc(sizeof(char *) * (old_len + 3));
     if (!new_map)
-        put_error("Memory allocation failed", NULL,cube);
-    // allocate top blank line with extra space for newline and null terminator
-    space_line = malloc(space_count + 2);
-    if (!space_line)
-        put_error("Memory allocation failed", NULL,cube);
-    ft_memset(space_line, ' ', space_count);
-    space_line[space_count] = '\n';
-    space_line[space_count + 1] = '\0';
-    new_map[0] = space_line;
-    for (i = 0; i < old_len; i++)
+        put_error("Memory allocation failed", NULL, cube);
+    space_line_top = malloc(space_count + 2);
+    if (!space_line_top)
+        put_error("Memory allocation failed", NULL, cube);
+    ft_memset(space_line_top, ' ', space_count);
+    space_line_top[space_count] = '\n';
+    space_line_top[space_count + 1] = '\0';
+    new_map[0] = space_line_top;
+    i = 0;
+    while (i < old_len)
+    {
         new_map[i + 1] = map[i];
-    // allocate bottom blank line with extra space for newline and null terminator
-    space_line = malloc(space_count + 2);
-    if (!space_line)
-        put_error("Memory allocation failed",NULL, cube);
-    ft_memset(space_line, ' ', space_count);
-    space_line[0] = '\n'; // düzelt
-    space_line[space_count] = '\0';
-    new_map[old_len + 1] = space_line;
+        i++;
+    }
+    new_map[old_len + 1] = ft_strdup(space_line_top);
     new_map[old_len + 2] = NULL;
     *map_ptr = new_map;
+    free(space_line_top);
     free(map);
 }
 
@@ -140,31 +139,31 @@ void	flood_fill(char **map, int x, int y, t_cube *cube)
 
 void add_space(char **map, int i, t_cube *cube)
 {
-    char *new_line;
-    int len;
-    char *has_newline;
+	char 	*new_line;
+	int 	len;
+	char 	*has_newline;
 
-    len = ft_strlen(map[i]);
-    has_newline = ft_strchr(map[i], '\n');
-    new_line = malloc(len + 3); // +2 space, +1 null
-    if (!new_line)
-        put_error("Memory allocation failed", NULL, cube);
-    new_line[0] = ' ';
-    if (has_newline)
-    {
-        ft_strncpy(new_line + 1, map[i], len - 1); // kopyala, \n hariç
-        new_line[len] = ' ';
-        new_line[len + 1] = '\n';
-        new_line[len + 2] = '\0';
-    }
-    else
-    {
-        ft_strcpy(new_line + 1, map[i]);
-        new_line[len + 1] = ' ';
-        new_line[len + 2] = '\0';
-    }
-    free(map[i]);
-    map[i] = new_line;
+	len = ft_strlen(map[i]);
+	has_newline = ft_strchr(map[i], '\n');
+	new_line = malloc(len + 3);
+	if (!new_line)
+		put_error("Memory allocation failed", NULL, cube);
+	new_line[0] = ' ';
+	if (has_newline)
+	{
+		ft_strncpy(new_line + 1, map[i], len - 1);
+		new_line[len] = ' ';
+		new_line[len + 1] = '\n';
+		new_line[len + 2] = '\0';
+	}
+	else
+	{
+		ft_strcpy(new_line + 1, map[i]);
+		new_line[len + 1] = ' ';
+		new_line[len + 2] = '\0';
+	}
+	free(map[i]);
+	map[i] = new_line;
 }
 
 void	fill_space(char ***map)
@@ -254,10 +253,7 @@ void	check_map_chars(char **map, t_cube *cube)
 		while (map[i][j] != '\0')
 		{
 			if (ft_strchr("01NSEW\t\n ", map[i][j]) == 0)
-			{
-				fprintf(stderr, "Invalid character '%c' in map\n", map[i][j]);
-				end(cube, 1);
-			}
+				put_error("Invalid character in map", map[i], cube);
 			j++;
 		}
 		i++;

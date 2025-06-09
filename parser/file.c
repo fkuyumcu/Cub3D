@@ -65,15 +65,9 @@ void	check_supply(t_cube *cube, int id, int i)
 
 	content = cube->all_of_file[i];
 	if (id >= 1 && id <= 4 && !is_valid_path(content))
-	{
-		fprintf(stderr, "Invalid path for identifier: %s", cube->all_of_file[i]);
-		end(cube, 1);
-	}
+		put_error("Invalid path for identifier:", cube->all_of_file[i], cube);
 	if ((id == 5 || id == 6) && !is_valid_rgb(content))
-	{
-		fprintf(stderr, "Invalid RGB value for identifier: %s", cube->all_of_file[i]);
-		end(cube, 1);
-	}
+		put_error("Invalid RGB value for identifier:", cube->all_of_file[i], cube);
 	send_to_init(cube, cube->all_of_file[i], id);
 }
 
@@ -104,8 +98,6 @@ void	check_file(t_cube *cube)
 		put_error("Missing or duplicate identifiers in the file.", NULL, cube);
 }
 
-
-// Satır tamamen boş mu kontrolü
 int	is_empty_line(char *line)
 {
 	while (*line)
@@ -117,7 +109,6 @@ int	is_empty_line(char *line)
 	return (1);
 }
 
-// Dosya yolu kontrolü (en az bir karakter)
 int	is_valid_path(char *line)
 {
 	while (*line == ' ' || *line == '\t')
