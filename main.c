@@ -15,22 +15,25 @@
 
 void draw_square(int x, int y, int size, int color, t_cube *game)
 {
+    int i;
 
-    for (int i = 0; i < size; i++)
+    i = -1;
+    while(++i < size)
         put_pixel(x + i, y, color, game);
-    for (int i = 0; i < size; i++)
+    i = -1;
+    while(++i < size)
         put_pixel(x, y + i, color, game);
-    for (int i = 0; i < size; i++)
+    i = -1;
+    while(++i < size)
         put_pixel(x + size, y + i, color, game);
-    for (int i = 0; i < size; i++)
+    i = -1;
+    while(++i < size)
         put_pixel(x + i, y + size, color, game);
 }
 
 
 int close_hook(t_cube *cube)
-{
-
-    
+{    
     mlx_destroy_image(cube->mlx, cube->img);
     mlx_destroy_image(cube->mlx, cube->e_text.img);
     mlx_destroy_image(cube->mlx, cube->w_text.img);

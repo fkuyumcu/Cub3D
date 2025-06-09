@@ -27,8 +27,6 @@ t_text *get_wall_texture(t_cube *cub)
 
 
 
-
-
 void radar(t_cube *cub, int column, float angle)
 {
     float ray_x;

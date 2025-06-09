@@ -12,7 +12,7 @@
 
 #include "../cube.h"
 
-bool is_colliding_point(float ray_x, float ray_y, t_cube *cub)
+bool is_colliding(float ray_x, float ray_y, t_cube *cub)
 {
     int x;
     int y;
@@ -28,21 +28,3 @@ bool is_colliding_point(float ray_x, float ray_y, t_cube *cub)
     return (false);
 }
 
-bool is_colliding(float ray_x, float ray_y, t_cube *cub)
-{
-    float player_radius = BLOCK_SIZE / 3000.0; // Oyuncunun yarıçapı
-    
-    if (is_colliding_point(ray_x, ray_y, cub))
-        return (true);
-    
-    if (is_colliding_point(ray_x + player_radius, ray_y + player_radius, cub))
-        return (true);
-    if (is_colliding_point(ray_x + player_radius, ray_y - player_radius, cub))
-        return (true);
-    if (is_colliding_point(ray_x - player_radius, ray_y + player_radius, cub))
-        return (true);
-    if (is_colliding_point(ray_x - player_radius, ray_y - player_radius, cub))
-        return (true);
-    
-    return (false);
-}
