@@ -106,7 +106,7 @@ int	is_valid_rgb(char *line)
 	int		i;
 
 	i = 0;
-	rgb = ft_split(skip_spaces(trim_spaces(line)), ',');
+	rgb = ft_split(skip_spaces(trim_spaces(line) + 1), ',');
 	if (!rgb)
 		return (0);
 	while (rgb[i])
