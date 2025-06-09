@@ -95,13 +95,13 @@ void	check_file(t_cube *cube)
 		else if (is_map_line(cube->all_of_file[i]))
 			map_started = 1;
 		else if (map_started && id)
-			put_error("Error: Identifier after map started", cube);
+			put_error("Error: Identifier after map started", NULL, cube);
 		else if (!map_started && !id)
-			put_error("Error: Invalid identifier or map line", cube);
+			put_error("Error: Invalid identifier or map line", NULL, cube);
 	}
 	if (cube->count_n != 1 || cube->count_s != 1 || cube->count_e != 1
 		|| cube->count_w != 1 || cube->count_f != 1 || cube->count_c != 1)
-		put_error("Error: Missing or duplicate identifiers in the file.", cube);
+		put_error("Error: Missing or duplicate identifiers in the file.", NULL, cube);
 }
 
 

@@ -81,7 +81,7 @@ void	get_map(t_cube *cube)
 		j++;
 	cube->map =	malloc(sizeof(char *) * (j - i + 1));
 	if (!cube->map)
-		put_error("Error: Memory allocation failed for map", cube);
+		put_error("Error: Memory allocation failed for map", NULL, cube);
 	while (j > i)
 	{
 		cube->map[a++] = ft_strdup(cube->all_of_file[i]);
@@ -99,7 +99,7 @@ char	**mapcpy(char **map, t_cube *cube)
 		i++;
 	cpymap = malloc(sizeof(char *) * (i + 1));
 	if (!cpymap)
-		put_error("Error: Memory allocation failed for cpymap", cube);
+		put_error("Error: Memory allocation failed for cpymap", NULL, cube);
 	i = 0;
 	while (map[i] != NULL)
 	{
@@ -123,7 +123,7 @@ void	flood_fill(char **map, int x, int y, t_cube *cube)
 			(map[y-1] && map[y-1][x] == ' ') ||
 			(map[y][x+1] == ' ') ||
 			(map[y][x-1] == ' '))
-			put_error("Error: invalid map", cube);
+			put_error("Error: invalid map", NULL, cube);
 		map[y][x] = 'X';
 	}
 	else
@@ -148,7 +148,7 @@ void add_space(char **map, int i, t_cube *cube)
     has_newline = ft_strchr(map[i], '\n');
     new_line = malloc(len + 3); // +2 space, +1 null
     if (!new_line)
-        put_error("Error: Memory allocation failed", cube);
+        put_error("Error: Memory allocation failed", NULL, cube);
     new_line[0] = ' ';
     if (has_newline)
     {

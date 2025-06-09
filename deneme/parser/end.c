@@ -25,16 +25,16 @@ void free_double_pointer(char **ptr)
 	free(ptr);
 }
 
-void end(t_cube *cube, int exit_code)
+void	end(t_cube *cube, int exit_code)
 {
 	if (cube->all_of_file != NULL)
-         free_double_pointer(cube->all_of_file);
-     if (cube->map != NULL)
-         free_double_pointer(cube->map);
-     if (cube->cpymap != NULL)
-         free_double_pointer(cube->cpymap);
-    if (cube->cpy_map != NULL)
-         free_double_pointer(cube->cpy_map);
+		free_double_pointer(cube->all_of_file);
+	if (cube->map != NULL)
+		free_double_pointer(cube->map);
+	if (cube->cpymap != NULL)
+		free_double_pointer(cube->cpymap);
+	if (cube->cpy_map != NULL)
+		free_double_pointer(cube->cpy_map);
 	if (cube->texture_n != NULL)
 		free(cube->texture_n);
 	if (cube->texture_s != NULL)

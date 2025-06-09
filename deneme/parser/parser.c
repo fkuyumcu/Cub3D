@@ -12,9 +12,11 @@
 
 #include "../cube.h"
 
-void	put_error(char *message, t_cube *cube)	
+void	put_error(char *message, char *messagee, t_cube *cube)	
 {
 	ft_putstr_fd(message, 2);
+	if (messagee != NULL)
+		ft_putstr_fd(messagee, 2);
 	ft_putstr_fd("\n", 2);
 	end(cube, 1);
 }
@@ -43,7 +45,7 @@ void arg_check(int argc, char **argv)
 	}
 }
 
-void init_cube(t_cube *cube)
+void	init_cube(t_cube *cube)
 {
 	cube->map = NULL;
 	cube->cpymap = NULL;
@@ -70,25 +72,24 @@ void init_cube(t_cube *cube)
 	cube->count_c = 0;
 }
 
-
-int check_range(char **rgb)
+int	check_range(char **rgb)
 {
 	int i;
 
 	i = 0;
 	while (rgb[i])
-    {
-        if (ft_atoi(rgb[i]) < 0 || ft_atoi(rgb[i]) > 255)
-        {
+	{
+		if (ft_atoi(rgb[i]) < 0 || ft_atoi(rgb[i]) > 255)
+		{
 			free_double_pointer(rgb);
-            return 0;
-        }
-        i++;
-    }
+			return (0);
+		}
+		i++;
+	}
 	return (1);
 }
 
-int check_len(char **rgb)
+int	check_len(char **rgb)
 {
 	if (ft_strlen(rgb[0]) > 3 || ft_strlen(rgb[1]) > 3 || ft_strlen(rgb[2]) > 3)
 	{
@@ -98,50 +99,42 @@ int check_len(char **rgb)
 	return (1);
 }
 
-
-int is_valid_rgb(char *line)
+int	is_valid_rgb(char *line)
 {
-    char    **rgb;
-    int     i;
+	char	**rgb;
+	int		i;
 
-    i = 0;
-    rgb = ft_split(trim_spaces(skip_spaces(line)), ',');
-    if (!rgb)
-        return (0);
-    while (rgb[i])
-        i++;;
-    if (i != 3)
-    {
-        free_double_pointer(rgb);
-        return 0;
-    }
-	if (!check_len(rgb))
-		return 0;
-    if (!check_range(rgb))
+	i = 0;
+	rgb = ft_split(skip_spaces(trim_spaces(line)), ',');
+	if (!rgb)
+		return (0);
+	while (rgb[i])
+		i++;;
+	if (i != 3)
 	{
 		free_double_pointer(rgb);
-		return 0;
+		return (0);
+	}
+	if (!check_len(rgb))
+		return (0);
+	if (!check_range(rgb))
+	{
+		free_double_pointer(rgb);
+		return (0);
 	}
 	free_double_pointer(rgb);
-    return (1);
+	return (1);
 }
 
-
-int is_map_line(char *line)
+int	is_map_line(char *line)
 {
 	if (!line)
 		return 0;
-    line = skip_spaces(line);
-    return (*line == '1' || *line == '0');
+	line = skip_spaces(line);
+	return (*line == '1' || *line == '0');
 }
 
-
-
-
-
-
-
-void check_player(t_cube *cube)
+void	check_player(t_cube *cube)
 {
 	int i;
 	int j;
@@ -170,24 +163,13 @@ void check_player(t_cube *cube)
 
 }
 
-
-
-
-int parser(int argc, char **argv, t_cube *cube)
+int	parser(int argc, char **argv, t_cube *cube)
 {
-    init_cube(cube);
-    arg_check(argc, argv);
-    read_file(cube, argv[1]);
-    check_file(cube);
+	init_cube(cube);
+	arg_check(argc, argv);
+	read_file(cube, argv[1]);
+	check_file(cube);
 	get_map(cube);
-	int i = 0;
-	while (cube->map[i] != NULL)
-	{
-		printf("%s\n", cube->map[i]);
-		i++;
-	}
 	check_map(cube);
-	printf("%d", cube->values_c[0]);
-
-    return (0);
+	return (0);
 }

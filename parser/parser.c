@@ -12,9 +12,11 @@
 
 #include "../cube.h"
 
-void	put_error(char *message, t_cube *cube)	
+void	put_error(char *message, char *messagee, t_cube *cube)	
 {
 	ft_putstr_fd(message, 2);
+	if (messagee != NULL)
+		ft_putstr_fd(messagee, 2);
 	ft_putstr_fd("\n", 2);
 	end(cube, 1);
 }
