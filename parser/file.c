@@ -63,7 +63,7 @@ void	check_supply(t_cube *cube, int id, int i)
 {
 	char	*content;
 
-	content = cube->all_of_file[i] + 2;
+	content = cube->all_of_file[i];
 	if (id >= 1 && id <= 4 && !is_valid_path(content))
 	{
 		fprintf(stderr, "Invalid path for identifier: %s", cube->all_of_file[i]);
