@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 15:37:12 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/10 15:59:30 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/10 16:00:50 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,6 @@ void	add_space(char **map, int i, t_cube *cube)
 	free(map[i]);
 	map[i] = new_line;
 }
-
-
 
 void	manage_map(char ***map, t_cube *cube)
 {
