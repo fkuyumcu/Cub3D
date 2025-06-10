@@ -62,6 +62,9 @@ void	send_to_init(t_cube *cube, char *line, int id)
 		cube->count_f++;
 	else if (id == 6)
 		cube->count_c++;
+	if (cube->count_n > 1 || cube->count_s > 1 || cube->count_e > 1
+		|| cube->count_w > 1 || cube->count_f > 1 || cube->count_c > 1)
+		put_error("Duplicate identifiers in the file.", NULL, cube);
 	init_idents(cube, line, id);
 }
 

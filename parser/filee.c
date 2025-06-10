@@ -96,5 +96,5 @@ void	check_file(t_cube *cube)
 	}
 	if (cube->count_n != 1 || cube->count_s != 1 || cube->count_e != 1
 		|| cube->count_w != 1 || cube->count_f != 1 || cube->count_c != 1)
-		put_error("Missing or duplicate identifiers in the file.", NULL, cube);
+		put_error("Missing identifiers in the file.", NULL, cube);
 }
