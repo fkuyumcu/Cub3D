@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/10 15:45:58 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/10 16:04:47 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,5 +253,10 @@ void				which_wall(t_cube *cub, t_ray *ray);
 float				get_raw_dist(t_cube *cub, t_ray *ray);
 void				draw_params(float dist, t_cube *cub);
 int					get_x(t_cube *cub, t_ray *ray, float rawDist, t_text *tex);
+
+void	check_textures(t_cube *cube);
+void get_addr(t_cube *cube);
+void	load_textures(t_cube *cube);
+
 
 #endif

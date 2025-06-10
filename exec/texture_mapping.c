@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray_cast.c                                         :+:      :+:    :+:   */
+/*   texture_mapping.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 14:12:52 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/03 14:50:09 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:44:05 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ float	get_raw_dist(t_cube *cub, t_ray *ray)
 	float	rawdist;
 
 	if (ray->side == 0)
-		rawdist = (ray->mapX - cub->player.x / BLOCK_SIZE + (1 - ray->stepX)
-				/ 2) / ray->rayDirX;
+		rawdist = (ray->mapX - cub->player.x / BLOCK_SIZE
+				+ (1 - ray->stepX) / 2) / ray->rayDirX;
 	else
-		rawdist = (ray->mapY - cub->player.y / BLOCK_SIZE + (1 - ray->stepY)
-				/ 2) / ray->rayDirY;
+		rawdist = (ray->mapY - cub->player.y / BLOCK_SIZE
+				+ (1 - ray->stepY) / 2) / ray->rayDirY;
 	return (rawdist);
 }
 
@@ -61,10 +61,11 @@ int	get_x(t_cube *cub, t_ray *ray, float rawDist, t_text *tex)
 		wall_x = cub->player.y / BLOCK_SIZE + rawDist * ray->rayDirY;
 	else
 		wall_x = cub->player.x / BLOCK_SIZE + rawDist * ray->rayDirX;
-	wall_x = wall_x - floor(wall_x);
+	wall_x = wall_x
+		- floor(wall_x);
 	tex_x = (int)(wall_x * tex->width);
-	if ((ray->side == 0 && ray->rayDirX > 0) || (ray->side == 1
-			&& ray->rayDirY < 0))
+	if ((ray->side == 0 && ray->rayDirX > 0)
+		|| (ray->side == 1 && ray->rayDirY < 0))
 		tex_x = tex->width - tex_x - 1;
 	return (tex_x);
 }

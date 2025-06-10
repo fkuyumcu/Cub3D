@@ -12,6 +12,7 @@ SRC = main.c \
 	  ./exec/collision.c \
 	  ./exec/move.c \
 	  ./exec/texture_mapping.c \
+	  ./exec/texture_utils.c \
 	  ./exec/ray_cast.c \
 	  ./gnl/get_next_line.c \
 	  ./gnl/get_next_line_utils.c \

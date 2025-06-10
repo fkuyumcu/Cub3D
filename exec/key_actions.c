@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:06:18 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/03 14:44:28 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/10 16:05:56 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	calculate_fps(void)
 	gettimeofday(&now, NULL);
 	if (last_time.tv_sec == 0 && last_time.tv_usec == 0)
 		last_time = now;
-	elapsed_time = (now.tv_sec - last_time.tv_sec) + (now.tv_usec
-			- last_time.tv_usec) / 1000000.0;
+	elapsed_time = (now.tv_sec - last_time.tv_sec)
+		+ (now.tv_usec - last_time.tv_usec) / 1000000.0;
 	frame_count++;
 	if (elapsed_time >= 1.0)
 	{
