@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:59:47 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/03 15:30:23 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:06:54 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,23 @@ void	draw_square(int x, int y, int size, int color, t_cube *game)
 
 int	close_hook(t_cube *cube)
 {
-	mlx_destroy_image(cube->mlx, cube->img);
-	mlx_destroy_image(cube->mlx, cube->e_text.img);
-	mlx_destroy_image(cube->mlx, cube->w_text.img);
-	mlx_destroy_image(cube->mlx, cube->n_text.img);
-	mlx_destroy_image(cube->mlx, cube->s_text.img);
-	mlx_destroy_window(cube->mlx, cube->win);
-	mlx_destroy_display(cube->mlx);
-	free(cube->mlx);
+	if (cube->img)
+		mlx_destroy_image(cube->mlx, cube->img);
+	if (cube->e_text.img)
+		mlx_destroy_image(cube->mlx, cube->e_text.img);
+	if (cube->w_text.img)
+		mlx_destroy_image(cube->mlx, cube->w_text.img);
+	if (cube->n_text.img)
+		mlx_destroy_image(cube->mlx, cube->n_text.img);
+	if (cube->s_text.img)
+		mlx_destroy_image(cube->mlx, cube->s_text.img);
+	if (cube->win)
+		mlx_destroy_window(cube->mlx, cube->win);
+	if(cube->mlx)
+	{
+		mlx_destroy_display(cube->mlx);
+		free(cube->mlx);
+	}
 	end(cube, 0);
 	return (0);
 }

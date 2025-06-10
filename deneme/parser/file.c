@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:32:00 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/10 14:08:07 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/04 15:02:20 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,7 @@ void	check_supply(t_cube *cube, int id, int i)
 	if (id >= 1 && id <= 4 && !is_valid_path(content))
 		put_error("Invalid path for identifier:", cube->all_of_file[i], cube);
 	if ((id == 5 || id == 6) && !is_valid_rgb(content))
-		put_error("Invalid RGB value for identifier:", cube->all_of_file[i],
-				cube);
+		put_error("Invalid RGB value for identifier:", cube->all_of_file[i], cube);
 	send_to_init(cube, cube->all_of_file[i], id);
 }
 
@@ -83,7 +82,7 @@ void	check_file(t_cube *cube)
 	while (cube->all_of_file[++i] != NULL)
 	{
 		if (is_empty_line(cube->all_of_file[i]))
-			continue ;
+			continue;
 		id = is_ident_line(cube->all_of_file[i]);
 		if (!map_started && id)
 			check_supply(cube, id, i);
@@ -105,7 +104,7 @@ int	is_empty_line(char *line)
 	{
 		if (*line != ' ' && *line != '\t' && *line != '\n')
 			return (0);
-		line++;
+	line++;
 	}
 	return (1);
 }
@@ -125,13 +124,13 @@ void	init_idents(t_cube *cube, char *line, int id)
 
 	value = trim_spaces(line);
 	if (id == 1)
-		cube->texture_n = ft_strdup(skip_spaces(value + 2));
+	cube->texture_n = ft_strdup(skip_spaces(value + 2));
 	else if (id == 2)
-		cube->texture_s = ft_strdup(skip_spaces(value + 2));
+	cube->texture_s = ft_strdup(skip_spaces(value + 2));
 	else if (id == 3)
-		cube->texture_e = ft_strdup(skip_spaces(value + 2));
+	cube->texture_e = ft_strdup(skip_spaces(value + 2));
 	else if (id == 4)
-		cube->texture_w = ft_strdup(skip_spaces(value + 2));
+	cube->texture_w = ft_strdup(skip_spaces(value + 2));
 	else if (id == 5)
 	{
 		cube->color_f = ft_strdup(skip_spaces(value + 1));
@@ -143,29 +142,29 @@ void	init_idents(t_cube *cube, char *line, int id)
 		cube->values_c = init_values(cube->color_c);
 	}
 	else
-		return ;
+		return;
 }
 
 void	send_to_init(t_cube *cube, char *line, int id)
 {
-	if (id == 1)
+	if (id == 1) 
 		cube->count_n++;
-	else if (id == 2)
+	else if (id == 2) 
 		cube->count_s++;
-	else if (id == 3)
+	else if (id == 3) 
 		cube->count_e++;
-	else if (id == 4)
+	else if (id == 4) 
 		cube->count_w++;
-	else if (id == 5)
+	else if (id == 5) 
 		cube->count_f++;
-	else if (id == 6)
+	else if (id == 6) 
 		cube->count_c++;
 	init_idents(cube, line, id);
 }
 
 int	is_ident_line(char *line)
 {
-	while (*line == ' ' || *line == '\t')
+	while (*line == ' '|| *line == '\t')
 		line++;
 	if (*line == 'N' && *(line + 1) == 'O')
 		return (1);
@@ -205,6 +204,7 @@ void	read_file(t_cube *cube, char *file)
 	fd = open(file, O_RDONLY);
 	while (y-- > 0)
 		cube->all_of_file[i++] = get_next_line(fd);
+	free(cube->all_of_file[i]);
 	cube->all_of_file[i] = NULL;
 	close(fd);
 }

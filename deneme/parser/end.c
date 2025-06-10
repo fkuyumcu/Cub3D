@@ -6,19 +6,17 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:31:28 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/10 12:41:16 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:53:54 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
 
-void	free_double_pointer(char **ptr)
+void free_double_pointer(char **ptr)
 {
-	int	i;
-
-	i = 0;
+	int i = 0;
 	if (!ptr)
-		return ;
+		return;
 	while (ptr[i])
 	{
 		free(ptr[i]);
