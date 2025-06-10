@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:32:08 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/10 14:09:08 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:16:34 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ char	**mapcpy(char **map, t_cube *cube)
 
 void	flood_fill(char **map, int x, int y, t_cube *cube)
 {
-	if (map[y][x] == ' ' || map[y][x] == '\t' || map[y][x] == 'X'
+	if (map[y][x] == ' ' || map[y][x] == 'X'
 		|| map[y][x] == '\n' || map[y][x] == '\0')
 		return ;
 	if (map[y][x] == '1')
@@ -255,13 +255,21 @@ void	ffill(char **map, int x, int y, t_cube *cube)
 	if (map[y][x] == '0' || map[y][x] == cube->player_pov || map[y][x] == '1')
 		map[y][x] = 'X';
 	if (map[y + 1] && map[y + 1][x])
-		ffill(map, x + 1, y, cube);
-	if (map[y - 1] && map[y - 1][x])
-		ffill(map, x - 1, y, cube);
-	if (map[y] && map[y][x + 1])
 		ffill(map, x, y + 1, cube);
-	if (map[y] && map[y][x - 1])
+	if (map[y - 1] && map[y - 1][x])
 		ffill(map, x, y - 1, cube);
+	if (map[y][x + 1])
+		ffill(map, x + 1, y, cube);
+	if (map[y][x - 1])
+		ffill(map, x - 1, y, cube);
+	if (map[y + 1] && map[y+1][x+1])
+		ffill(map, x + 1, y + 1, cube);
+	if (map[y - 1] && map[y-1][x-1])
+		ffill(map, x - 1, y - 1, cube);
+	if (map[y + 1] && map[y+1][x-1])
+		ffill(map, x - 1, y + 1, cube);
+	if (map[y - 1] && map[y-1][x+1])
+		ffill(map, x + 1, y - 1, cube);
 }
 
 void	check_map_chars(char **map, t_cube *cube)
