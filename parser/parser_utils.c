@@ -6,94 +6,11 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:30:25 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/04 15:15:49 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/10 15:42:29 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
-
-char	*ft_strncpy(char *dest, char *src, int n)
-{
-	int	i;
-
-	i = 0;
-	while (src[i] && i <= n)
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	while (i <= n)
-	{
-		dest[i++] = '\0';
-	}
-	return (dest);
-}
-
-int	ft_strcmp(char *s1, char *s2)
-{
-	int	i;
-
-	i = 0;
-	while ((s1[i] == s2[i]) && s1[i] && s2[i])
-		i++;
-	return (s1[i] - s2[i]);
-}
-
-char	*ft_strcpy(char *s1, char *s2)
-{
-	int	i;
-
-	i = 0;
-	while (s2[i])
-	{
-		s1[i] = s2[i];
-		i++;
-	}
-	s1[i] = s2[i];
-	return (s1);
-}
-
-void	*ft_memset(void *b, int c, size_t len)
-{
-	size_t			i;
-	unsigned char	*ptr;
-	unsigned char	value;
-
-	value = c;
-	ptr = b;
-	i = 0;
-	while (i < len)
-	{
-		ptr[i] = value;
-		i++;
-	}
-	return (b);
-}
-
-char	*ft_strdup(const char *s1)
-{
-	size_t	len;
-	size_t	i;
-	char	*tmp;
-
-	i = 0;
-	len = ft_strlen(s1);
-	tmp = (char *)malloc((len + 1) * sizeof(char));
-	if (tmp == NULL)
-		return (NULL);
-	while (i < len)
-	{
-		tmp[i] = s1[i];
-		i++;
-	}
-	tmp[len] = '\0';
-	return (tmp);
-}
-
-void	ft_putchar_fd(char c, int fd)
-{
-	write(fd, &c, 1);
-}
 
 void	ft_putstr_fd(char *s, int fd)
 {
@@ -182,11 +99,11 @@ static int	cw(char const *str, char c)
 	return (count);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char *s, char c)
 {
-	char **words;
-	long wordlen;
-	int i;
+	char	**words;
+	long	wordlen;
+	int		i;
 
 	i = 0;
 	words = (char **)malloc((cw(s, c) + 1) * sizeof(char *));
@@ -199,9 +116,9 @@ char	**ft_split(char const *s, char c)
 		if (*s)
 		{
 			if (!strchr(s, c))
-				wordlen = strlen(s);
+				wordlen = ft_strlen(s);
 			else
-				wordlen = strchr(s, c) - s;
+				wordlen = ft_strchr(s, c) - s;
 			words[i++] = ft_substr(s, 0, wordlen);
 			s += wordlen;
 		}

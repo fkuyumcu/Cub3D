@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/10 13:22:44 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:45:58 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,8 @@ typedef struct s_cube
 
 }					t_cube;
 
+int					check_len(char **rgb);
+int					check_range(char **rgb);
 int					close_hook(t_cube *cube);
 void				*ft_memset(void *b, int c, size_t len);
 char				*ft_strdup(const char *s1);
@@ -209,7 +211,7 @@ void				ft_putstr_fd(char *s, int fd);
 char				*ft_strdup(const char *s1);
 int					ft_atoi(const char *str);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
-char				**ft_split(char const *s, char c);
+char				**ft_split(char *s, char c);
 
 void				put_pixel(int x, int y, int color, t_cube *game);
 void				init_mlx(t_cube *cube);
