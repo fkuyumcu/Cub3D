@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 14:12:52 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/11 13:22:45 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/11 13:50:45 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	draw_textured_wall(t_cube *cub, int column, int tex_x, t_text *texture)
 	int	y;
 	int	color;
 	int	tex_y;
+	int	index;
 
 	y = cub->start;
 	while (y < cub->end)
@@ -82,7 +83,13 @@ void	draw_textured_wall(t_cube *cub, int column, int tex_x, t_text *texture)
 		tex_y = ((y - cub->start_z) / cub->line_h) * texture->height;
 		if (tex_y >= texture->height)
 			tex_y = texture->height - 1;
-		color = texture->data[tex_y * (texture->line_length / 4) + tex_x];
+		if (tex_x >= texture->width)
+			tex_x = texture->width - 1;
+		index = tex_y * (texture->line_length / 4) + tex_x;
+		if (index >= 0 && index < (texture->height * texture->width))
+			color = texture->data[index];
+		else
+			color = 0;
 		put_pixel(column, y, color, cub);
 		y++;
 	}
