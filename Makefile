@@ -1,7 +1,7 @@
 NAME = cub3D
 
 CC = cc
-CFLAGS = -fPIE -g  -Wall -Wextra -Werror
+CFLAGS = -g  -Wall -Wextra -Werror
 LIBRARY = -Lminilibx-linux -lmlx -lX11 -lXext -lm
 MINILIBX = minilibx-linux/
 SRC = main.c \
