@@ -6,28 +6,28 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:59:47 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/10 16:05:27 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/11 13:21:38 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
 
-void	draw_square(int x, int y, int size, int color, t_cube *game)
+void	draw_square(int x, int y, int size, t_cube *game)
 {
 	int	i;
 
 	i = -1;
 	while (++i < size)
-		put_pixel(x + i, y, color, game);
+		put_pixel(x + i, y, 0xFF0000, game);
 	i = -1;
 	while (++i < size)
-		put_pixel(x, y + i, color, game);
+		put_pixel(x, y + i, 0xFF0000, game);
 	i = -1;
 	while (++i < size)
-		put_pixel(x + size, y + i, color, game);
+		put_pixel(x + size, y + i, 0xFF0000, game);
 	i = -1;
 	while (++i < size)
-		put_pixel(x + i, y + size, color, game);
+		put_pixel(x + i, y + size, 0xFF0000, game);
 }
 
 int	close_hook(t_cube *cube)
@@ -44,16 +44,14 @@ int	close_hook(t_cube *cube)
 		mlx_destroy_image(cube->mlx, cube->s_text.img);
 	if (cube->win)
 		mlx_destroy_window(cube->mlx, cube->win);
-	if(cube->mlx)
+	if (cube->mlx)
 	{
 		mlx_destroy_display(cube->mlx);
 		free(cube->mlx);
 	}
-	end(cube, 0);
+	end (cube, 0);
 	return (0);
 }
-
-
 
 void	set_direction(t_cube *cub)
 {

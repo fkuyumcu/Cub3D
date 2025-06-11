@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:06:18 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/10 16:05:56 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/10 18:27:44 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	loop_hook(t_cube *cube)
 	if (cube->debug)
 	{
 		draw_map(cube);
-		draw_square((int)cube->player.x, (int)cube->player.y, 15, 0xFF00FF,
+		draw_square((int)cube->player.x, (int)cube->player.y, 15,
 			cube);
 	}
 	while (column < WIDTH)

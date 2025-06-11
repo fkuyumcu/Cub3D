@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:02:46 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/10 15:51:01 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/10 18:24:31 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,15 @@ void	draw_map(t_cube *cub)
 {
 	int	x;
 	int	y;
-	int	color;
 
 	y = -1;
-	color = 0x00FF00;
 	while (cub->map[++y])
 	{
 		x = -1;
 		while (cub->map[y][++x])
 		{
 			if (cub->map[y][x] == '1')
-				draw_square(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, color,
+				draw_square(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE,
 					cub);
 		}
 	}

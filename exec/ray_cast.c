@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 14:12:52 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/10 15:48:13 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/11 13:19:13 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,36 @@
 
 static	void	init_step(t_cube *cub, t_ray *ray)
 {
-	if (ray->rayDirX < 0)
-		ray->stepX = -1;
+	if (ray->ray_dirx < 0)
+		ray->step_x = -1;
 	else
-		ray->stepX = 1;
-	if (ray->rayDirY < 0)
-		ray->stepY = -1;
+		ray->step_x = 1;
+	if (ray->ray_diry < 0)
+		ray->step_y = -1;
 	else
-		ray->stepY = 1;
-	if (ray->rayDirX < 0)
-		ray->sideDistX = (cub->player.x / BLOCK_SIZE - ray->mapX)
-			* ray->deltaDistX;
+		ray->step_y = 1;
+	if (ray->ray_dirx < 0)
+		ray->side_distx = (cub->player.x / BLOCK_SIZE - ray->map_x)
+			* ray->delta_distx;
 	else
-		ray->sideDistX = (ray->mapX + 1.0f - cub->player.x / BLOCK_SIZE)
-			* ray->deltaDistX;
-	if (ray->rayDirY < 0)
-		ray->sideDistY = (cub->player.y / BLOCK_SIZE - ray->mapY)
-			* ray->deltaDistY;
+		ray->side_distx = (ray->map_x + 1.0f - cub->player.x / BLOCK_SIZE)
+			* ray->delta_distx;
+	if (ray->ray_diry < 0)
+		ray->side_disty = (cub->player.y / BLOCK_SIZE - ray->map_y)
+			* ray->delta_disty;
 	else
-		ray->sideDistY = (ray->mapY + 1.0f - cub->player.y / BLOCK_SIZE)
-			* ray->deltaDistY;
+		ray->side_disty = (ray->map_y + 1.0f - cub->player.y / BLOCK_SIZE)
+			* ray->delta_disty;
 }
 
 void	init_ray(t_cube *cub, t_ray *ray, float sin_ang, float cos_ang)
 {
-	ray->rayDirX = cos_ang;
-	ray->rayDirY = sin_ang;
-	ray->mapX = (int)(cub->player.x / BLOCK_SIZE);
-	ray->mapY = (int)(cub->player.y / BLOCK_SIZE);
-	ray->deltaDistX = fabs(1.0f / ray->rayDirX);
-	ray->deltaDistY = fabs(1.0f / ray->rayDirY);
+	ray->ray_dirx = cos_ang;
+	ray->ray_diry = sin_ang;
+	ray->map_x = (int)(cub->player.x / BLOCK_SIZE);
+	ray->map_y = (int)(cub->player.y / BLOCK_SIZE);
+	ray->delta_distx = fabs(1.0f / ray->ray_dirx);
+	ray->delta_disty = fabs(1.0f / ray->ray_diry);
 	init_step(cub, ray);
 }
 
@@ -51,21 +51,21 @@ int	dda_algorithm(t_cube *cub, t_ray *ray)
 {
 	while (1)
 	{
-		if (ray->sideDistX < ray->sideDistY)
+		if (ray->side_distx < ray->side_disty)
 		{
-			ray->sideDistX += ray->deltaDistX;
-			ray->mapX += ray->stepX;
+			ray->side_distx += ray->delta_distx;
+			ray->map_x += ray->step_x;
 			ray->side = 0;
 		}
 		else
 		{
-			ray->sideDistY += ray->deltaDistY;
-			ray->mapY += ray->stepY;
+			ray->side_disty += ray->delta_disty;
+			ray->map_y += ray->step_y;
 			ray->side = 1;
 		}
-		if (ray->mapY < 0 || ray->mapX < 0 || !cub->map[ray->mapY]
-			|| !cub->map[ray->mapY][ray->mapX]
-			|| cub->map[ray->mapY][ray->mapX] == '1')
+		if (ray->map_y < 0 || ray->map_x < 0 || !cub->map[ray->map_y]
+			|| !cub->map[ray->map_y][ray->map_x]
+			|| cub->map[ray->map_y][ray->map_x] == '1')
 			break ;
 	}
 	return (ray->side);
@@ -80,13 +80,13 @@ void	ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang)
 	init_ray(cub, &ray, sin_ang, cos_ang);
 	dda_algorithm(cub, &ray);
 	which_wall(cub, &ray);
-	cub->rawDist = get_raw_dist(cub, &ray);
-	cub->perpDist = cub->rawDist
-		* cos(atan2(ray.rayDirY, ray.rayDirX) - cub->player.angle);
-	cub->block_dist = cub->perpDist * BLOCK_SIZE;
+	cub->raw_dist = get_raw_dist(cub, &ray);
+	cub->perp_dist = cub->raw_dist
+		* cos(atan2(ray.ray_diry, ray.ray_dirx) - cub->player.angle);
+	cub->block_dist = cub->perp_dist * BLOCK_SIZE;
 	draw_params(cub->block_dist, cub);
 	tex = get_wall_texture(cub);
-	tex_x = get_x(cub, &ray, cub->rawDist, tex);
+	tex_x = get_x(cub, &ray, cub->raw_dist, tex);
 	draw_textured_wall(cub, i, tex_x, tex);
 	set_background(cub->start, cub->end, cub, i);
 }

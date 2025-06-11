@@ -21,9 +21,9 @@ SRC = main.c \
 	  ./parser/file.c \
 	  ./parser/map.c \
 	  ./parser/parser_utils.c \
-	  ./parser/parser_utilss.c \
-	  ./parser/filee.c \
-	  ./parser/mapp.c \
+	  ./parser/utils.c \
+	  ./parser/file_desc.c \
+	  ./parser/map_check.c \
 	  ./parser/parser_checks.c \
 	  ./parser/filling.c \
 

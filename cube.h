@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/10 16:04:47 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/11 13:20:56 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,24 @@
 
 typedef enum e_face
 {
-	NORTH,
-	SOUTH,
-	EAST,
+	NORTH ,
+	SOUTH ,
+	EAST ,
 	WEST
 }					t_face;
 
 typedef struct s_ray
 {
-	float			rayDirX;
-	float			rayDirY;
-	float			sideDistX;
-	float			sideDistY;
-	float			deltaDistX;
-	float			deltaDistY;
-	int				mapX;
-	int				mapY;
-	int				stepX;
-	int				stepY;
+	float			ray_dirx;
+	float			ray_diry;
+	float			side_distx;
+	float			side_disty;
+	float			delta_distx;
+	float			delta_disty;
+	int				map_x;
+	int				map_y;
+	int				step_x;
+	int				step_y;
 	int				side;
 }					t_ray;
 
@@ -151,17 +151,13 @@ typedef struct s_cube
 	t_face			wall_face;
 	t_player		player;
 
-	//draw params
-	float			startO;
-	float			endO;
+	float			start_z;
+	float			end_z;
 	int				start;
 	int				end;
-	int				lineH;
-
-	//distances for raycast
-
-	float			rawDist;
-	float			perpDist;
+	int				line_h;
+	float			raw_dist;
+	float			perp_dist;
 	float			block_dist;
 
 }					t_cube;
@@ -215,7 +211,7 @@ char				**ft_split(char *s, char c);
 
 void				put_pixel(int x, int y, int color, t_cube *game);
 void				init_mlx(t_cube *cube);
-void				draw_square(int x, int y, int size, int color,
+void				draw_square(int x, int y, int size,
 						t_cube *game);
 int					key_press_hook(int keycode, void *param);
 int					key_release_hook(int keycode, void *param);
@@ -223,8 +219,8 @@ void				clear_image(t_cube *cube);
 void				draw_map(t_cube *cub);
 bool				is_colliding(float ray_x, float ray_y, t_cube *cub);
 bool				is_colliding_point(float ray_x, float ray_y, t_cube *cub);
-float				distance(float x1, float y1, float x2, float y2,
-						t_player player, t_cube *cub);
+/* float				distance(float x1, float y1, float x2, float y2,
+						t_player player, t_cube *cub); */
 
 void				ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang);
 void				radar(t_cube *cub, int column, float angle);
@@ -252,11 +248,10 @@ void				ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang);
 void				which_wall(t_cube *cub, t_ray *ray);
 float				get_raw_dist(t_cube *cub, t_ray *ray);
 void				draw_params(float dist, t_cube *cub);
-int					get_x(t_cube *cub, t_ray *ray, float rawDist, t_text *tex);
+int					get_x(t_cube *cub, t_ray *ray, float raw_dist, t_text *tex);
 
-void	check_textures(t_cube *cube);
-void get_addr(t_cube *cube);
-void	load_textures(t_cube *cube);
-
+void				check_textures(t_cube *cube);
+void				get_addr(t_cube *cube);
+void				load_textures(t_cube *cube);
 
 #endif
