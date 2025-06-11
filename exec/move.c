@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:51:35 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/10 15:51:43 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/11 19:09:23 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	ws_keys(t_player *player)
 {
 	float	new_x;
 	float	new_y;
-
 	if (player->key_up)
 	{
 		new_x = player->x + player->cube->cos_val * player->cube->speed;
@@ -71,7 +70,7 @@ void	move_player(t_player *player)
 {
 	player->cube->sin_val = sin(player->angle);
 	player->cube->cos_val = cos(player->angle);
-	player->cube->speed = 3;
+	player->cube->speed = 8;
 	player->cube->a_speed = 0.05;
 	if (player->left)
 	{
