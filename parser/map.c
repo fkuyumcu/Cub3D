@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:32:08 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/11 12:26:22 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/11 15:58:44 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@ void	get_map(t_cube *cube)
 	a = 0;
 	i = 0;
 	j = 0;
-	while (!is_map_line(cube->all_of_file[i++]))
+	while (cube->all_of_file[i] && !is_map_line(cube->all_of_file[i++]))
 		j++;
 	i = j;
+	if (cube->all_of_file[i] == NULL)
+		put_error("map can not found", NULL, cube);
 	while (is_map_line(cube->all_of_file[j]))
 		j++;
 	cube->map = malloc(sizeof(char *) * (j - i + 1));

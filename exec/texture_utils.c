@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 15:32:07 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/10 15:41:00 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/11 14:34:27 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@ void	get_addr(t_cube *cube)
 			&cube->s_text.bpp, &cube->s_text.line_length, &cube->s_text.endian);
 }
 
+void error_hook(t_cube *cube)
+{
+	ft_putstr_fd("Error: Broken XPM\n", 2);
+	close_hook(cube);
+}
+
 void	load_textures(t_cube *cube)
 {
 	int	width;
@@ -57,5 +63,8 @@ void	load_textures(t_cube *cube)
 			&height);
 	cube->s_text.width = width;
 	cube->s_text.height = height;
+	if(!(cube->e_text.img && cube->w_text.img
+		&& cube->n_text.img && cube->s_text.img))
+		error_hook(cube);
 	get_addr(cube);
 }

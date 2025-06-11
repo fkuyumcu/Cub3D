@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:31:28 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/11 12:36:29 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/11 14:38:37 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ void	arg_check(int argc, char **argv)
 		ft_putstr_fd("Error: Wrong number of arguments\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	if (argv[1][ft_strlen(argv[1]) - 4] != '.')
+	if (argv[1][ft_strlen(argv[1]) - 4] != '.' || ft_strlen(argv[1]) < 5)
 	{
 		ft_putstr_fd("Error: Invalid file extension\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	if (strcmp(&argv[1][ft_strlen(argv[1]) - 4], ".cub") != 0)
+	if (ft_strcmp(&argv[1][ft_strlen(argv[1]) - 4], ".cub") != 0)
 	{
 		ft_putstr_fd("Error: Invalid file extension\n", 2);
 		exit(EXIT_FAILURE);

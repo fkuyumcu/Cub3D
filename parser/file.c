@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:32:00 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/11 12:36:37 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/11 14:27:00 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,17 @@ int	is_ident_line(char *line)
 {
 	while (*line == ' ')
 		line++;
-	if (*line == 'N' && *(line + 1) == 'O')
+	if (*line == 'N' && *(line + 1) == 'O' && *(line + 2) == ' ')
 		return (1);
-	else if (*line == 'S' && *(line + 1) == 'O')
+	else if (*line == 'S' && *(line + 1) == 'O' && *(line + 2) == ' ')
 		return (2);
-	else if (*line == 'E' && *(line + 1) == 'A')
+	else if (*line == 'E' && *(line + 1) == 'A' && *(line + 2) == ' ')
 		return (3);
-	else if (*line == 'W' && *(line + 1) == 'E')
+	else if (*line == 'W' && *(line + 1) == 'E' && *(line + 2) == ' ')
 		return (4);
-	else if (*line == 'F')
+	else if (*line == 'F' && *(line + 1) == ' ')
 		return (5);
-	else if (*line == 'C')
+	else if (*line == 'C' && *(line + 1) == ' ')
 		return (6);
 	else
 		return (0);
