@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/11 14:55:24 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/11 16:55:51 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,9 @@ typedef struct s_cube
 
 }					t_cube;
 
+void				check_rgb(char **rgb, char *line, t_cube *cube);
+void				check_rgb_values(char **rgb, t_cube *cube);
+int					ft_isdigit(int c);
 int					check_len(char **rgb);
 int					check_range(char **rgb);
 int					close_hook(t_cube *cube);

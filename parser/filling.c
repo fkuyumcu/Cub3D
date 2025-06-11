@@ -6,11 +6,65 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 15:59:05 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/10 16:00:41 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/11 16:54:51 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
+
+int	ft_isdigit(int c)
+{
+	if (c <= 57 && c >= 48)
+		return (1);
+	else
+		return (0);
+}
+
+void	check_rgb_values(char **rgb, t_cube *cube)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < 3)
+	{
+		j = 0;
+		while (rgb[i][j])
+		{
+			if (ft_atoi(rgb[i]) == 0 && ft_strlen(rgb[i]) != 1)
+			{
+				free_double_pointer(rgb);
+				put_error("Invalid rgb", NULL, cube);
+			}
+			if (ft_isdigit(rgb[i][j]) == 0)
+			{
+				free_double_pointer(rgb);
+				put_error("Invalid rgb", NULL, cube);
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+void	check_rgb(char **rgb, char *line, t_cube *cube)
+{
+	int	i;
+	int	count;
+
+	count = 0;
+	i = 0;
+	while (line[i])
+	{
+		if (line[i++] == ',')
+			count++;
+	}
+	if (count > 2)
+	{
+		free_double_pointer(rgb);
+		put_error("Invalid rgb", NULL, cube);
+	}
+}
 
 char	*make_filled_line(char *line, int old_len, int max_length)
 {
