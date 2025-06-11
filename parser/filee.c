@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 15:31:37 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/10 15:34:12 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/11 11:39:29 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ void	check_supply(t_cube *cube, int id, int i)
 	char	*content;
 
 	content = cube->all_of_file[i];
-	if (id >= 1 && id <= 4 && !is_valid_path(content))
+	if (id >= 1 && id <= 4
+		&& !is_valid_path(skip_spaces(trim_spaces(content) + 2)))
 		put_error("Invalid path for identifier:", cube->all_of_file[i], cube);
 	if ((id == 5 || id == 6) && !is_valid_rgb(content))
 		put_error("Invalid RGB value for identifier:", cube->all_of_file[i],
