@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:32:00 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/10 15:33:13 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/11 12:36:37 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	send_to_init(t_cube *cube, char *line, int id)
 
 int	is_ident_line(char *line)
 {
-	while (*line == ' ' || *line == '\t')
+	while (*line == ' ')
 		line++;
 	if (*line == 'N' && *(line + 1) == 'O')
 		return (1);

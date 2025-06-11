@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 15:31:37 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/11 11:39:29 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/11 12:36:12 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*skip_spaces(char *str)
 {
-	while (*str == ' ' || *str == '\t')
+	while (*str == ' ')
 		str++;
 	return (str);
 }
@@ -27,7 +27,7 @@ char	*trim_spaces(char *str)
 	if (*str == 0)
 		return (str);
 	end = str + ft_strlen(str) - 1;
-	while (end > str && (*end == ' ' || *end == '\t' || *end == '\n'))
+	while (end > str && (*end == ' ' || *end == '\n'))
 		end--;
 	*(end + 1) = 0;
 	return (str);

@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:32:08 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/11 11:32:03 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/11 12:26:22 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,12 +112,12 @@ void	ffill(char **map, int x, int y, t_cube *cube)
 
 void	check_map(t_cube *cube)
 {
+	check_player(cube);
 	check_map_chars(cube->map, cube);
 	cube->cpymap = mapcpy(cube->map, cube);
 	manage_map(&cube->cpymap, cube);
 	cube->cpy_map = mapcpy(cube->cpymap, cube);
 	flood_fill(cube->cpymap, cube->player_x + 1, cube->player_y + 1, cube);
-	check_player(cube);
 	ffill(cube->cpy_map, cube->player_x + 1, cube->player_y + 1, cube);
 	check_double_map(cube->cpy_map, cube);
 }
