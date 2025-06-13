@@ -26,6 +26,7 @@ SRC = main.c \
 	  ./parser/map_check.c \
 	  ./parser/parser_checks.c \
 	  ./parser/filling.c \
+	  ./parser/player.c \
 
 OBJ = $(SRC:.c=.o)
 

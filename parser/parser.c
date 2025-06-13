@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:58:58 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/11 16:55:08 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/13 16:06:32 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,7 @@ void	check_player(t_cube *cube)
 		}
 		i++;
 	}
-	if (cube->player_count != 1)
-		put_error("Bad Player position or no player in map", NULL, cube);
+	check_player_count_cube(cube);
 }
 
 int	parser(int argc, char **argv, t_cube *cube)
