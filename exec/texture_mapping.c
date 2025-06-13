@@ -45,11 +45,11 @@ float	get_raw_dist(t_cube *cub, t_ray *ray)
 
 void	draw_params(float dist, t_cube *cub)
 {
-	cub->start_z = (HEIGHT - (BLOCK_SIZE / dist) * WIDTH) / 2;
-	cub->end_z = cub->start_z + (BLOCK_SIZE / dist) * WIDTH;
-	cub->start = fmax(0, (int)cub->start_z);
-	cub->end = fmin(HEIGHT - 1, (int)cub->end_z);
-	cub->line_h = (int)(cub->end_z - cub->start_z);
+	cub->start_wall = (HEIGHT - (BLOCK_SIZE / dist) * WIDTH) / 2;
+	cub->end_wall = cub->start_wall + (BLOCK_SIZE / dist) * WIDTH;
+	cub->start =  (int)cub->start_wall;
+	cub->end = fmin(HEIGHT - 1, (int)cub->end_wall);
+	cub->line_h = (int)(cub->end_wall - cub->start_wall);
 }
 
 int	get_x(t_cube *cub, t_ray *ray, float raw_dist, t_text *tex)
@@ -80,7 +80,7 @@ void	draw_textured_wall(t_cube *cub, int column, int tex_x, t_text *texture)
 	y = cub->start;
 	while (y < cub->end)
 	{
-		tex_y = ((y - cub->start_z) / cub->line_h) * texture->height;
+		tex_y = ((y - cub->start_wall) / cub->line_h) * texture->height;
 		if (tex_y >= texture->height)
 			tex_y = texture->height - 1;
 		if (tex_x >= texture->width)

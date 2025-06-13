@@ -147,8 +147,8 @@ typedef struct s_cube
 	t_face			wall_face;
 	t_player		player;
 
-	float			start_z;
-	float			end_z;
+	float			start_wall;
+	float			end_wall;
 	int				start;
 	int				end;
 	int				line_h;
