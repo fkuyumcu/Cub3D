@@ -19,9 +19,8 @@ bool	is_colliding(float ray_x, float ray_y, t_cube *cub)
 
 	x = ray_x / BLOCK_SIZE;
 	y = ray_y / BLOCK_SIZE;
-	if (x < 0 || y < 0 || !cub->map[y] || cub->map[y][x] == ' ' || cub->map[y][x] == '\0')
-		return (true);
-	if (cub->map[y][x] == '1')
+	if (cub->map[y][x] == ' ' || cub->map[y][x] == '\0'
+			|| cub->map[y][x] == '\n' || cub->map[y][x] == '1')
 		return (true);
 	return (false);
 }

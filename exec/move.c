@@ -16,25 +16,24 @@ void	ws_keys(t_player *player)
 {
 	float	new_x;
 	float	new_y;
+
 	if (player->key_up)
 	{
 		new_x = player->x + player->cube->cos_val * player->cube->speed;
 		new_y = player->y + player->cube->sin_val * player->cube->speed;
-		if (!is_colliding(new_x, new_y, player->cube))
-		{
+		if (!is_colliding(new_x, player->y, player->cube))
 			player->x = new_x;
+		if (!is_colliding(player->x, new_y, player->cube))
 			player->y = new_y;
-		}
 	}
 	if (player->key_down)
 	{
 		new_x = player->x - player->cube->cos_val * player->cube->speed;
 		new_y = player->y - player->cube->sin_val * player->cube->speed;
-		if (!is_colliding(new_x, new_y, player->cube))
-		{
+		if (!is_colliding(new_x, player->y, player->cube))
 			player->x = new_x;
+		if (!is_colliding(player->x, new_y, player->cube))
 			player->y = new_y;
-		}
 	}
 }
 
@@ -48,21 +47,19 @@ void	wasd_keys(t_player *player)
 	{
 		new_x = player->x + player->cube->sin_val * player->cube->speed;
 		new_y = player->y - player->cube->cos_val * player->cube->speed;
-		if (!is_colliding(new_x, new_y, player->cube))
-		{
+		if (!is_colliding(new_x, player->y, player->cube))
 			player->x = new_x;
+		if (!is_colliding(player->x, new_y, player->cube))
 			player->y = new_y;
-		}
 	}
 	if (player->key_right)
 	{
 		new_x = player->x - player->cube->sin_val * player->cube->speed;
 		new_y = player->y + player->cube->cos_val * player->cube->speed;
-		if (!is_colliding(new_x, new_y, player->cube))
-		{
+		if (!is_colliding(new_x, player->y, player->cube))
 			player->x = new_x;
+		if (!is_colliding(player->x, new_y, player->cube))
 			player->y = new_y;
-		}
 	}
 }
 

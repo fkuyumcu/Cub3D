@@ -23,12 +23,9 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-//defines
-
 # define WIDTH 1280
 # define HEIGHT 720
 # define BLOCK_SIZE 64
-//block, bir karenin piksel cinsinden uzunluğunu belirler
 # define DEBUG 0
 
 # define W 119
@@ -147,7 +144,6 @@ typedef struct s_cube
 	int				g;
 	int				b;
 
-	int				fps;
 	t_face			wall_face;
 	t_player		player;
 
@@ -223,8 +219,6 @@ void				clear_image(t_cube *cube);
 void				draw_map(t_cube *cub);
 bool				is_colliding(float ray_x, float ray_y, t_cube *cub);
 bool				is_colliding_point(float ray_x, float ray_y, t_cube *cub);
-/* float				distance(float x1, float y1, float x2, float y2,
-						t_player player, t_cube *cub); */
 
 void				ray_cast(t_cube *cub, int i, float sin_ang, float cos_ang);
 void				radar(t_cube *cub, int column, float angle);

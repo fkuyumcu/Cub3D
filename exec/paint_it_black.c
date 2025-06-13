@@ -26,26 +26,12 @@ t_text	*get_wall_texture(t_cube *cub)
 
 void	radar(t_cube *cub, int column, float angle)
 {
-	float	ray_x;
-	float	ray_y;
 	float	sin_ang;
 	float	cos_ang;
 
-	ray_x = cub->player.x;
-	ray_y = cub->player.y;
 	sin_ang = sin(angle);
 	cos_ang = cos(angle);
-	if (!cub->debug)
-		ray_cast(cub, column, sin_ang, cos_ang);
-	else
-	{
-		while (!is_colliding(ray_x, ray_y, cub))
-		{
-			ray_x += cos_ang;
-			ray_y += sin_ang;
-			put_pixel(ray_x, ray_y, 0xFF0000, cub);
-		}
-	}
+	ray_cast(cub, column, sin_ang, cos_ang);
 }
 
 void	set_background(int start, int end, t_cube *cub, int i)
