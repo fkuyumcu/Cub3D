@@ -27,7 +27,9 @@ SRC = main.c \
 	  ./parser/parser_checks.c \
 	  ./parser/filling.c \
 	  ./parser/player.c \
-
+	  ./parser/check_file_supply.c \
+	  ./parser/get_map_supply.c \
+	  
 OBJ = $(SRC:.c=.o)
 
 %.o: %.c

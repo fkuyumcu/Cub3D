@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:32:08 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/11 15:58:44 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/14 16:04:27 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,17 @@
 
 void	get_map(t_cube *cube)
 {
-	int	i;
-	int	j;
-	int	a;
+	int	start;
+	int	end;
 
-	a = 0;
-	i = 0;
-	j = 0;
-	while (cube->all_of_file[i] && !is_map_line(cube->all_of_file[i++]))
-		j++;
-	i = j;
-	if (cube->all_of_file[i] == NULL)
-		put_error("map can not found", NULL, cube);
-	while (is_map_line(cube->all_of_file[j]))
-		j++;
-	cube->map = malloc(sizeof(char *) * (j - i + 1));
+	start = find_map_start(cube);
+	end = start;
+	while (cube->all_of_file[end])
+		end++;
+	cube->map = malloc(sizeof(char *) * (end - start + 1));
 	if (!cube->map)
 		put_error("Memory allocation failed for map", NULL, cube);
-	while (j > i)
-	{
-		cube->map[a++] = ft_strdup(cube->all_of_file[i]);
-		i++;
-	}
-	cube->map[a] = NULL;
+	copy_map_lines(cube, start, end);
 }
 
 char	**mapcpy(char **map, t_cube *cube)
@@ -66,7 +54,7 @@ void	flood_fill(char **map, int x, int y, t_cube *cube)
 		|| map[y][x] == '\n' || map[y][x] == '\0')
 		return ;
 	if (map[y][x] == '1')
-		map[y][x] = 'X';
+		flood_fill_supply(map, x, y, cube);
 	else if (map[y][x] == '0' || map[y][x] == cube->player_pov)
 	{
 		if ((map[y + 1] && map[y + 1][x] == ' ') ||

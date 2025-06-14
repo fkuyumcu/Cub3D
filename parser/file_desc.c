@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 15:31:37 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/11 15:47:31 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/14 15:52:38 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,26 +76,23 @@ void	check_supply(t_cube *cube, int id, int i)
 void	check_file(t_cube *cube)
 {
 	int	i;
-	int	map_started;
+	int	all_identifiers_collected;
 	int	id;
+	int	map_started;
 
 	i = -1;
+	all_identifiers_collected = 0;
 	map_started = 0;
 	while (cube->all_of_file[++i] != NULL)
 	{
 		if (is_empty_line(cube->all_of_file[i]))
 			continue ;
+		all_identifiers_collected = check_all_identifiers_collected(cube);
 		id = is_ident_line(cube->all_of_file[i]);
-		if (!map_started && id)
-			check_supply(cube, id, i);
-		else if (is_map_line(cube->all_of_file[i]))
-			map_started = 1;
-		else if (map_started && id)
-			put_error("Identifier after map started", NULL, cube);
-		else if (!map_started && !id)
-			put_error("Invalid identifier or map line", NULL, cube);
+		if (!all_identifiers_collected)
+			handle_identifier_phase(cube, id, i);
+		else
+			handle_map_phase(cube, id, i, &map_started);
 	}
-	if (cube->count_n != 1 || cube->count_s != 1 || cube->count_e != 1
-		|| cube->count_w != 1 || cube->count_f != 1 || cube->count_c != 1)
-		put_error("Missing identifiers in the file.", NULL, cube);
+	validate_identifiers_count(cube);
 }

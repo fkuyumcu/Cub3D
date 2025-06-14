@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/13 16:05:48 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/14 16:04:04 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,15 @@ typedef struct s_cube
 
 }					t_cube;
 
+void				flood_fill_supply(char **map, int x, int y, t_cube *cube);
+void				check_supply(t_cube *cube, int id, int i);
+int					find_map_start(t_cube *cube);
+void				copy_map_lines(t_cube *cube, int start, int end);
+int					check_all_identifiers_collected(t_cube *cube);
+void				handle_identifier_phase(t_cube *cube, int id, int i);
+void				handle_map_phase(t_cube *cube, int id, int i, int *map_started);
+void				validate_identifiers_count(t_cube *cube);
+void				check_after_map(int j, t_cube *cube);
 void				check_player_count_cube(t_cube *cube);
 void				check_rgb(char **rgb, char *line, t_cube *cube);
 void				check_rgb_values(char **rgb, t_cube *cube);

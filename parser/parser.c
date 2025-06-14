@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:58:58 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/13 16:06:32 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/14 15:43:19 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ int	is_map_line(char *line)
 	if (!line || line == NULL)
 		return (0);
 	line = skip_spaces(line);
+	if (*line == 'W' || *line == 'E' || *line == 'S' || *line == 'N')
+		return (1);
 	return (*line == '1' || *line == '0');
 }
 

@@ -6,7 +6,7 @@
 /*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:31:28 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/11 14:38:37 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/14 15:08:34 by yalp             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ void	put_error(char *message, char *messagee, t_cube *cube)
 	ft_putstr_fd("Error: ", 2);
 	ft_putstr_fd(message, 2);
 	if (messagee != NULL)
+	{
+		ft_putstr_fd(" ", 2);
 		ft_putstr_fd(messagee, 2);
+	}
 	ft_putstr_fd("\n", 2);
 	end(cube, 1);
 }
