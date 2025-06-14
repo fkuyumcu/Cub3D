@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yalp <yalp@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:02:34 by yalp              #+#    #+#             */
-/*   Updated: 2025/06/14 16:04:04 by yalp             ###   ########.fr       */
+/*   Updated: 2025/06/14 16:14:36 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ typedef struct s_player
 	bool			left;
 	bool			right;
 	struct s_cube	*cube;
+	float			check_x;
+	float			check_y;
 }					t_player;
 
 typedef struct s_cube
@@ -140,9 +142,6 @@ typedef struct s_cube
 	t_text			w_text;
 	t_text			n_text;
 	t_text			s_text;
-	int				r;
-	int				g;
-	int				b;
 
 	t_face			wall_face;
 	t_player		player;
@@ -164,7 +163,8 @@ int					find_map_start(t_cube *cube);
 void				copy_map_lines(t_cube *cube, int start, int end);
 int					check_all_identifiers_collected(t_cube *cube);
 void				handle_identifier_phase(t_cube *cube, int id, int i);
-void				handle_map_phase(t_cube *cube, int id, int i, int *map_started);
+void				handle_map_phase(t_cube *cube, int id,
+						int i, int *map_started);
 void				validate_identifiers_count(t_cube *cube);
 void				check_after_map(int j, t_cube *cube);
 void				check_player_count_cube(t_cube *cube);
@@ -260,5 +260,8 @@ int					get_x(t_cube *cub, t_ray *ray, float raw_dist, t_text *tex);
 void				check_textures(t_cube *cube);
 void				get_addr(t_cube *cube);
 void				load_textures(t_cube *cube);
+
+void				key_left(t_player *player);
+void				key_up(t_player *player);
 
 #endif

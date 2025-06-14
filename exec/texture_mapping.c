@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 14:12:52 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/11 13:50:45 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/14 14:51:12 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	draw_params(float dist, t_cube *cub)
 {
 	cub->start_wall = (HEIGHT - (BLOCK_SIZE / dist) * WIDTH) / 2;
 	cub->end_wall = cub->start_wall + (BLOCK_SIZE / dist) * WIDTH;
-	cub->start =  (int)cub->start_wall;
+	cub->start = (int)cub->start_wall;
 	cub->end = fmin(HEIGHT - 1, (int)cub->end_wall);
 	cub->line_h = (int)(cub->end_wall - cub->start_wall);
 }

@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:51:35 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/10 15:48:35 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/14 16:01:26 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	init_player(t_cube *cube)
 	cube->player.y = 0;
 	cube->player.angle = 0;
 	cube->min_angle = 0;
-	cube->debug = 0;
 	cube->angle_step = PI / 6 / WIDTH;
 	cube->player.key_pov = false;
 	cube->player.key_up = false;
@@ -46,7 +45,7 @@ int	key_press(int keycode, t_player *player)
 		player->right = true;
 	if (keycode == P)
 		player->key_pov = true;
-	if (keycode == 65307)
+	if (keycode == ESC)
 		close_hook(player->cube);
 	return (0);
 }
