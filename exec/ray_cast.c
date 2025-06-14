@@ -6,7 +6,7 @@
 /*   By: fkuyumcu <fkuyumcu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 14:12:52 by fkuyumcu          #+#    #+#             */
-/*   Updated: 2025/06/11 13:19:13 by fkuyumcu         ###   ########.fr       */
+/*   Updated: 2025/06/14 17:52:35 by fkuyumcu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	init_ray(t_cube *cub, t_ray *ray, float sin_ang, float cos_ang)
 	init_step(cub, ray);
 }
 
+//if hit x, side 0
 int	dda_algorithm(t_cube *cub, t_ray *ray)
 {
 	while (1)
@@ -63,9 +64,7 @@ int	dda_algorithm(t_cube *cub, t_ray *ray)
 			ray->map_y += ray->step_y;
 			ray->side = 1;
 		}
-		if (ray->map_y < 0 || ray->map_x < 0 || !cub->map[ray->map_y]
-			|| !cub->map[ray->map_y][ray->map_x]
-			|| cub->map[ray->map_y][ray->map_x] == '1')
+		if (cub->map[ray->map_y][ray->map_x] == '1')
 			break ;
 	}
 	return (ray->side);
